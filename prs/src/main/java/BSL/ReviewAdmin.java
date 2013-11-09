@@ -1,0 +1,50 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package BSL;
+
+import BOL.Interfaces.IReview;
+import BOL.Interfaces.IServiceAuthoriser;
+import BSL.Interfaces.IReviewAdmin;
+import DAL.Interfaces.IReviewDAO;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+
+
+public class ReviewAdmin implements IReviewAdmin {
+
+    private BOL.Interfaces.IServiceAuthoriser serviceAuthorisor; // Authorisation provider
+    private IReviewDAO reviewDAO;
+    private BOL.Interfaces.IReview ReviewLogic;
+    
+    @Autowired
+    public void setReviewLogic(IReview ReviewLogic) {
+        this.ReviewLogic = ReviewLogic;
+    }
+
+    @Autowired
+    public void setReviewDAO(IReviewDAO reviewDAO) {
+        this.reviewDAO = reviewDAO;
+    }
+    
+    @Autowired
+    public void setAuth(IServiceAuthoriser auth) {
+        this.serviceAuthorisor = auth;
+    }
+    
+    @Transactional
+    public void SaveReview(String token, BOLO.Review theReview) throws Exception 
+    {
+        serviceAuthorisor.authorise(token);
+        ReviewLogic.SaveReview(theReview);
+    }
+    
+    @Transactional
+    public List<BOLO.Review> getAllReviews(String token) throws Exception
+    {
+        serviceAuthorisor.authorise(token);
+        return ReviewLogic.getAllReviews();
+    }    
+}

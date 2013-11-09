@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-tomcat7:redeploy</actionName>
+            <displayName>tomcat7:redeploy</displayName>
+            <goals>
+                <goal>clean</goal>
+                <goal>compile</goal>
+                <goal>tomcat7:redeploy</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-redeploy_skip_test</actionName>
+            <displayName>redeploy_skip_test</displayName>
+            <goals>
+                <goal>clean</goal>
+                <goal>compile</goal>
+                <goal>tomcat7:redeploy</goal>
+            </goals>
+            <properties>
+                <skipTests>true</skipTests>
+            </properties>
+        </action>
+        <action>
+            <actionName>CUSTOM-redeploy</actionName>
+            <displayName>redeploy</displayName>
+            <goals>
+                <goal>compile</goal>
+                <goal>tomcat7:redeploy</goal>
+            </goals>
+            <properties>
+                <skipTests>true</skipTests>
+            </properties>
+        </action>
+    </actions>

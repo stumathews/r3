@@ -1,0 +1,279 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+ xmlns:context="http://www.springframework.org/schema/context"
+ xmlns:mvc="http://www.springframework.org/schema/mvc"
+ xmlns:tx="http://www.springframework.org/schema/tx"
+ xmlns:ws="http://jax-ws.dev.java.net/spring/core" 
+ xmlns:wss="http://jax-ws.dev.java.net/spring/servlet"
+ xmlns:jee="http://www.springframework.org/schema/jee"
+ xmlns:aop="http://www.springframework.org/schema/aop"
+ xmlns:webflow="http://www.springframework.org/schema/webflow-config"
+  
+ xsi:schemaLocation="http://www.springframework.org/schema/beans 
+ http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+ http://www.springframework.org/schema/mvc
+ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+ http://www.springframework.org/schema/tx 
+ http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+ http://www.springframework.org/schema/context
+ http://www.springframework.org/schema/context/spring-context-3.0.xsd
+ http://www.springframework.org/schema/jee 
+ http://www.springframework.org/schema/jee/spring-jee-3.2.xsd
+ http://jax-ws.dev.java.net/spring/core  
+ http://jax-ws.dev.java.net/spring/core.xsd
+ http://jax-ws.dev.java.net/spring/servlet 
+ http://jax-ws.dev.java.net/spring/servlet.xsd
+ http://www.springframework.org/schema/aop 
+ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+ http://www.springframework.org/schema/webflow-config  
+ http://www.springframework.org/schema/webflow-config/spring-webflow-config-2.0.xsd"  
+ >
+ 	
+    <bean id="myUserAuthService" class="BOL.security.UserAuthService"/>
+    <!-- Spring security -->
+    <import resource="spring-security.xml" />
+    
+        
+    <!-- this bean implements web service methods -->
+   <bean id="adminFacade" class="WSL.AdminFacade"/>
+    <wss:binding url="/AdminFacade">
+        <wss:service>
+            <ws:service bean="#adminFacade" />
+        </wss:service>
+    </wss:binding>
+    
+    <bean id="userFacade" class="WSL.UserFacade"/>
+    <wss:binding url="/UserFacade">
+        <wss:service>
+            <ws:service bean="#userFacade" />
+        </wss:service>
+    </wss:binding>
+    
+    <bean id="characteristicFacade" class="WSL.CharacteristicFacade"/>
+    <wss:binding url="/CharacteristicFacade">
+        <wss:service>
+            <ws:service bean="#characteristicFacade" />
+        </wss:service>
+    </wss:binding>
+    
+    <bean id="productFacade" class="WSL.ProductFacade"/>
+    <wss:binding url="/ProductFacade">
+        <wss:service>
+            <ws:service bean="#productFacade" />
+        </wss:service>
+    </wss:binding>
+    
+    <!-- Scan for spring annotated components -->
+    <context:component-scan base-package="Website.Controllers, BOL" />
+    <mvc:resources mapping="/themes/**" location="/themes/" />   
+    <!-- Process annotations on registered beans like @Autowired... -->
+    <context:annotation-config/> 
+    <!-- This tag registers the DefaultAnnotationHandlerMapping and
+         AnnotationMethodHandlerAdapter beans that are required for Spring MVC  -->
+    <mvc:annotation-driven/> 
+    <!-- This tag allows for mapping the DispatcherServlet to "/" -->
+    <mvc:default-servlet-handler/> 
+    <!-- Exception Resolver that resolves exceptions through @ExceptionHandler methods -->
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver"/>
+
+    <!-- Configure the multipart resolver -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- one of the properties available; the maximum file size in bytes -->
+        <property name="maxUploadSize" value="100000"/>
+    </bean>
+        
+    
+    <bean id="themeSource"
+    class="org.springframework.ui.context.support.ResourceBundleThemeSource">
+    <property name="basenamePrefix" value="theme-" />
+    </bean>	
+    <bean id="themeResolver"
+    class="org.springframework.web.servlet.theme.FixedThemeResolver">
+    <property name="defaultThemeName" value="default" />
+    </bean>	
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix">
+               <value>/WEB-INF/pages/</value>
+       </property>		 
+       <property name="suffix">
+               <value>.jsp</value>
+       </property>
+    </bean>
+   
+   
+    <!--
+    <bean id="myDataSource" 
+         class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+	<property name="url" value="jdbc:mysql://localhost:3306/r3" />
+	<property name="username" value="axis2" />
+	<property name="password" value="axis2" />
+    </bean>
+    -->
+    
+    
+    <bean id="myDataSource" 
+         class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	<property name="driverClassName" value="org.hsqldb.jdbcDriver" />
+	<property name="url" value="jdbc:hsqldb:mem:r3" />        
+	<property name="username" value="sa" />
+	<property name="password" value="" />
+    </bean>
+    
+    
+   
+    
+   <!--<jee:jndi-lookup id="myDataSource" jndi-name="java:comp/env/jdbc/test"/>-->
+   
+   <bean id="mySessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+    <property name="dataSource" ref="myDataSource"/>
+    <property name="hibernateProperties">
+      <props>
+        <!--<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>-->
+        <prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
+        <prop key="hibernate.show_sql">true</prop>
+        <prop key="hibernate.c3p0.min_size">5</prop>
+        <prop key="hibernate.c3p0.max_size">20</prop>
+        <prop key="hibernate.c3p0.timeout">300</prop>
+        <prop key="hibernate.c3p0.max_statements">50</prop>
+        <prop key="hibernate.c3p0.idle_test_period">3000</prop>
+        <prop key="hibernate.hbm2ddl.auto">create</prop>
+      </props>
+    </property>
+    <property name="mappingLocations">
+        <value>classpath*:DEL/**/*.hbm.xml</value>
+    </property>    
+    
+    </bean>
+    
+    <bean id="productLogic" class="BOL.Product"/>
+    <bean id="ReviewLogic" class="BOL.Review"/>    
+    <bean id="recommendationAdmin" class="BSL.RecommendationAdmin"/>
+    <bean id="recommendationDAO" class="DAL.RecommendationDAO"/>
+    <bean id="recommendationBO" class="BOL.Recommendation"/>
+    <bean id="reviewAdmin" class="BSL.ReviewAdmin"/>
+    
+    <bean id="reviewDAO" class="DAL.ReviewDAO"/>
+    <bean id="sessionUserDetails" class="BOLO.sessions.SessionUserDetails"/>    
+    <bean id="characteristicBOL" class="BOL.Characteristic"/>    
+    <bean id="authenticationBOL" class="BOL.Authentication"/>
+    <bean id="userAdmin" class="BSL.UserAdmin"/>
+    <bean id="tokenBOL" class="BOL.Token"/>
+    <bean id="userBOL" class="BOL.User"/>
+    
+    <bean id="productDAO" class="DAL.ProductDAO">
+       <property name="sessionFactory" ref="mySessionFactory"/>
+    </bean>
+    
+    <bean id="userDAO" class="DAL.UserDAO">
+       <property name="sessionFactory" ref="mySessionFactory"/>
+    </bean>
+    
+    <bean id="tokenDAO" class="DAL.TokenDAO">
+       <property name="sessionFactory" ref="mySessionFactory"/>
+       <property name="userDAO" ref="userDAO"/>
+    </bean>
+    
+     <bean id="characteristicDAO" class="DAL.CharacteristicDAO">
+        <property name="sessionFactory" ref="mySessionFactory"/>
+    </bean>
+    
+        
+    <bean id="loginAdmin" class="BSL.LoginAdmin">
+        <property name="authentication" ref="authenticationBOL"/>
+    </bean>
+    
+    <bean id="serviceAuthoriser" class="BOL.ServiceAuthoriser">
+        <property name="tokenDAO" ref="tokenDAO"/>
+        <property name="tokenBOL" ref="tokenBOL"/>
+    </bean>
+    
+    <bean id="characteristicAdmin" class="BSL.CharacteristicAdmin">
+        <property name="auth" ref="serviceAuthoriser"/>
+        <property name="characteristicBOL" ref="characteristicBOL"/>
+    </bean>
+    
+    <bean id="productAdmin" class="BSL.ProductAdmin">
+        <property name="productDAO" ref="productDAO"/>
+        <property name="auth" ref="serviceAuthoriser"/>        
+    </bean>
+    
+    <bean id="transactionManager"
+            class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+    <property name="sessionFactory" ref="mySessionFactory"/>
+  </bean>
+  <!-- Allows transactions to be made at a function level via @Transactional -->
+  <tx:annotation-driven transaction-manager="transactionManager"/>
+  
+  <!-- Social Auth -->
+  <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
+
+    <import resource="properties.xml" />
+    
+    <bean id="socialAuthConfig" class="org.brickred.socialauth.SocialAuthConfig">
+        <property name="applicationProperties">
+            <ref bean="socialAuthProperties"/>
+        </property>
+    </bean>
+    
+    <bean id="socialAuthManager" class="org.brickred.socialauth.SocialAuthManager" scope="session">
+        <property name="socialAuthConfig">
+            <ref bean="socialAuthConfig"/>
+        </property>
+        <aop:scoped-proxy/>
+    </bean>
+    
+    <bean id="socialAuthTemplate" class="org.brickred.socialauth.spring.bean.SocialAuthTemplate" scope="session">
+        <aop:scoped-proxy/>
+    </bean>
+    
+    <bean id="socialAuthWebController" class="org.brickred.socialauth.spring.controller.SocialAuthWebController">
+        <constructor-arg value="http://localhost:8080/PRS" />
+        <constructor-arg value="auth/authSuccess" />
+        <constructor-arg value="auth/authDenied" />
+    </bean>
+    
+    <!-- ================================================================== -->
+    <!-- Spring Web Flow stuff -->
+    <!-- ================================================================== -->
+ 
+    <!-- This creates an XmlFlowRegistryFactory bean -->
+    <bean id="viewFactoryCreator"
+        class="org.springframework.webflow.mvc.builder.MvcViewFactoryCreator">
+        <property name="viewResolvers" ref="viewResolver" />
+    </bean>
+ 
+    <webflow:flow-builder-services id="flowBuilderServices"
+        view-factory-creator="viewFactoryCreator" />
+ 
+    <!--
+    <webflow:flow-registry id="flowRegistry" flow-builder-services="flowBuilderServices">
+        <webflow:flow-location path="/WEB-INF/flows/helloworldflow.xml" />
+    </webflow:flow-registry>
+    -->
+    <webflow:flow-registry id="flowRegistry"
+      base-path="/WEB-INF/flows"
+      flow-builder-services="flowBuilderServices">
+     <webflow:flow-location-pattern value="/**/*-flow.xml" />
+    </webflow:flow-registry>
+ 
+    <webflow:flow-executor id="flowExecutor"
+        flow-registry="flowRegistry">
+    </webflow:flow-executor>
+ 
+    <!-- Enables FlowHandler URL mapping -->
+    <bean class="org.springframework.webflow.mvc.servlet.FlowHandlerAdapter">
+        <property name="flowExecutor" ref="flowExecutor" />
+    </bean>
+ 
+    <!-- Maps request paths to flows in the flowRegistry; e.g. a path of /hotels/booking
+        looks for a flow with id "hotels/booking" -->
+    <bean class="org.springframework.webflow.mvc.servlet.FlowHandlerMapping">
+        <property name="flowRegistry" ref="flowRegistry" />
+        <property name="order" value="0" />
+    </bean>
+    
+      <bean id="NewReview" class="BOLO.Review"/>
+  
+</beans>

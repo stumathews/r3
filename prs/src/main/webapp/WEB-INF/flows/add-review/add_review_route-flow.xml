@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow 
+      http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+ 
+     <action-state id="setMessage">
+		<evaluate expression="getProductsController.test"/>
+                <transition on="ok" to="product-selection"/>		
+    </action-state>
+        
+    <view-state id="product-selection" view="Reviews/SelectProduct">                
+      <transition on="next" to="create-review"/>      
+    </view-state>
+ 
+    <view-state id="create-review" view="Reviews/CreateReview" model="NewReview">               
+        <transition on="submit" to="show-all-reviews" />
+    </view-state>
+    
+    <end-state id="show-all-reviews" view="Reviews/ShowAllReviews"/>    
+    
+</flow>

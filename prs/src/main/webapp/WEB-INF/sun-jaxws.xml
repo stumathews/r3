@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<endpoints version="2.0" xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime">
+  <endpoint implementation="WSL.ProductFacade" name="ProductFacade" url-pattern="/ProductFacade"/>
+  <endpoint implementation="WSL.AdminFacade" name="AdminFacade" url-pattern="/AdminFacade"/>
+  <endpoint implementation="WSL.UserFacade" name="UserFacade" url-pattern="/UserFacade"/>
+  <endpoint implementation="WSL.CharacteristicFacade" name="CharacteristicFacade" url-pattern="/CharacteristicFacade"/>
+  <endpoint implementation="WSL.RecommendationFacade" name="RecommendationFacade" url-pattern="/RecommendationFacade"/>
+  <endpoint implementation="WSL.ReviewFacade" name="ReviewFacade" url-pattern="/ReviewFacade"/>
+</endpoints>
