@@ -4,11 +4,13 @@
  */
 package BOLO;
 
+import java.io.Serializable;
+
 /**
  * Command object for adding a product as a form
  * @author Stuart Mathews <stuart@stuartmathews.com>
  */
-public class Product 
+public class Product implements Serializable
 {
     private String whatIsIt;
     private String whoMadeIt;

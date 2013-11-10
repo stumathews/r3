@@ -4,6 +4,7 @@
  */
 package BOLO;
 
+import java.io.Serializable;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
@@ -12,7 +13,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
  * A review
  * @author Lenovo x220
  */
-public class Review {
+public class Review implements Serializable {
 
     private String text;
     private String lowlights;

@@ -3,20 +3,24 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.springframework.org/schema/webflow 
       http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
- 
-     <action-state id="setMessage">
-		<evaluate expression="getProductsController.test"/>
-                <transition on="ok" to="product-selection"/>		
-    </action-state>
-        
-    <view-state id="product-selection" view="Reviews/SelectProduct">                
-      <transition on="next" to="create-review"/>      
+    
+    <var name="review" class="BOLO.Review"/>
+    <var name="theProduct" class="BOLO.Product" />
+    
+    <on-start>
+        <evaluate expression="webflowReviewController.createReview" result="flowScope.products"/>
+    </on-start>
+            
+    <view-state id="product-selection" view="Reviews/SelectProduct" model="theProduct">                
+        <transition on="submit" to="createReview"/>                
     </view-state>
  
-    <view-state id="create-review" view="Reviews/CreateReview" model="NewReview">               
-        <transition on="submit" to="show-all-reviews" />
+    <view-state id="createReview" view="Reviews/CreateReview" model="review">               
+        <transition on="submit" to="show-all-reviews">
+           <evaluate expression="webflowReviewController.saveReview(flowRequestContext, review, theProduct)"/>
+        </transition>        
     </view-state>
     
-    <end-state id="show-all-reviews" view="Reviews/ShowAllReviews"/>    
+    <end-state id="show-all-reviews" view="externalRedirect:Review/ShowAllReviews"/>    
     
 </flow>

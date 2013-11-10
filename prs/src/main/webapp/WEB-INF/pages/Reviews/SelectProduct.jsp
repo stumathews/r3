@@ -28,22 +28,29 @@
           <!-- CONTENT GOES HERE -->
           
           <h2>Please select a product to base your review on</h2>       
-         
-          <table>
-              <th>Product Title</th>
-              <th>Product Who made it</th>
-              <th>Product What is it</th>
-          <c:forEach items="${products}" var="product" varStatus="counter">
-              <tr>
-                  <td>${product.getTitle()}<td>
-                  <td>${product.getWhoMadeIt()}<td>
-                  <td>${product.getWhatIsIt()}<td>
-              </tr>
-          </c:forEach>
-          </table>
-              
-          
-           <a href="${flowExecutionUrl}&_eventId=next">go next</a>
+        <form:form ModelAttribute="product">                            
+            <table>
+                <th>Product Title</th>
+                <th>Product Who made it</th>
+                <th>Product What is it</th>
+                <th>Identifier</th>
+            <c:forEach items="${products}" var="prod" varStatus="counter">
+                <tr>
+                    <td>
+                        <input type="radio" name="id" value="${prod.getId()}"/>
+                    </td>
+                    <td>${prod.getTitle()}<td>
+                    <td>${prod.getWhoMadeIt()}<td>
+                    <td>${prod.getWhatIsIt()}<td>
+                    <td>${product.getId()}</td>
+                </tr>
+            </c:forEach>                
+            </table>
+            <br/>
+            <input type="hidden" name="_flowExecutionKey" value="${flowExecutionKey}" />
+            <input type="hidden" name="_eventId" value="submit" />
+            <input type="submit" value="Next >" />
+          </form:form>           
           
         </div><!--/span-->
       </div><!--/row-->
@@ -51,6 +58,7 @@
       <hr>
 
       <footer>
+          ${flowRequestContext.flowScope}
         <p>© R3 2013</p>
       </footer>
 

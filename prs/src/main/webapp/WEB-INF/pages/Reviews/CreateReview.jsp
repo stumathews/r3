@@ -26,9 +26,9 @@
         <div class="span9">
           <!-- Create a review -->
         <c:url var="CreateReviewPostURL" value="/Review" />
-        <form:form modelAttribute="NewReview" action="${CreateReviewPostURL}" method="post">
+        <form:form modelAttribute="review" >
                 <fieldset>
-                    <legend>Add a review</legend>                    
+                    <legend>Add a review for ${product.getId()}</legend>                    
                         <form:label for="text" path="text">Review</form:label>
                         <form:input type="text" path="text" />  
                         <span class="help-block">What is the summary of your review</span>      
@@ -41,8 +41,13 @@
                         <form:input type="text" path="lowlights" />
                         <span class="help-block">What were the lowlights?</span>
                             
-                        <input type="submit" value="add" class="btn" />                                        
+                        <input type="hidden" name="_flowExecutionKey" value="${flowExecutionKey}" />
+                        <input type="hidden" name="_eventId" value="submit" />
+                        <input type="submit" value="Next >" />                                     
                 </fieldset> 
+                <c:forEach items="${flowRequestContext.messageContext.allMessages}" var="message">                       
+                  <p class="text-error">${message.text}</p>                      
+                </c:forEach>
                 </form:form>          
           
         </div><!--/span-->
@@ -51,6 +56,7 @@
       <hr>
 
       <footer>
+          ${flowRequestContext.flowScope}
         <p>© R3 2013</p>
       </footer>
 
