@@ -19,14 +19,71 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+    <listener>
+        <listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
+    </listener>
+    <servlet>
+        <servlet-name>AdminFacade</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSSpringServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>UserFacade</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSSpringServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
     <servlet>
         <servlet-name>mvc-dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <servlet>
+        <servlet-name>ProductFacade</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSSpringServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>CharacteristicFacade</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>RecommendationFacade</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>ReviewFacade</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
     <servlet-mapping>
         <servlet-name>mvc-dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminFacade</servlet-name>
+        <url-pattern>/AdminFacade</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserFacade</servlet-name>
+        <url-pattern>/UserFacade</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductFacade</servlet-name>
+        <url-pattern>/ProductFacade</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CharacteristicFacade</servlet-name>
+        <url-pattern>/CharacteristicFacade</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RecommendationFacade</servlet-name>
+        <url-pattern>/RecommendationFacade</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReviewFacade</servlet-name>
+        <url-pattern>/ReviewFacade</url-pattern>
     </servlet-mapping>
     <session-config>
         <!-- Session timeout is 60 minutes -->
