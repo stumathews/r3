@@ -34,7 +34,7 @@
            
             <!-- Add product form -->
             <c:url value="/Product/create" var="AddProductURL"/>
-            <form:form modelAttribute="NewProduct" action="${AddProductURL}" method="post" enctype="multipart/form-data">
+            <form:form modelAttribute="NewProduct" action="${AddProductURL}" method="post">
                 <fieldset>
                     <legend>Add product</legend>    
                     <div class="span5">

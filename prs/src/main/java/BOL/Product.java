@@ -23,17 +23,27 @@ public class Product implements IProduct
     public void setProductDAO(IProductDAO productDAO) {
         this.productDAO = productDAO;
     }
-    
+        
     @Transactional
     public BOLO.Product MakeProductFormFromId(String productID) throws Exception 
     {
         DEL.Product prod = productDAO.getProductByID( productID);
         /* Construct the form binding object aka command object: */
         BOLO.Product newProduct = new BOLO.Product();
-        newProduct.setTitle(prod.getTitle());
-        newProduct.setWhatIsIt(prod.getWhatIsIt());
-        newProduct.setWhoMadeIt(prod.getWhoMadeIt());
+        newProduct = ConvertToBOLO(prod);
         return newProduct;
         
+    }
+    
+    public BOLO.Product ConvertToBOLO( DEL.Product del )
+    {
+        BOLO.Product product = new BOLO.Product();
+        product.setIdentifier(del.getId().toString());
+        product.setTitle(del.getTitle());
+        product.setWhatIsIt(del.getWhatIsIt());
+        product.setWhoMadeIt(del.getWhoMadeIt());        
+        return product;
+        
+    
     }
 }

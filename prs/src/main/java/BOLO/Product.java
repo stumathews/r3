@@ -18,7 +18,6 @@ public class Product implements Serializable
     //private CommonsMultipartFile picture;
     private String identifier;
 
-    
     public String getIdentifier() {
         return identifier;
     }
@@ -26,8 +25,6 @@ public class Product implements Serializable
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
     }
-
-   
     
     public String getWhatIsIt() {
         return whatIsIt;

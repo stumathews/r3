@@ -37,11 +37,11 @@
                 
                 <!-- Populate the table with product details -->
 		<c:forEach items="${products}" var="product" varStatus="counter">
-                    <c:url var="DeleteURL" value="/Product/Delete/${product.getId()}"/>
-                    <c:url var="EditURL" value="/Product/ShowEdit/${product.getId()}"/>
-                    <c:url var="ViewProductURL" value="/Product/Show/${product.getId()}"/>
+                    <c:url var="DeleteURL" value="/Product/Delete/${product.getIdentifier()}"/>
+                    <c:url var="EditURL" value="/Product/ShowEdit/${product.getIdentifier()}"/>
+                    <c:url var="ViewProductURL" value="/Product/Show/${product.getIdentifier()}"/>
                     <tr>
-                        <td class="span1"><img src="${product.getImageURL()}" class="img-polaroid"/></td>
+                        <td class="span1"><img src="http://img825.imageshack.us/img825/4719/filedm.jpg" class="img-polaroid"/></td>
                         <td>
                             <a href="${ViewProductURL}"><c:out value="${product.getTitle()}"></c:out></a>
                         </td>

@@ -61,7 +61,7 @@ public class ProductController
     public String showProductsView(ModelMap model) throws Exception
     {            
         // Get all products in the database
-        ArrayList< DEL.Product > products = productAdmin.getAllProducts( Common.GetGenAdminAuthToken() );
+        ArrayList< BOLO.Product > products = productAdmin.getAllProducts( Common.GetGenAdminAuthToken() );
         // add products to model view
         model.addAttribute("products", products);
         return "Products/ShowProducts"; 
@@ -76,7 +76,7 @@ public class ProductController
      */
     @RequestMapping(value="/Show/{productID}/json", method = RequestMethod.GET)
     @ResponseBody
-    public DEL.Product getProductRaw( @PathVariable("productID") String productID, 
+    public BOLO.Product getProductRaw( @PathVariable("productID") String productID, 
                                ModelMap model) throws Exception
     {
         return productAdmin.getProductByID(Common.GetGenAdminAuthToken(), productID);
@@ -163,7 +163,7 @@ public class ProductController
                                ModelMap model) throws Exception
     {    
         //FIXME: We should remove reliance on the DEL here and replace it with BOLO objects
-        DEL.Product prod = productAdmin.getProductByID(Common.GetGenAdminAuthToken(), productID);        
+        BOLO.Product prod = productAdmin.getProductByID(Common.GetGenAdminAuthToken(), productID);        
         List<DEL.Characteristic> productCharacteristics = characteristicAdmin.getProductCharacteristics(Common.GetGenAdminAuthToken(), productID);
         model.addAttribute("productCharacteristics", productCharacteristics);
         model.addAttribute("product",prod);

@@ -22,9 +22,9 @@ public class WebflowReviewController  implements Action {
     @Autowired
     private IReviewAdmin reviewAdmin;
         
-    public ArrayList<Product> createReview(RequestContext req) throws Exception 
+    public ArrayList<BOLO.Product> createReview(RequestContext req) throws Exception 
     {           
-        ArrayList<Product> result = productAdmin.getAllProducts(Common.GetGenAdminAuthToken());
+        ArrayList<BOLO.Product> result = productAdmin.getAllProducts(Common.GetGenAdminAuthToken());
         
         return result;                        
     }
@@ -35,13 +35,14 @@ public class WebflowReviewController  implements Action {
         reviewAdmin.SaveReview(token, review);        
         List<BOLO.Review> reviews = reviewAdmin.getAllReviews(token);
         req.getFlowScope().put("reviews", reviews);
+        req.getFlowScope().put("product", theProduct);
     }
     
     @Override
     public Event execute(RequestContext req) throws Exception {
           //String name = req.getRequestParameters().get("inputName");
 
-          ArrayList<DEL.Product> result = productAdmin.getAllProducts(Common.GetGenAdminAuthToken());
+          ArrayList<BOLO.Product> result = productAdmin.getAllProducts(Common.GetGenAdminAuthToken());
           req.getFlowScope().put("products",result);          
 
 

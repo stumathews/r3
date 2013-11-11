@@ -33,7 +33,7 @@
         <div class="row">  
             <!-- Column for produt picture -->
             <div class="span2">
-                <img class="img-polaroid" src="${product.getImageURL()}"/>                
+                <img class="img-polaroid" src="http://img825.imageshack.us/img825/4719/filedm.jpg"/>                
             </div>
             <!-- Column next to picture for basic product details -->
             <div class="span6">                    
@@ -71,7 +71,7 @@
                     </c:forEach>
                 </div> 
 
-                <c:url value="/Product/add/characteristic/${product.getId()}" var="AddProductCharacteristicURL"/>                   
+                <c:url value="/Product/add/characteristic/${product.getIdentifier()}" var="AddProductCharacteristicURL"/>                   
                 <a href="${AddProductCharacteristicURL}" class="btn btn-primary">Add new product aspect</a>
             </div>                     
         </div>

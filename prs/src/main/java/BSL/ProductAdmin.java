@@ -1,11 +1,11 @@
 
 package BSL;
 
+import BOL.Interfaces.IProduct;
 import BOL.Interfaces.IServiceAuthoriser;
 import BSL.Interfaces.IProductAdmin;
 import DEL.Product;
 import DAL.Interfaces.IProductDAO;
-import Website.Controllers.Common;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProductAdmin implements IProductAdmin
 {
     private IProductDAO productDAO;     // DB Access Object for Products
+    private IProduct productLogic;    
     private IServiceAuthoriser serviceAuthorisor; // Authorisation provider
+    
+    @Autowired
+    public void setProductLogic(IProduct productLogic) {
+        this.productLogic = productLogic;
+    }
     
     @Autowired
     public void setAuth(IServiceAuthoriser auth) {
@@ -50,10 +56,16 @@ public class ProductAdmin implements IProductAdmin
      * @throws Exception if unable to get all products
      */
     @Transactional
-    public ArrayList<Product> getAllProducts(String token) throws Exception
+    public ArrayList<BOLO.Product> getAllProducts(String token) throws Exception
     {
+        ArrayList<BOLO.Product> return_result = new ArrayList<BOLO.Product>();
         serviceAuthorisor.authorise(token);
-        return productDAO.getAllProducts();        
+        for( DEL.Product del : productDAO.getAllProducts() )
+        {
+            return_result.add( productLogic.ConvertToBOLO( del ) );
+            
+        }
+        return return_result;
     }
 
     /**
@@ -77,10 +89,11 @@ public class ProductAdmin implements IProductAdmin
      * @throws Exception if unable to retrieve product by id
      */
     @Transactional
-    public Product getProductByID(String token, String productID) throws Exception 
+    public BOLO.Product getProductByID(String token, String productID) throws Exception 
     {
         serviceAuthorisor.authorise(token);
-        return productDAO.getProductByID(productID);        
+        BOLO.Product product = productLogic.ConvertToBOLO(productDAO.getProductByID(productID)); 
+        return product;
     }
     
     

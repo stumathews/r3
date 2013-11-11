@@ -8,4 +8,5 @@ package BOL.Interfaces;
 public interface IProduct 
 {
     public BOLO.Product MakeProductFormFromId(String productID) throws Exception ;
+    public BOLO.Product ConvertToBOLO( DEL.Product del );
 }
