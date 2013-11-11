@@ -34,8 +34,7 @@ public class WebflowReviewController  implements Action {
         String token = Common.GetGenAdminAuthToken();
         reviewAdmin.SaveReview(token, review);        
         List<BOLO.Review> reviews = reviewAdmin.getAllReviews(token);
-        req.getFlowScope().put("reviews", reviews);
-        req.getFlowScope().put("product", theProduct);
+        req.getFlowScope().put("reviews", reviews);        
     }
     
     @Override
