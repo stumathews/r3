@@ -32,16 +32,14 @@
             <th>#</th>
             <th>Review</th>
             <th>Highlights</th>
-            <th>Lowlights</th>
-            <th>product</th>
+            <th>Lowlights</th>            
             <c:forEach items="${reviews}" var="review" varStatus="counter">  
                 <c:set var="highlights" value="${review.getHighlights()}" />
                 <c:set var="lowlights" value="${review.getLowlights()}" />
                 <tr>                    
                     <td>${counter.count}</td><td>${review.getText()}</td>    
                     <td>${highlights}</td>
-                    <td>${lowlights}</td>
-                    <td>${product.getTitle()}</td>
+                    <td>${lowlights}</td>                    
                 </tr>
             </c:forEach>
             </table>
