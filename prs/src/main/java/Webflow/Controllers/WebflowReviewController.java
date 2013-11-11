@@ -1,4 +1,4 @@
-// This is a webflow controller
+// This is a webflow controller.
 package Webflow.Controllers;
 
 import BSL.Interfaces.IProductAdmin;
