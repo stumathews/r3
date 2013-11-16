@@ -274,6 +274,4 @@
         <property name="order" value="0" />
     </bean>
     
-      <bean id="NewReview" class="BOLO.Review"/>
-  
 </beans>

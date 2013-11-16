@@ -7,6 +7,7 @@ import BSL.Interfaces.ILoginAdmin;
 import BSL.Interfaces.IProductAdmin;
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -179,13 +180,14 @@ public class ProductController
     * @throws Exception 
     */       
     @RequestMapping(value ="/create", method = RequestMethod.POST)
-    public String addProductToDB(@ModelAttribute("NewProduct") BOLO.Product product,
-                                 ModelMap model, 
-                                 BindingResult result) throws Exception
+    public String addProductToDB(ModelMap model, @Valid @ModelAttribute("NewProduct") BOLO.Product product, BindingResult result) throws Exception
     {	
 
-        if (checkUploadForErrors(result))
-        return "redirect:/Product/ShowProductList";
+        if( result.hasErrors())
+        {
+            //return addProductView(product, model);            
+            return "Products/AddProduct";
+        }                
         
         //FIXME: Should not be going directly to DEL from here. go via BSL
         DEL.Product prod = new DEL.Product();
@@ -200,30 +202,7 @@ public class ProductController
         return "redirect:/Product/ShowProductList";
 
     }
-
-       
-    
-    /**
-     * Check for errors with the upload 
-     * @param result
-     * @return 
-     */
-    private boolean checkUploadForErrors(BindingResult result) 
-    {
-        //FIXME: understand this a little better
-        if (result.hasErrors()) {
-            for(ObjectError error : result.getAllErrors())
-            {
-            System.err.println("Error: " + error.getCode() +  " - " + error.getDefaultMessage());
-            }
-            return true;
-        }
-        return false;
-    }
-    
-    
-    
-        
+ 
     /**
      * Shows the form that allows the user to add a product
      * @param newChar
@@ -252,11 +231,15 @@ public class ProductController
      * @throws Exception 
      */
     @RequestMapping( value="/add/characteristic/{productID}", method = RequestMethod.POST)
-    public String addProductCharacteristicToDB( @ModelAttribute("FormProductCharacteristic") BOLO.ProductCharacteristic newChar,
+    public String addProductCharacteristicToDB( @Valid @ModelAttribute("FormProductCharacteristic") BOLO.ProductCharacteristic newChar, 
+                                                BindingResult result,
                                                 @PathVariable("productID") String productID,
                                                 ModelMap map ) throws Exception
     {
-        
+        if( result.hasErrors())
+        {
+            return addProductCharacteristicView(newChar,productID,map);
+        }
             characteristicAdmin.addProductCharacteristic(Common.GetGenAdminAuthToken(),
                                                         productID, 
                                                         newChar.getTitle(),

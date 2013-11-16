@@ -16,12 +16,12 @@
 </head>
 <body>
 
-    <c:import url="/navigation/TopMenu"></c:import>
+    <jsp:include page="/WEB-INF/pages/Common/TopMenu.jsp" />
 
     <div class="container-fluid">
       <div class="row-fluid">
         <div class="span3">          
-            <c:import url="/navigation/NavMenu"></c:import>          
+            <jsp:include page="/WEB-INF/pages/Common/NavMenu.jsp"/>        
         </div><!--/span-->
         <div class="span9">
           <div class="container">

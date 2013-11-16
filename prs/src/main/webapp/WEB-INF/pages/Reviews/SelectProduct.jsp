@@ -17,18 +17,18 @@
 </head>
 <body>
 
-    <c:import url="/Navigation/TopMenu"></c:import>
+    <jsp:include page="/WEB-INF/pages/Common/TopMenu.jsp" />
 
     <div class="container-fluid">
       <div class="row-fluid">
         <div class="span3">
-          <c:import url="/Navigation/NavMenu"></c:import> 
+          <jsp:include page="/WEB-INF/pages/Common/NavMenu.jsp"/>
         </div><!--/span-->       
         <div class="span9">
           <!-- CONTENT GOES HERE -->
           
           <h2>Please select a product to base your review on</h2>       
-        <form:form commandName="theProduct">            
+        <form:form commandName="product">            
              <input type="hidden" name="whoMadeIt" value="${prod.getWhoMadeIt()}" />
              <input type="hidden" name="whatIsIt" value="${prod.getWhatIsIt()}" />
              <input type="hidden" name="identifier" value="${prod.getIdentifier()}" />
@@ -41,8 +41,7 @@
                 <tr>
                     <td>
                         <form:radiobutton path="title" value="${prod.getTitle()}"/>
-                    </td>
-                    <td>${prod.getTitle()}<td>                       
+                    </td>                                          
                     <td>${prod.getWhoMadeIt()}<td>                         
                     <td>${prod.getWhatIsIt()}<td>                         
                     <td>${prod.getIdentifier()}</td>
@@ -53,6 +52,10 @@
             <input type="hidden" name="_flowExecutionKey" value="${flowExecutionKey}" />
             <input type="hidden" name="_eventId" value="submit" />
             <input type="submit" value="Next >" />
+            
+            <c:forEach items="${flowRequestContext.messageContext.allMessages}" var="message">                       
+                  <p class="text-error">${message.text}</p>                      
+            </c:forEach>
           </form:form>           
           
         </div><!--/span-->

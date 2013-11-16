@@ -16,19 +16,19 @@
     </style>
 </head>
 <body>    
-    <c:import url="/Navigation/TopMenu"></c:import>
+    <jsp:include page="/WEB-INF/pages/Common/TopMenu.jsp" />
 
     <div class="container-fluid">
       <div class="row-fluid">
         <div class="span3">
-          <c:import url="/Navigation/NavMenu"></c:import> 
+          <jsp:include page="/WEB-INF/pages/Common/NavMenu.jsp"/>
         </div><!--/span-->       
         <div class="span9">
           <!-- Create a review -->
         <c:url var="CreateReviewPostURL" value="/Review" />
         <form:form modelAttribute="review" >
                 <fieldset>
-                    <legend>Add a review for ${theProduct.getTitle()}</legend>                    
+                    <legend>Add a review for ${product.getTitle()}</legend>                    
                         <form:label for="text" path="text">Review</form:label>
                         <form:input type="text" path="text" />  
                         <span class="help-block">What is the summary of your review</span>      

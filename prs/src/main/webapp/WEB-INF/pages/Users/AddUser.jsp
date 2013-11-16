@@ -1,5 +1,9 @@
-<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@page contentType="text/html;charset=UTF-8" %>
+<%@page pageEncoding="UTF-8" %>
+<%@ page session="false" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,14 +20,14 @@
 </head>
 <body>
 
-    <c:import url="/Navigation/TopMenu"></c:import>
+    <jsp:include page="/WEB-INF/pages/Common/TopMenu.jsp" />
 
     <div class="container-fluid">
       <div class="row-fluid">
           
         <!-- Column to hold navigation menu -->
         <div class="span3">
-          <c:import url="/Navigation/NavMenu"></c:import> 
+          <jsp:include page="/WEB-INF/pages/Common/NavMenu.jsp"/>
         </div>
         
         <!-- column to hold main page content -->
@@ -33,18 +37,18 @@
         <!-- Allow the user to input user details -->
 	<c:url value="/User/create" var="loginUrl"/>
 	
-	<form action="${loginUrl}" method="post">
+	<form:form modelAttribute="user" action="${loginUrl}" method="post">
             <fieldset> 
                 <legend>Add user</legend>
-		<label for="username">User name</label>
-		<input type="text" id="username" name="username"><br/>
+		<form:label for="username" path="username">User name</form:label>
+		<form:input type="text" path="username"/><form:errors path="username" cssClass="text-error"></form:errors>  
                     <span class="help-block">What will the users name be?</span>
-		<label for="password">Password</label>
-		<input type="password" id="password" name="password">
+		<form:label for="password" path="password" >Password</form:label>
+		<form:input type="password" path="password"/><form:errors path="password" cssClass="text-error"></form:errors>  
                     <span class="help-block">Put in their password here.</span>
                     <input type="submit" name="submit" type="submit" value="OK" class="btn">
             </fieldset>  
-	</form>
+	</form:form>
                 
         </div>
         </div><!--/span-->
@@ -53,7 +57,7 @@
       <hr>
 
       <footer>
-        <p>© R3 2013</p>
+        <p>Â© R3 2013</p>
       </footer>
 
     </div><!--/.fluid-container-->

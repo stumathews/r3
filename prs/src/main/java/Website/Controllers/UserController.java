@@ -4,9 +4,12 @@ import BSL.Interfaces.ILoginAdmin;
 import BSL.Interfaces.IUserAdmin;
 import BSL.LoginAdmin;
 import java.util.ArrayList;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -50,7 +53,8 @@ public class UserController
      * @return add user view
      */
     @RequestMapping(value = "/ShowAddUser", method = RequestMethod.GET)
-    public String addUser() { 
+    public String addUser(ModelMap model) { 
+        model.addAttribute("user", new BOLO.User());
         return "Users/AddUser";
     }
 
@@ -76,10 +80,15 @@ public class UserController
      * @throws Exception 
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String createUser(BOLO.User form, ModelMap model) throws Exception 
+    public String createUser(ModelMap model, @Valid @ModelAttribute("user") BOLO.User user, BindingResult result ) throws Exception 
     {
-        String username = form.getUsername();
-        String password = form.getPassword();
+        if( result.hasErrors() )
+        {
+            return "Users/AddUser";
+        }
+        
+        String username = user.getUsername();
+        String password = user.getPassword();
         userAdmin.createUser(Common.GetGenAdminAuthToken(),username, password);
         return "redirect:/User/ShowUserList";
     }

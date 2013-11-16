@@ -5,19 +5,20 @@
       http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
     
     <var name="review" class="BOLO.Review"/>
-    <var name="theProduct" class="BOLO.Product" />
+    <var name="product" class="BOLO.Product" />
     
     <on-start>
         <evaluate expression="webflowReviewController.createReview" result="flowScope.products"/>
     </on-start>
             
-    <view-state id="product-selection" view="Reviews/SelectProduct" model="theProduct">                
-        <transition on="submit" to="createReview"/>                
+    <view-state id="selectProduct" view="Reviews/SelectProduct" model="product"> 
+        <!-- Suppressing validation because I dont know how to deal with input radio button for product -->               
+        <transition on="submit" to="createReview" validate="false"/>                
     </view-state>
  
     <view-state id="createReview" view="Reviews/CreateReview" model="review">               
         <transition on="submit" to="show-all-reviews">
-           <evaluate expression="webflowReviewController.saveReview(flowRequestContext, review, theProduct)"/>
+           <evaluate expression="webflowReviewController.saveReview(flowRequestContext, review, product)"/>
         </transition>        
     </view-state>
     

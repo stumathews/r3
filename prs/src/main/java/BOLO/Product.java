@@ -5,6 +5,9 @@
 package BOLO;
 
 import java.io.Serializable;
+import org.hibernate.validator.constraints.NotEmpty;
+
+
 
 /**
  * Command object for adding a product as a form
@@ -12,10 +15,13 @@ import java.io.Serializable;
  */
 public class Product implements Serializable
 {
+    @NotEmpty
     private String whatIsIt;
+    @NotEmpty
     private String whoMadeIt;
+    @NotEmpty( message="Product needs a title.")
     private String title;
-    //private CommonsMultipartFile picture;
+    
     private String identifier;
 
     public String getIdentifier() {

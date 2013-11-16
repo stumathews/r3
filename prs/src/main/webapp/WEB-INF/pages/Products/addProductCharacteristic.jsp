@@ -17,13 +17,13 @@
 </head>
 <body>
 
-    <c:import url="/Navigation/TopMenu"></c:import>
+    <jsp:include page="/WEB-INF/pages/Common/TopMenu.jsp" />
 
     <div class="container-fluid">
       <div class="row-fluid">
           
         <div class="span3">
-          <c:import url="/Navigation/NavMenu"></c:import> 
+          <jsp:include page="/WEB-INF/pages/Common/NavMenu.jsp"/>
         </div>
         
         <div class="span9">          
@@ -36,13 +36,13 @@
                     <legend>Add product characteristic</legend>    
                     <div class="span9">
                         <form:label for="title" path="title">Title</form:label>
-                        <form:input id="char_title" type="text" path="title" />  
+                        <form:input id="char_title" type="text" path="title" /><form:errors path="title" cssClass="text-error"></form:errors>  
                             <span class="help-block">Name or title for this characteristic</span>
                         <form:label for="description" path="description">Description</form:label>
-                        <form:input type="text" path="description" />
+                        <form:input type="text" path="description" /><form:errors path="description" cssClass="text-error"></form:errors>
                             <span id="char_description" class="help-block"> What is specific aspect of the characteristic ? Give a description eg. Its affects the usability, style, robustness etc....</span> 
                         <form:label for="review" path="review">Review</form:label>
-                        <form:textarea class="default boxsizingBorder" path="review"/>
+                        <form:textarea class="default boxsizingBorder" path="review"/> <form:errors path="review" cssClass="text-error"></form:errors>
                             <span class="help-block">Go ahead, provide your take on this aspect of the ${product.getTitle()}. </span>                      
                     </div>
                 </fieldset> 

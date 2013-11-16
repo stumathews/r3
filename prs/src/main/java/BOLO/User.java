@@ -1,12 +1,16 @@
 package BOLO;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 /**
  * Business Object to represent a User
  * @author Stuart Mathews <stuart@stuartmathews.com>
  */
 public class User 
 {
+        @NotEmpty
 	private String username;
+        @NotEmpty
 	private String password;
 	/**
 	 * @return the password

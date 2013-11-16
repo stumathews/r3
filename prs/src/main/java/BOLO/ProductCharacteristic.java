@@ -6,6 +6,7 @@ package BOLO;
 
 import DEL.Product;
 import javax.xml.bind.annotation.XmlElement;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * A Product characteristic
@@ -13,8 +14,11 @@ import javax.xml.bind.annotation.XmlElement;
  */
 public class ProductCharacteristic 
 {
+    @NotEmpty
     private String title;
+    @NotEmpty
     private String description;
+    @NotEmpty
     private String review;
     private BOLO.Product product;
 

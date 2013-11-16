@@ -16,13 +16,13 @@
     </style>
 </head>
 <body>
-<c:import url="/Navigation/TopMenu"></c:import>
+<jsp:include page="/WEB-INF/pages/Common/TopMenu.jsp" />
 <div class="container-fluid">
   <div class="row-fluid">
       
     <!-- Column for the navigation menu -->
     <div class="span3">          
-        <c:import url="/Navigation/NavMenu"></c:import>          
+        <jsp:include page="/WEB-INF/pages/Common/NavMenu.jsp"/>          
     </div>
     
     <!-- Small space between nav menu and main page content -->

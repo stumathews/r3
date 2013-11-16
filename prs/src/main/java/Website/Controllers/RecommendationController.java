@@ -5,9 +5,11 @@
 package Website.Controllers;
 import BSL.Interfaces.IRecommendationAdmin;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,8 +40,8 @@ public class RecommendationController
      * @return 
      */
     @RequestMapping( method = RequestMethod.GET)
-    public String get(@ModelAttribute("NewRecommendation") BOLO.Recommendation theRecommendation, ModelMap model)
-    {
+    public String get(ModelMap model, @ModelAttribute("NewRecommendation") BOLO.Recommendation theRecommendation)
+    {        
         model.addAttribute("NewRecommendation", theRecommendation);
         return "Recommendations/CreateRecommendation"  ;
     }
@@ -52,8 +54,12 @@ public class RecommendationController
      * @throws Exception 
      */
     @RequestMapping( method = RequestMethod.POST)
-    public String create(@ModelAttribute("NewRecommendation") BOLO.Recommendation theRecommendation, ModelMap model) throws Exception
+    public String create( ModelMap model, @Valid @ModelAttribute("NewRecommendation") BOLO.Recommendation theRecommendation,BindingResult result) throws Exception
     {
+        if( result.hasErrors())
+        {
+            return get(model, theRecommendation);
+        }
         /*Store this nito the database*/
         recommendationAdmin.createRecommendation( Common.GetGenAdminAuthToken(), theRecommendation );
         return "redirect:/Recommendation/ShowRecommendations";

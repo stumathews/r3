@@ -5,6 +5,7 @@
 package BOLO;
 
 import java.util.List;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * A business recommendation
@@ -23,6 +24,7 @@ public class Recommendation
     /* Person that has compiled the review */
     private BOLO.User recommender;
     /* Every recommendation has a title to identify it. */
+    @NotEmpty
     private String title;
 
     public String getTitle() {

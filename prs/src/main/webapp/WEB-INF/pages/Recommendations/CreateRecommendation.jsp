@@ -17,20 +17,21 @@
 </head>
 <body>
 
-    <c:import url="/Navigation/TopMenu"></c:import>
+    <jsp:include page="/WEB-INF/pages/Common/TopMenu.jsp" />
 
     <div class="container-fluid">
       <div class="row-fluid">
         <div class="span3">
-          <c:import url="/Navigation/NavMenu"></c:import> 
+          <jsp:include page="/WEB-INF/pages/Common/NavMenu.jsp"/>
         </div><!--/span-->       
         <div class="span9">
             
         <c:url var="CreateRecommendationPostURL" value="/Recommendation" />
         <form:form modelAttribute="NewRecommendation" action="${CreateRecommendationPostURL}" method="post">
             <form:label for="title" path="title">Title</form:label>
-            <form:input type="text" path="title" />
+            <form:input type="text" path="title" /> <form:errors path="title" cssClass="text-error"></form:errors>
             <span class="help-block">Please enter a title for this recommendation</span>  
+            <input type="submit" name="add" />
         </form:form>
             
         </div><!--/span-->

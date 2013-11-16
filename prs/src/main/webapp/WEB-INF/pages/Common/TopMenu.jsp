@@ -9,35 +9,20 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         </button>
-        <a class="brand" href="#">${productName}</a>
-        <div class="nav-collapse collapse">
-        <c:if test="${isAuthenticated}">
+        <a class="brand" href="#">R3</a>
+        <div class="nav-collapse collapse">       
             <p class="navbar-text pull-right">
-            <c:url value="/j_spring_security_logout" var="logoutURL"></c:url>            
-            <c:url value="/User/ShowDetail/${logged_in_user}" var="show_user_details"></c:url>
-            Hi <a href="${show_user_details}" class="navbar-link">${logged_in_user}</a>
+            <c:url value="/j_spring_security_logout" var="logoutURL"></c:url>             
+            Hi user
             <a href="${logoutURL}" class="navbar-link"> logout</a>
-            </p>
-        </c:if>
-        <ul class="nav">
-            <!-- See if the current url is one of the links passed in. Highlight it.
-            Also Turn each passed in relative URL to an absolute url -->
-            <c:forEach items="${links}" var="link">
-                <c:url value="/" var="url" />  
-                <c:set var="each_url" value="${url}${link.value}"></c:set> 
-                <c:choose>                                       
-                    <c:when test="${each_url eq current_url}">
-                        <li class="active"><a href="${each_url}">${link.key}</a></li>
-                    </c:when>
-                    <c:otherwise>
-                        <li><a href="${each_url}">${link.key}</a></li>
-                    </c:otherwise>
-                </c:choose>            
-               
-            </c:forEach>   
+            </p>       
             
-            
-        </ul>
+            <ul class="nav">
+                    <c:url value="/" var="url" />  
+                    <li><a href="${url}">Home</a></li>
+                    <li><a href="${url}About">About</a></li>
+                    <li><a href="${url}Welcome">Welcome</a></li>
+            </ul>
       
         </div><!--/.nav-collapse -->
     </div>
