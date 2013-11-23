@@ -23,11 +23,14 @@ public class WebflowReviewController  implements Action {
     @Autowired
     private IReviewAdmin reviewAdmin;
         
-    public ArrayList<BOLO.Product> createReview(RequestContext req) throws Exception 
+    public void prepareReviewFlow(RequestContext req) throws Exception 
     {           
-        ArrayList<BOLO.Product> result = productAdmin.getAllProducts(Common.GetGenAdminAuthToken());
+        // Lest authenticate
         
-        return result;                        
+        // Lets pull out the product Id of the prodeuct that this reviw will be based on
+        String productIdentifier = req.getRequestParameters().get("productId");        
+        req.getFlowScope().put("productId",productIdentifier);
+                             
     }
     
     public void saveReview(RequestContext req, BOLO.Review review, BOLO.Product theProduct) throws Exception
@@ -35,16 +38,37 @@ public class WebflowReviewController  implements Action {
         String token = Common.GetGenAdminAuthToken();
         reviewAdmin.SaveReview(token, review);        
         List<BOLO.Review> reviews = reviewAdmin.getAllReviews(token);
-        req.getFlowScope().put("reviews", reviews);        
+        req.getFlowScope().put("reviews", reviews);     
+        
     }
+    
+    public Event isProductSelected(RequestContext req) throws Exception
+    {
+        String productId = (String) req.getFlowScope().get("productId");
+        if( productId == null)
+            return new Event(this,"no");
+        BOLO.Product result = productAdmin.getProductByID(Common.GetGenAdminAuthToken(), productId );
+        if( result != null)
+        {
+            req.getFlowScope().put("product", result);          
+            return new Event(this, "yes");
+        }else
+        {
+            return new Event(this,"no");
+        }
+    }
+    
+    public void putAllProductsIntoFlow(RequestContext req) throws Exception
+    {        
+        ArrayList<BOLO.Product> result = productAdmin.getAllProducts(Common.GetGenAdminAuthToken());
+        req.getFlashScope().put("products", result);
+    }
+    
+    
     
     @Override
     public Event execute(RequestContext req) throws Exception {
           //String name = req.getRequestParameters().get("inputName");
-
-          ArrayList<BOLO.Product> result = productAdmin.getAllProducts(Common.GetGenAdminAuthToken());
-          req.getFlowScope().put("products",result);          
-
 
           return new Event(this, "ok");
     }

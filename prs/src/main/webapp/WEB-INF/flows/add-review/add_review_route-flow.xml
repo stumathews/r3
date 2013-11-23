@@ -4,24 +4,50 @@
       xsi:schemaLocation="http://www.springframework.org/schema/webflow 
       http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
     
+    <secured attributes="ROLE_USER" />
+    
     <var name="review" class="BOLO.Review"/>
     <var name="product" class="BOLO.Product" />
     
-    <on-start>
-        <evaluate expression="webflowReviewController.createReview" result="flowScope.products"/>
+    <!-- First thing we do is prepare the review flow. 
+    We get the requetsed productID from the request here too and put it into flowScope.
+    -->
+    
+    <on-start>        
+        <evaluate expression="webflowReviewController.prepareReviewFlow(flowRequestContext)"/>        
     </on-start>
-            
-    <view-state id="selectProduct" view="Reviews/SelectProduct" model="product"> 
-        <!-- Suppressing validation because I dont know how to deal with input radio button for product -->               
-        <transition on="submit" to="createReview" validate="false"/>                
-    </view-state>
- 
-    <view-state id="createReview" view="Reviews/CreateReview" model="review">               
+    
+    <!-- Determine if we had a productID or not based on the flowScope existance or not.
+        If it exists - we fast forward to the createReview state, otherwise we go to the
+        product selection state. Fair enough.
+    -->
+    <action-state id="determineProductSelected">
+        <evaluate expression="webflowReviewController.isProductSelected(flowRequestContext)"/>
+        <transition on="no"  to="selectProduct" />
+        <transition on="yes" to="createReview"  />
+    </action-state>  
+     
+    <!-- Show the create review form and on submission, save it. Also note that there
+        is automatic validation for this step provied by Webflow via the BOLO.ReviewValidators.ReviewValidator        
+    -->
+    <view-state id="createReview" view="Reviews/CreateReview" model="review">                
         <transition on="submit" to="show-all-reviews">
            <evaluate expression="webflowReviewController.saveReview(flowRequestContext, review, product)"/>
-        </transition>        
+        </transition>                
     </view-state>
     
+    <!--  This view lets the user select a product to review. 
+          Before the view is shown to the user, we fetch all the products that the user can review.        
+    -->
+    
+    <view-state id="selectProduct" view="Reviews/SelectProduct"> 
+        <on-render>
+            <evaluate expression="webflowReviewController.putAllProductsIntoFlow(flowRequestContext)"/>
+        </on-render>                               
+        <transition on="submit" to="createReview" validate="false"/>                
+    </view-state>
+    
+    <!-- INdicate which state signified the last and ending state of the review flow.-->
     <end-state id="show-all-reviews" view="externalRedirect:Review/ShowAllReviews"/>    
     
 </flow>

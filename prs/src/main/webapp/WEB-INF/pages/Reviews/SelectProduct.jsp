@@ -32,6 +32,7 @@
              <input type="hidden" name="whoMadeIt" value="${prod.getWhoMadeIt()}" />
              <input type="hidden" name="whatIsIt" value="${prod.getWhatIsIt()}" />
              <input type="hidden" name="identifier" value="${prod.getIdentifier()}" />
+             
             <table>
                 <th>Product Title</th>
                 <th>Product Who made it</th>
@@ -56,8 +57,8 @@
             <c:forEach items="${flowRequestContext.messageContext.allMessages}" var="message">                       
                   <p class="text-error">${message.text}</p>                      
             </c:forEach>
-          </form:form>           
-          
+          </form:form>          
+       
         </div><!--/span-->
       </div><!--/row-->
 

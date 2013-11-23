@@ -73,6 +73,9 @@
 
                 <c:url value="/Product/add/characteristic/${product.getIdentifier()}" var="AddProductCharacteristicURL"/>                   
                 <a href="${AddProductCharacteristicURL}" class="btn btn-primary">Add new product aspect</a>
+                
+                <c:url value="/add-review?productId=${product.getIdentifier()}" var="AddReviewURL"/>                   
+                <a href="${AddReviewURL}" class="btn btn-primary">Review this product</a>
             </div>                     
         </div>
     </div><!--/span-->
