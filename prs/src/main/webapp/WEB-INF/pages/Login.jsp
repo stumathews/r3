@@ -33,8 +33,10 @@
                 login details(they are dealt with by the interceptors),
                 we wont be using a spring form:form with modelAttribute.
                 -->
+                <h1>R3</h1>
                 <form action="${loginURL}" method="post">
                 <fieldset>
+                    <p>Please specify your user credentials to login to R3</p>
                     <legend>Login</legend>                     
                         <label for="username" path="username">Username</label>
                         <input type="text" path="username" name="j_username" />  
@@ -42,9 +44,9 @@
                         <label for="password" path="password">Password</label>
                         <input type="password" path="password" name="j_password" />
                             <span class="help-block">Specify your password</span>                        
-                        <input type="submit" value="login" class="btn" />                                       
+                        <input type="submit" value="login" class="btn btn-primary" />                                       
                 </fieldset>
-                
+                <br/>
                 <c:if test="${error}"> <!-- note c:if test="$exp" checks to see if $exp is true -->
                 <p class="text-error">                    
                     <c:out value="${errorMsg}"/>

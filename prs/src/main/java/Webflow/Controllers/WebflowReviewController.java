@@ -28,8 +28,10 @@ public class WebflowReviewController  implements Action {
         // Lest authenticate
         
         // Lets pull out the product Id of the prodeuct that this reviw will be based on
-        String productIdentifier = req.getRequestParameters().get("productId");        
-        req.getFlowScope().put("productId",productIdentifier);
+        String productIdentifier = req.getRequestParameters().get("productId");
+        BOLO.Product product = (BOLO.Product) req.getFlowScope().get("product",BOLO.Product.class);
+        product.setIdentifier(productIdentifier);
+        req.getFlowScope().put("product",product);        
                              
     }
     
@@ -41,13 +43,13 @@ public class WebflowReviewController  implements Action {
         req.getFlowScope().put("reviews", reviews);     
         
     }
-    
+       
     public Event isProductSelected(RequestContext req) throws Exception
     {
-        String productId = (String) req.getFlowScope().get("productId");
-        if( productId == null)
+        BOLO.Product product = (BOLO.Product) req.getFlowScope().get("product",BOLO.Product.class); 
+        if( product.getIdentifier() == null)
             return new Event(this,"no");
-        BOLO.Product result = productAdmin.getProductByID(Common.GetGenAdminAuthToken(), productId );
+        BOLO.Product result = productAdmin.getProductByID(Common.GetGenAdminAuthToken(), product.getIdentifier() );
         if( result != null)
         {
             req.getFlowScope().put("product", result);          

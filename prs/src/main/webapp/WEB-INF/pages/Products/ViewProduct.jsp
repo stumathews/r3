@@ -64,14 +64,15 @@
                         <c:set var="name" value="${currentCharacteristic.getName()}" />                                             
                         <!-- <div class="tab-pane active" id="{name}">...</div> -->
                         <div class="tab-pane" id="${fn:replace(name,' ','_')}">
-                            </p><strong>Description: </strong>${description}</p>
-                            <p>${currentCharacteristic.getReview()}<a href="#">change</a></p>
-                            <p></p>
+                            <p><strong>Description: </strong>${description}</p>
+                            <p>${currentCharacteristic.getReview()}</p>
+                            <a href="#">change</a>                            
                         </div>                                
                     </c:forEach>
                 </div> 
 
-                <c:url value="/Product/add/characteristic/${product.getIdentifier()}" var="AddProductCharacteristicURL"/>                   
+                <br/>
+                <c:url value="/Product/add/characteristic/${product.getIdentifier()}" var="AddProductCharacteristicURL"/>                                   
                 <a href="${AddProductCharacteristicURL}" class="btn btn-primary">Add new product aspect</a>
                 
                 <c:url value="/add-review?productId=${product.getIdentifier()}" var="AddReviewURL"/>                   

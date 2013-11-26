@@ -10,18 +10,17 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 
 /**
- * Command object for adding a product as a form
+ * A product
  * @author Stuart Mathews <stuart@stuartmathews.com>
  */
 public class Product implements Serializable
 {
-    @NotEmpty
+    @NotEmpty( message="Please roughly, specify what the product is? eg. Watch or matress etc.")
     private String whatIsIt;
-    @NotEmpty
+    @NotEmpty( message="Please specify who originally produced the product. Eg. Apple")
     private String whoMadeIt;
-    @NotEmpty( message="Product needs a title.")
+    @NotEmpty( message="Please specify common, usual way to identify the product. Eg. Sunuto Ambit 2003")
     private String title;
-    
     private String identifier;
 
     public String getIdentifier() {
@@ -38,8 +37,7 @@ public class Product implements Serializable
 
     public void setWhatIsIt(String whatIsIt) {
         this.whatIsIt = whatIsIt;
-    }
-    
+    }    
     
     public String getWhoMadeIt() {
         return whoMadeIt;
@@ -47,8 +45,7 @@ public class Product implements Serializable
 
     public void setWhoMadeIt(String whoMadeIt) {
         this.whoMadeIt = whoMadeIt;
-    }
-    
+    }    
     
     public String getTitle() {
         return title;
@@ -57,14 +54,4 @@ public class Product implements Serializable
     public void setTitle(String title) {
         this.title = title;
     }
-
-//    @XmlElement( name ="productPicture")
-//    public CommonsMultipartFile getPicture() {
-//        return picture;
-//    }
-//
-//    public void setPicture(CommonsMultipartFile picture) {
-//        this.picture = picture;
-//    }
-
 }

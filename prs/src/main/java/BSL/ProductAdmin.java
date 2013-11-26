@@ -75,10 +75,15 @@ public class ProductAdmin implements IProductAdmin
      * @throws Exception if unable to add product
      */
     @Transactional
-    public void addProduct(String token, Product prod) throws Exception
+    public void addProduct(String token, BOLO.Product prod) throws Exception
     {        
-        serviceAuthorisor.authorise(token);    
-        productDAO.addProduct(prod);        
+        serviceAuthorisor.authorise(token);  
+        DEL.Product del_prod = new DEL.Product();
+            del_prod.setTitle(prod.getTitle());
+            del_prod.setWhatIsIt(prod.getWhatIsIt());
+            del_prod.setWhoMadeIt(prod.getWhoMadeIt());
+            
+        productDAO.addProduct(del_prod);        
     }
 
     /**

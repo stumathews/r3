@@ -37,7 +37,7 @@
             <form:form modelAttribute="NewProduct" action="${AddProductURL}" method="post">
                 <fieldset>
                     <legend>Add product</legend>
-                    <div class="span5">
+                    <p>Please enter the details for your new product</p>
                         <form:label for="whoMadeIt" path="whoMadeIt">Who made it?</form:label>
                         <form:input type="text" path="whoMadeIt" />  <form:errors path="whoMadeIt" cssClass="text-error"></form:errors>  
                             <span class="help-block">Tell us who made or designed it. Maybe it belongs to someone?</span>
@@ -48,8 +48,8 @@
                         <form:label for="title" path="title">Title</form:label>
                         <form:input type="text" path="title"/> <form:errors path="title" cssClass="text-error"></form:errors>  
                             <span class="help-block">If you had to wrap it up in a title, what would you call it?</span>                            
-                        <input type="submit" value="add" class="btn" />
-                    </div>
+                        <input type="submit" value="add new product" class="btn btn-primary" />
+                    
                     
                 </fieldset> 
                 </form:form>            

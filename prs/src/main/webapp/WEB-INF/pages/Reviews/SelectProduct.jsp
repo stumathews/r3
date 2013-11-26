@@ -27,12 +27,8 @@
         <div class="span9">
           <!-- CONTENT GOES HERE -->
           
-          <h2>Please select a product to base your review on</h2>       
-        <form:form commandName="product">            
-             <input type="hidden" name="whoMadeIt" value="${prod.getWhoMadeIt()}" />
-             <input type="hidden" name="whatIsIt" value="${prod.getWhatIsIt()}" />
-             <input type="hidden" name="identifier" value="${prod.getIdentifier()}" />
-             
+        <h2>Please select a product to base your review on</h2>       
+        <form:form commandName="product"> 
             <table>
                 <th>Product Title</th>
                 <th>Product Who made it</th>
@@ -41,7 +37,7 @@
             <c:forEach items="${products}" var="prod" varStatus="counter">
                 <tr>
                     <td>
-                        <form:radiobutton path="title" value="${prod.getTitle()}"/>
+                        <form:radiobutton path="identifier" value="${prod.getIdentifier()}"/>
                     </td>                                          
                     <td>${prod.getWhoMadeIt()}<td>                         
                     <td>${prod.getWhatIsIt()}<td>                         
@@ -66,6 +62,8 @@
 
       <footer>
           ${flowRequestContext.flowScope}
+          <br/>
+          ${flowRequestContext.messageContext}
         <p>© R3 2013</p>
       </footer>
 

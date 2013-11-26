@@ -33,20 +33,23 @@
             <c:url value="/Product/add/characteristic/${productID}" var="AddProductCharacteristicURL"/>
             <form:form modelAttribute="FormProductCharacteristic" action="${AddProductCharacteristicURL}" method="post">
                 <fieldset>
-                    <legend>Add product characteristic</legend>    
+                    <legend>Add product characteristic</legend> 
+                    <p>Add an aspect of the product you wish to review. Eg. Colour, ease of use etc. </p>
                     <div class="span9">
                         <form:label for="title" path="title">Title</form:label>
                         <form:input id="char_title" type="text" path="title" /><form:errors path="title" cssClass="text-error"></form:errors>  
-                            <span class="help-block">Name or title for this characteristic</span>
+                            <span class="help-block">Name or title for this characteristic eg. Colour</span>
                         <form:label for="description" path="description">Description</form:label>
                         <form:input type="text" path="description" /><form:errors path="description" cssClass="text-error"></form:errors>
                             <span id="char_description" class="help-block"> What is specific aspect of the characteristic ? Give a description eg. Its affects the usability, style, robustness etc....</span> 
                         <form:label for="review" path="review">Review</form:label>
                         <form:textarea class="default boxsizingBorder" path="review"/> <form:errors path="review" cssClass="text-error"></form:errors>
-                            <span class="help-block">Go ahead, provide your take on this aspect of the ${product.getTitle()}. </span>                      
+                            <c:url value="/Product/Show/${productID}" var="ViewProductURL"/>
+                            <span class="help-block">Go ahead, provide your take on this specific aspect of the <a href="${ViewProductURL}">${product.getTitle()}</a>. </span>                      
                     </div>
                 </fieldset> 
-                <input type="submit" value="add" class="btn" />
+                    <br/>
+                <input type="submit" value="Add this aspect" class="btn btn-primary" />
                 </form:form>
         </div><!--/span-->
       </div><!--/row-->

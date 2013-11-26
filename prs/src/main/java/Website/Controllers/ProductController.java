@@ -188,16 +188,11 @@ public class ProductController
             //return addProductView(product, model);            
             return "Products/AddProduct";
         }                
-        
-        //FIXME: Should not be going directly to DEL from here. go via BSL
-        DEL.Product prod = new DEL.Product();
-        prod.setTitle(product.getTitle());
-        prod.setWhatIsIt(product.getWhatIsIt());
-        prod.setWhoMadeIt(product.getWhoMadeIt());
-        String url = CacheImageURL(product);
+               
+        String url = CacheImageURL(product);        
 
-        prod.setImageURL(url); 
-        productAdmin.addProduct( Common.GetGenAdminAuthToken() , prod);	
+        //prod.setImageURL(url); 
+        productAdmin.addProduct( Common.GetGenAdminAuthToken() , product);	
 
         return "redirect:/Product/ShowProductList";
 

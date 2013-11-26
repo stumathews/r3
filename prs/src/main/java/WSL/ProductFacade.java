@@ -35,7 +35,7 @@ public class ProductFacade
      */
     @WebMethod(operationName = "addProduct")
     public void CreateProduct(@WebParam(name = "token") String token,
-                           @WebParam(name = "product") DEL.Product product) throws Exception
+                           @WebParam(name = "product") BOLO.Product product) throws Exception
     {
        productAdmin.addProduct(token, product);        
     }

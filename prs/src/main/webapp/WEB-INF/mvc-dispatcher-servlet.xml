@@ -64,7 +64,7 @@
     </wss:binding>
     
     <!-- Scan for spring annotated components -->
-    <context:component-scan base-package="Website.Controllers, BOL, Webflow.Controllers, BOLO.Validators" />
+    <context:component-scan base-package="Website.Controllers, BOL, Webflow.Controllers, BOLO.Validators, Website.Initialisation" />
     <mvc:resources mapping="/themes/**" location="/themes/" />   
     <!-- Process annotations on registered beans like @Autowired... -->
     <context:annotation-config/> 
