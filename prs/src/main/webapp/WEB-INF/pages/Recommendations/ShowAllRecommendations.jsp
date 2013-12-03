@@ -27,18 +27,20 @@
           <!-- CONTENT GOES HERE -->
         <c:url var="CreateRecommendationURL" value="/Recommendation" />
         <table class="table table-hover">	
-                <th>Title</th>               
+                <th>Title</th>   
+                <th>Recommend</th>
                 
                 <!-- Populate the table with product details -->
 		<c:forEach items="${recommendations}" var="recommendation" varStatus="counter">
                     <tr>
                         <td>${recommendation.getTitle()}</td>
+                        <td>${recommendation.isRecommend()}</td>
                     </tr>
                 </c:forEach>
         </table>
             
         
-          <a class="btn btn-primary" href="${CreateRecommendationURL}">Create recommendation</a>          
+          
         </div><!--/span-->
       </div><!--/row-->
 

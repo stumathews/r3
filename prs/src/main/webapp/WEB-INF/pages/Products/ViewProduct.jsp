@@ -77,6 +77,9 @@
                 
                 <c:url value="/add-review?productId=${product.getIdentifier()}" var="AddReviewURL"/>                   
                 <a href="${AddReviewURL}" class="btn btn-primary">Review this product</a>
+                
+                <c:url value="/add-recommendation?productId=${product.getIdentifier()}" var="AddRecommendationURL"/>                   
+                <a href="${AddRecommendationURL}" class="btn btn-primary">Recommend this product</a>
             </div>                     
         </div>
     </div><!--/span-->

@@ -25,13 +25,21 @@
           <jsp:include page="/WEB-INF/pages/Common/NavMenu.jsp"/>
         </div><!--/span-->       
         <div class="span9">
-            
-        <c:url var="CreateRecommendationPostURL" value="/Recommendation" />
-        <form:form modelAttribute="NewRecommendation" action="${CreateRecommendationPostURL}" method="post">
+                
+        <form:form modelAttribute="recommendation">
             <form:label for="title" path="title">Title</form:label>
-            <form:input type="text" path="title" /> <form:errors path="title" cssClass="text-error"></form:errors>
+            <form:input type="text" path="title" />
             <span class="help-block">Please enter a title for this recommendation</span>  
-            <input type="submit" name="add" />
+            <form:label for="recommend" path="recommend">Yes/No?</form:label>
+            <form:checkbox path="recommend"/>
+            <span class="help-block">Would you recommend this product based on your review?</span>
+            
+             <input type="hidden" name="_flowExecutionKey" value="${flowExecutionKey}" />
+                        <input type="hidden" name="_eventId" value="submit" />
+                        <input type="submit" value="Next >" />
+             <c:forEach items="${flowRequestContext.messageContext.allMessages}" var="message">                       
+                  <p class="text-error">${message.text}</p>                      
+             </c:forEach>
         </form:form>
             
         </div><!--/span-->

@@ -1,9 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package BOLO;
 
+import java.io.Serializable;
 import java.util.List;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -11,7 +8,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  * A business recommendation
  * @author stuartm
  */
-public class Recommendation 
+public class Recommendation implements Serializable
 {
 
     
