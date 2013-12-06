@@ -33,13 +33,13 @@
         <div class="row">  
             <!-- Column for produt picture -->
             <div class="span2">
-                <img class="img-polaroid" src="http://img825.imageshack.us/img825/4719/filedm.jpg"/>                
+                <img class="img-polaroid" src="http://lorempixel.com/149/207"/>                
             </div>
             <!-- Column next to picture for basic product details -->
             <div class="span6">                    
                 <strong>Title: </strong>${product.getTitle()}<br/>
                 <strong>Who made it: </strong>${product.getWhoMadeIt()}<br/>
-                <strong>What it is: </strong>${product.getWhatIsIt()}<br/>                                       
+                <strong>What it is: </strong>${product.getWhatIsIt()}<br/>                
             </div>
         </div>
             
@@ -58,21 +58,35 @@
                     </c:forEach>
                 </ul>
                 <!-- We put the aspects' description here for users to see :-) -->
-                <div class="tab-content">
-                    <c:forEach items="${productCharacteristics}" var="currentCharacteristic">
-                        <c:set var="description" value="${currentCharacteristic.getDescription()}"/>
-                        <c:set var="name" value="${currentCharacteristic.getName()}" />                                             
-                        <!-- <div class="tab-pane active" id="{name}">...</div> -->
-                        <div class="tab-pane" id="${fn:replace(name,' ','_')}">
-                            <p><strong>Description: </strong>${description}</p>
-                            <p>${currentCharacteristic.getReview()}</p>
-                            <a href="#">change</a>                            
-                        </div>                                
-                    </c:forEach>
-                </div> 
+                <div class="span1"></div>
+                <div class="span7">
+                    <div class="tab-content">                                      
+                        <c:forEach items="${productCharacteristics}" var="currentCharacteristic">
+                                <c:set var="description" value="${currentCharacteristic.getDescription()}"/>
+                                <c:set var="name" value="${currentCharacteristic.getName()}" />                                             
+                                <!-- <div class="tab-pane active" id="{name}">...</div> -->
+                                <div class="tab-pane" id="${fn:replace(name,' ','_')}">
+                                    <p><strong>Description: </strong>${description}</p>
+                                    <p>${currentCharacteristic.getReview()}</p>
+                                    <a href="#">change</a>          
+                                    <!-- Show pictures detailing the characteristic of the product -->
+                                    <p><strong>Images:</strong> Images detailing this aspect</p>
 
+                                    <c:forEach begin="1" end="3">
+                                        <!--<img class="img-polaroid" src="http://img825.imageshack.us/img825/4719/filedm.jpg"/>-->
+                                        <img src="http://lorempixel.com/100/50/" alt="..." class="img-thumbnail">
+                                    </c:forEach>
+                                </div>                            
+                        </c:forEach>
+
+                    </div> 
+                </div>               
+            </div>                     
+        </div>
+        <div class="row"> 
+            <div class="span8">
                 <br/>
-                <c:url value="/Product/add/characteristic/${product.getIdentifier()}" var="AddProductCharacteristicURL"/>                                   
+                 <c:url value="/Product/add/characteristic/${product.getIdentifier()}" var="AddProductCharacteristicURL"/>                                   
                 <a href="${AddProductCharacteristicURL}" class="btn btn-primary">Add new product aspect</a>
                 
                 <c:url value="/add-review?productId=${product.getIdentifier()}" var="AddReviewURL"/>                   
@@ -80,7 +94,7 @@
                 
                 <c:url value="/add-recommendation?productId=${product.getIdentifier()}" var="AddRecommendationURL"/>                   
                 <a href="${AddRecommendationURL}" class="btn btn-primary">Recommend this product</a>
-            </div>                     
+            </div>
         </div>
     </div><!--/span-->
   </div><!--/row-->

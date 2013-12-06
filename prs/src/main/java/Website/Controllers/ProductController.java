@@ -92,7 +92,7 @@ public class ProductController
      */
     private String CacheImageURL(BOLO.Product product) 
     {        
-        String url = "http://img825.imageshack.us/img825/4719/filedm.jpg";
+        String url = "http://lorempixel.com/149/207";
         
 //        if (!DEBUG) 
 //        {

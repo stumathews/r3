@@ -28,7 +28,8 @@
         <c:url var="CreateReviewPostURL" value="/Review" />
         <form:form modelAttribute="review" >
                 <fieldset>
-                    <legend>Add a review for ${product.getTitle()}</legend>                    
+                    <legend>Add a review for ${product.getTitle()}</legend> 
+                    TODO: Specify the characteristics available for product. Select one to review.
                         <form:label for="text" path="text">Review</form:label>
                         <form:input type="text" path="text" />  
                         <span class="help-block">What is the summary of your review</span>      
