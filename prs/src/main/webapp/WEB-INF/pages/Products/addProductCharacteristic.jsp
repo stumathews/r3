@@ -20,7 +20,7 @@
     <jsp:include page="/WEB-INF/pages/Common/TopMenu.jsp" />
 
     <div class="container-fluid">
-      <div class="row-fluid">
+      <div class="row">
           
         <div class="span3">
           <jsp:include page="/WEB-INF/pages/Common/NavMenu.jsp"/>
@@ -31,22 +31,28 @@
             <!-- Title: What is the Characteristic? -->
             <!-- Description: Give a description of what this characteristic is all about -->
             <c:url value="/Product/add/characteristic/${productID}" var="AddProductCharacteristicURL"/>
-            <form:form modelAttribute="FormProductCharacteristic" action="${AddProductCharacteristicURL}" method="post">
+            <form:form modelAttribute="FormProductCharacteristic" cssClass="form-horizontal" action="${AddProductCharacteristicURL}" method="post">
                 <fieldset>
                     <legend>Add product characteristic</legend> 
                     <p>Add an aspect of the product you wish to review. Eg. Colour, ease of use etc. </p>
-                    <div class="span9">
+                    
+                        <div class="form-group">
                         <form:label for="title" path="title">Title</form:label>
-                        <form:input id="char_title" type="text" path="title" /><form:errors path="title" cssClass="text-error"></form:errors>  
+                        <form:input id="char_title" type="text" path="title" cssClass="input-large" /><form:errors path="title" cssClass="text-error"></form:errors>  
                             <span class="help-block">Name or title for this characteristic eg. Colour</span>
+                        </div>
+                        <div class="form-group">
                         <form:label for="description" path="description">Description</form:label>
                         <form:input type="text" path="description" /><form:errors path="description" cssClass="text-error"></form:errors>
                             <span id="char_description" class="help-block"> What is specific aspect of the characteristic ? Give a description eg. Its affects the usability, style, robustness etc....</span> 
+                        </div>
+                          
+                        <div class="form-group">
                         <form:label for="review" path="review">Review</form:label>
-                        <form:textarea class="default boxsizingBorder" path="review"/> <form:errors path="review" cssClass="text-error"></form:errors>
+                        <form:textarea class="default boxsizingBorder" path="review" rows="6"/> <form:errors path="review" cssClass="text-error"></form:errors>
                             <c:url value="/Product/Show/${productID}" var="ViewProductURL"/>
                             <span class="help-block">Go ahead, provide your take on this specific aspect of the <a href="${ViewProductURL}">${product.getTitle()}</a>. </span>                      
-                    </div>
+                        </div>                    
                 </fieldset> 
                     <br/>
                 <input type="submit" value="Add this aspect" class="btn btn-primary" />

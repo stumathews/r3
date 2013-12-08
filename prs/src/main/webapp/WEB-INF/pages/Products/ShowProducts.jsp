@@ -41,7 +41,11 @@
                     <c:url var="EditURL" value="/Product/ShowEdit/${product.getIdentifier()}"/>
                     <c:url var="ViewProductURL" value="/Product/Show/${product.getIdentifier()}"/>
                     <tr>
-                        <td class="span1"><img src="http://lorempixel.com/149/207" class="img-polaroid"/></td>
+                        <td class="span1">
+                            <a href="${ViewProductURL}"><img src="http://lorempixel.com/149/20${counter.index}" class="img-polaroid"/></a>
+                            <br/>
+                            characteristics: ${productCharacteristics.size()}
+                        </td>
                         <td>
                             <a href="${ViewProductURL}"><c:out value="${product.getTitle()}"></c:out></a>
                         </td>

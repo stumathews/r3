@@ -35,8 +35,8 @@ public class ProductInitialiser
                 product.setTitle("Product Title #" + i);
                 product.setWhatIsIt("What is it place holder #"+i);
                 product.setWhoMadeIt("Who made it place holder #"+i);                    
-            productAdmin.addProduct(token, product);            
-                        
+            productAdmin.addProduct(token, product);
+            
         }
     }
 }

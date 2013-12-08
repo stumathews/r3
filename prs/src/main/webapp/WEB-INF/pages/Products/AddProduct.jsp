@@ -47,8 +47,18 @@
                             <span class="help-block">What is it basically? A watch, pillow or service?</span>
                         <form:label for="title" path="title">Title</form:label>
                         <form:input type="text" path="title"/> <form:errors path="title" cssClass="text-error"></form:errors>  
-                            <span class="help-block">If you had to wrap it up in a title, what would you call it?</span>                            
-                        <input type="submit" value="add new product" class="btn btn-primary" />
+                            <span class="help-block">If you had to wrap it up in a title, what would you call it?</span>                                                    
+                        <form:hidden path="identifier"/>
+                        
+                        <c:choose>
+                            <c:when test="${empty NewProduct.getIdentifier()}">
+                                <c:set var="action" value="create" />
+                            </c:when>
+                            <c:otherwise>
+                                <c:set var="action" value="update" />
+                            </c:otherwise>
+                        </c:choose>
+                        <input type="submit" value="${action} new product" class="btn btn-primary" />
                     
                     
                 </fieldset> 

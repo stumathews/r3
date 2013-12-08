@@ -46,7 +46,9 @@ public class ProductDAO implements IProductDAO
     public void addProduct(DEL.Product product) throws Exception 
     {		
         Session session = sessionFactory.getCurrentSession();		
-        session.save(product);        
+        // is this an existing product or not?
+        
+        session.saveOrUpdate(product);               
     }
     
     /**

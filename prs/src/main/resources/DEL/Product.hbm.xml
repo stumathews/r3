@@ -18,7 +18,7 @@
       <property name="whatIsIt" column="what_is_it" type="string" />
       <property name="whoMadeIt" column="who_made_it" type="string" />  
       
-      <set name="characteristics" inverse="true" >
+      <set name="characteristics" inverse="true" cascade="all" > <!-- This will cascade delete when this product is deleted. -->
           <key column="product_id"/>
           <one-to-many class="Characteristic" />          
       </set>    

@@ -29,7 +29,8 @@
         <form:form modelAttribute="review" >
                 <fieldset>
                     <legend>Add a review for ${product.getTitle()}</legend> 
-                    TODO: Specify the characteristics available for product. Select one to review.
+                    <div class="alert alert-warning"><Strong>TODO</strong> Specify the characteristics available for product. Select one to review.</div>
+                    
                         <form:label for="text" path="text">Review</form:label>
                         <form:input type="text" path="text" />  
                         <span class="help-block">What is the summary of your review</span>      
@@ -46,9 +47,14 @@
                         <input type="hidden" name="_eventId" value="submit" />
                         <input type="submit" value="Next >" />                                     
                 </fieldset> 
-                <c:forEach items="${flowRequestContext.messageContext.allMessages}" var="message">                       
-                  <p class="text-error">${message.text}</p>                      
+                
+                <br/>
+                <c:forEach items="${flowRequestContext.messageContext.allMessages}" var="message">  
+                  <div class="alert alert-danger">
+                      <p class="text-error"><strong>Error: </strong>${message.text}</p>   
+                  </div>
                 </c:forEach>
+                
                 </form:form>          
           
         </div><!--/span-->

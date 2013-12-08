@@ -75,7 +75,7 @@ public class Product implements Serializable{
 
     }
 
-    private void setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

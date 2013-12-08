@@ -46,10 +46,12 @@ public class Bootstrap implements ApplicationListener<ContextRefreshedEvent>
     {
         try  
         { 
+
+           // This is being called twice for some reason...
             // do some boot straping like injecting sample products characteristics etc.
             String token = Common.GetGenAdminAuthToken(); 
             Website.Initialisation.ProductInitialiser prodiniter = new Website.Initialisation.ProductInitialiser(productAdmin);
-            prodiniter.CreateProducts(token, 20);
+            prodiniter.CreateProducts(token, 5);
         } 
         catch (Exception ex) 
         {

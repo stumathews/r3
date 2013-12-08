@@ -5,6 +5,7 @@ import BOL.com.dotcypress.ljbeetle.upload.ImageShackHosting;
 import BSL.Interfaces.ICharacteristicAdmin;
 import BSL.Interfaces.ILoginAdmin;
 import BSL.Interfaces.IProductAdmin;
+import DEL.Characteristic;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
@@ -61,10 +62,13 @@ public class ProductController
     @RequestMapping(value ="/ShowProductList",method = RequestMethod.GET)
     public String showProductsView(ModelMap model) throws Exception
     {            
+        String token = Common.GetGenAdminAuthToken();
         // Get all products in the database
-        ArrayList< BOLO.Product > products = productAdmin.getAllProducts( Common.GetGenAdminAuthToken() );
+        ArrayList< BOLO.Product > products = productAdmin.getAllProducts( token );
+        
         // add products to model view
         model.addAttribute("products", products);
+        
         return "Products/ShowProducts"; 
     }
     
@@ -165,7 +169,7 @@ public class ProductController
     {    
         //FIXME: We should remove reliance on the DEL here and replace it with BOLO objects
         BOLO.Product prod = productAdmin.getProductByID(Common.GetGenAdminAuthToken(), productID);        
-        List<DEL.Characteristic> productCharacteristics = characteristicAdmin.getProductCharacteristics(Common.GetGenAdminAuthToken(), productID);
+        List<BOLO.ProductCharacteristic> productCharacteristics = characteristicAdmin.getProductCharacteristics(Common.GetGenAdminAuthToken(), productID);
         model.addAttribute("productCharacteristics", productCharacteristics);
         model.addAttribute("product",prod);
         return "Products/ViewProduct";
@@ -191,6 +195,8 @@ public class ProductController
                
         String url = CacheImageURL(product);        
 
+        
+        
         //prod.setImageURL(url); 
         productAdmin.addProduct( Common.GetGenAdminAuthToken() , product);	
 

@@ -2,6 +2,7 @@
 package BSL;
 
 import BOL.Interfaces.ICharacteristic;
+import BOL.Interfaces.IProduct;
 import BOL.Interfaces.IServiceAuthoriser;
 import BSL.Interfaces.ICharacteristicAdmin;
 import DEL.Characteristic;
@@ -20,6 +21,12 @@ public class CharacteristicAdmin implements ICharacteristicAdmin
 {    
     private IServiceAuthoriser serviceAuthorisor;
     private ICharacteristic characteristicBOL;
+    private IProduct productLogic;
+
+    @Autowired
+    public void setProductLogic(IProduct productLogic) {
+        this.productLogic = productLogic;
+    }
 
     @Autowired
     public void setCharacteristicBOL(ICharacteristic characteristicBOL) 
@@ -55,12 +62,23 @@ public class CharacteristicAdmin implements ICharacteristicAdmin
      * @throws Exception 
      */
     @Transactional
-    public List<DEL.Characteristic> getProductCharacteristics(String token, String productID) throws Exception
+    public List<BOLO.ProductCharacteristic> getProductCharacteristics(String token, String productID) throws Exception
     {
-        List<Characteristic> results = new ArrayList<Characteristic>();
+        List<DEL.Characteristic> results = new ArrayList<DEL.Characteristic>();
         serviceAuthorisor.authorise(token);
-        results = characteristicBOL.getProductCharacteristics(productID);        
-        return results;
+        results = characteristicBOL.getProductCharacteristics(productID);
+        List<BOLO.ProductCharacteristic> bolo_chars = new ArrayList<BOLO.ProductCharacteristic>();
+        for( DEL.Characteristic ch : results)
+        {
+            BOLO.ProductCharacteristic bchar = new BOLO.ProductCharacteristic();
+            bchar.setDescription(ch.getDescription());
+            bchar.setProduct( productLogic.ConvertToBOLO(ch.getProduct()));
+            bchar.setReview(ch.getReview());
+            bchar.setTitle(ch.getName());
+            bolo_chars.add(bchar);
+        }
+                
+        return bolo_chars;
     }
     
     @Transactional
