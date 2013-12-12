@@ -2,6 +2,7 @@
 package DAL;
 
 
+import BOLO.ProductCharacteristic;
 import DAL.Interfaces.ICharacteristicsDAO;
 import DAL.Interfaces.IProductDAO;
 import DAL.Interfaces.IUserDAO;
@@ -106,7 +107,7 @@ public class CharacteristicDAO implements ICharacteristicsDAO
     }
     
     
-    public List<BOLO.ProductCharacteristic> getAllCharacteristics()
+    public List<BOLO.ProductCharacteristic> getAllCharacteristics() throws Exception
     {                 
         Session session = sessionFactory.getCurrentSession();
         ArrayList<DEL.Characteristic> chars = new  ArrayList<DEL.Characteristic>();
@@ -116,17 +117,29 @@ public class CharacteristicDAO implements ICharacteristicsDAO
         for( DEL.Characteristic ch : chars)
         {
             BOLO.ProductCharacteristic prodchar = new BOLO.ProductCharacteristic();
+            
             prodchar.setDescription(ch.getDescription());
             prodchar.setReview(ch.getReview());
             prodchar.setTitle(ch.getName());
             DEL.Product delprod = ch.getProduct();
-            BOLO.Product bolprod = productDAO.Convert(delprod);
-            
+            BOLO.Product bolprod = productDAO.Convert(delprod);            
             prodchar.setProduct(bolprod);          
             
             ret.add(prodchar);
         }
         return ret;
         
+    }
+
+    public BOLO.ProductCharacteristic Convert(DEL.Characteristic del_prodchar) throws Exception 
+    {
+        BOLO.ProductCharacteristic bolo_prodchar = new BOLO.ProductCharacteristic();
+        bolo_prodchar.setDescription(del_prodchar.getDescription());
+        bolo_prodchar.setProduct(productDAO.Convert(del_prodchar.getProduct()));
+        bolo_prodchar.setReview(del_prodchar.getReview());
+        bolo_prodchar.setTitle(del_prodchar.getName());
+        
+        
+        return bolo_prodchar;
     }
 }

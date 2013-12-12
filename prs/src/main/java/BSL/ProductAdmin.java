@@ -62,7 +62,7 @@ public class ProductAdmin implements IProductAdmin
         serviceAuthorisor.authorise(token);
         for( DEL.Product del : productDAO.getAllProducts() )
         {
-            return_result.add( productLogic.ConvertToBOLO( del ) );
+            return_result.add( productDAO.Convert(del ) );
             
         }
         return return_result;
@@ -102,7 +102,7 @@ public class ProductAdmin implements IProductAdmin
     public BOLO.Product getProductByID(String token, String productID) throws Exception 
     {
         serviceAuthorisor.authorise(token);
-        BOLO.Product product = productLogic.ConvertToBOLO(productDAO.getProductByID(productID)); 
+        BOLO.Product product = productDAO.Convert(productDAO.getProductByID(productID)); 
         return product;
     }
     

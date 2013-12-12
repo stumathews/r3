@@ -17,5 +17,5 @@ public interface IProductDAO
     public void addProduct(DEL.Product product) throws Exception;
     public void deleteProductByID(String productID) throws Exception;
     public Product getProductByID(String productID);
-    public BOLO.Product Convert(DEL.Product delprod);
+    public BOLO.Product Convert(DEL.Product delprod) throws Exception;
 }

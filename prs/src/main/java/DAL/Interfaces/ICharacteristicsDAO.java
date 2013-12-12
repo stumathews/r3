@@ -20,5 +20,6 @@ public interface ICharacteristicsDAO
     public void addProductCharacteristic(Product product, String title, String description, String review) throws Exception;
     public List<Characteristic> getProductCharacteristics(String productID) throws Exception;
     public List<ProductCharacteristic> getAllCharacteristics() throws Exception;
+    public BOLO.ProductCharacteristic Convert( DEL.Characteristic characteristic) throws Exception;
     
 }

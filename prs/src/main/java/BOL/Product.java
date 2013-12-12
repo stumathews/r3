@@ -7,6 +7,8 @@ package BOL;
 import DAL.Interfaces.IProductDAO;
 import BOL.Interfaces.IProduct;
 import Website.Controllers.Common;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,20 +32,12 @@ public class Product implements IProduct
         DEL.Product prod = productDAO.getProductByID( productID);
         /* Construct the form binding object aka command object: */
         BOLO.Product newProduct = new BOLO.Product();
-        newProduct = ConvertToBOLO(prod);
+        newProduct = productDAO.Convert(prod);
         return newProduct;
         
     }
+
     
-    public BOLO.Product ConvertToBOLO( DEL.Product del )
-    {
-        BOLO.Product product = new BOLO.Product();
-        product.setIdentifier(del.getId().toString());
-        product.setTitle(del.getTitle());
-        product.setWhatIsIt(del.getWhatIsIt());
-        product.setWhoMadeIt(del.getWhoMadeIt());        
-        return product;
-        
     
-    }
+    
 }

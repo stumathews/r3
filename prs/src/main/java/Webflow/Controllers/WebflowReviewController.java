@@ -1,6 +1,7 @@
 // This is a webflow controller.
 package Webflow.Controllers;
 
+import BSL.Interfaces.ICharacteristicAdmin;
 import BSL.Interfaces.IProductAdmin;
 import BSL.Interfaces.IReviewAdmin;
 import DEL.Product;
@@ -15,6 +16,7 @@ import org.springframework.webflow.execution.Event;
 import org.springframework.webflow.execution.RequestContext;
 
 
+
 @Service("webflowReviewController") 
 public class WebflowReviewController  implements Action {
     
@@ -22,15 +24,16 @@ public class WebflowReviewController  implements Action {
     private IProductAdmin productAdmin;
     @Autowired
     private IReviewAdmin reviewAdmin;
+    @Autowired 
+    private ICharacteristicAdmin characteristicAdmin;
         
     public void prepareReviewFlow(RequestContext req) throws Exception 
     {           
-        // Lest authenticate
-        
+                
         // Lets pull out the product Id of the prodeuct that this reviw will be based on
         String productIdentifier = req.getRequestParameters().get("productId");
         BOLO.Product product = (BOLO.Product) req.getFlowScope().get("product",BOLO.Product.class);
-        product.setIdentifier(productIdentifier);
+        product.setIdentifier(productIdentifier);        
         req.getFlowScope().put("product",product);        
                              
     }
@@ -43,7 +46,28 @@ public class WebflowReviewController  implements Action {
         req.getFlowScope().put("reviews", reviews);     
         
     }
-       
+    
+    /**
+     * Gets the list of characteristics for this product. It stores them in the flow scope variable, characteristics
+     * @param req
+     * @param theProduct 
+     */
+    public void getProductCharacteristics(RequestContext req,BOLO.Product theProduct) throws Exception
+    {
+        List<BOLO.ProductCharacteristic> db_prod_chars   = new ArrayList<BOLO.ProductCharacteristic>();        
+        BOLO.Wrappers.CharacteristicList characteristics =  (BOLO.Wrappers.CharacteristicList) req.getFlowScope().get("characteristics",BOLO.Wrappers.CharacteristicList.class);
+        ArrayList<BOLO.ProductCharacteristic> actual_chars = new ArrayList<BOLO.ProductCharacteristic>();
+        db_prod_chars = characteristicAdmin.getProductCharacteristics(Common.GetGenAdminAuthToken(), theProduct.getIdentifier());
+        
+        for( BOLO.ProductCharacteristic prod_char : db_prod_chars )
+        {
+            actual_chars.add(prod_char);
+        }
+        characteristics.setItems(actual_chars);
+        
+        req.getFlowScope().put("characteristics",characteristics);        
+    }
+            
     public Event isProductSelected(RequestContext req) throws Exception
     {
         BOLO.Product product = (BOLO.Product) req.getFlowScope().get("product",BOLO.Product.class); 
@@ -52,7 +76,7 @@ public class WebflowReviewController  implements Action {
         BOLO.Product result = productAdmin.getProductByID(Common.GetGenAdminAuthToken(), product.getIdentifier() );
         if( result != null)
         {
-            req.getFlowScope().put("product", result);          
+            req.getFlowScope().put("product", result);             
             return new Event(this, "yes");
         }else
         {

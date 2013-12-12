@@ -5,6 +5,7 @@
 package BOLO;
 
 import java.io.Serializable;
+import java.util.List;
 import org.hibernate.validator.constraints.NotEmpty;
 
 
@@ -21,8 +22,8 @@ public class Product implements Serializable
     private String whoMadeIt;
     @NotEmpty( message="Please specify common, usual way to identify the product. Eg. Sunuto Ambit 2003")
     private String title;
-    private String identifier;
-
+    private String identifier;    
+    
     public String getIdentifier() {
         return identifier;
     }

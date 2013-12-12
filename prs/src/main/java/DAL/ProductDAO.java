@@ -1,8 +1,10 @@
 package DAL;
 
 import BOLO.Product;
+import DAL.Interfaces.ICharacteristicsDAO;
 import DAL.Interfaces.IProductDAO;
 import java.util.ArrayList;
+import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProductDAO implements IProductDAO
 {    
     private SessionFactory sessionFactory;
+    private ICharacteristicsDAO characteristicDAO; 
+
+    @Autowired
+    public void setCharacteristicDAO(ICharacteristicsDAO characteristicDAO) {
+        this.characteristicDAO = characteristicDAO;
+    }
 
     @Autowired 
     public void setSessionFactory(SessionFactory sessionFactory) {
@@ -77,14 +85,14 @@ public class ProductDAO implements IProductDAO
     }
 
     
-    public BOLO.Product Convert(DEL.Product delprod)
+    public BOLO.Product Convert(DEL.Product delprod) throws Exception
     {
         BOLO.Product bolprod = new BOLO.Product();
         
         bolprod.setTitle(delprod.getTitle());
         bolprod.setWhatIsIt(delprod.getWhatIsIt());
         bolprod.setWhoMadeIt(delprod.getWhoMadeIt());
-        bolprod.setIdentifier(delprod.getId().toString());
+        bolprod.setIdentifier(delprod.getId().toString());        
         
         return bolprod;
     }

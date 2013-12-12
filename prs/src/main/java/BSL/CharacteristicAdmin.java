@@ -64,21 +64,10 @@ public class CharacteristicAdmin implements ICharacteristicAdmin
     @Transactional
     public List<BOLO.ProductCharacteristic> getProductCharacteristics(String token, String productID) throws Exception
     {
-        List<DEL.Characteristic> results = new ArrayList<DEL.Characteristic>();
+        List<BOLO.ProductCharacteristic> results = new ArrayList<BOLO.ProductCharacteristic>();
         serviceAuthorisor.authorise(token);
-        results = characteristicBOL.getProductCharacteristics(productID);
-        List<BOLO.ProductCharacteristic> bolo_chars = new ArrayList<BOLO.ProductCharacteristic>();
-        for( DEL.Characteristic ch : results)
-        {
-            BOLO.ProductCharacteristic bchar = new BOLO.ProductCharacteristic();
-            bchar.setDescription(ch.getDescription());
-            bchar.setProduct( productLogic.ConvertToBOLO(ch.getProduct()));
-            bchar.setReview(ch.getReview());
-            bchar.setTitle(ch.getName());
-            bolo_chars.add(bchar);
-        }
-                
-        return bolo_chars;
+        results = characteristicBOL.getProductCharacteristics(productID);       
+        return results;
     }
     
     @Transactional

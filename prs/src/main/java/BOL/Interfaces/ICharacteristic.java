@@ -17,6 +17,6 @@ public interface ICharacteristic
 
     public void addProductCharacteristic(String productID, String title, String description, String review) throws Exception;
 
-    public List<Characteristic> getProductCharacteristics(String productID) throws Exception;
+    public List<BOLO.ProductCharacteristic> getProductCharacteristics(String productID) throws Exception;
     public List<BOLO.ProductCharacteristic> getAllCharacteristics() throws Exception;
 }

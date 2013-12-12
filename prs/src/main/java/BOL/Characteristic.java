@@ -46,20 +46,29 @@ public class Characteristic implements ICharacteristic
         }
     }
 
-    public List<DEL.Characteristic> getProductCharacteristics(String productID) throws Exception 
+    public List<BOLO.ProductCharacteristic> getProductCharacteristics(String productID) throws Exception 
     {
         //TODO: This should be returning a BOLO object
         List<DEL.Characteristic> results = new ArrayList<DEL.Characteristic>();
-        
+        List<BOLO.ProductCharacteristic> ret = new ArrayList<BOLO.ProductCharacteristic>();
         try 
         {
             results = characteristicDAO.getProductCharacteristics(productID);
+            for( DEL.Characteristic ch : results )
+            {
+                BOLO.ProductCharacteristic productChar = new BOLO.ProductCharacteristic();
+                productChar.setDescription(ch.getDescription());
+                productChar.setProduct( productDAO.Convert(ch.getProduct()) );
+                productChar.setReview(ch.getReview());
+                productChar.setTitle(ch.getName());
+                ret.add(productChar);
+            }
         } 
         catch (Exception e) 
         {
             throw new Exception("Unable to get product characteristics.",e);
         }
-        return results;
+        return ret;
     }
 
     public List<BOLO.ProductCharacteristic> getAllCharacteristics() throws Exception {

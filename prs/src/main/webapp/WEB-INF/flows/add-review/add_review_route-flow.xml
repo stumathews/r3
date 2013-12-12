@@ -4,10 +4,12 @@
       xsi:schemaLocation="http://www.springframework.org/schema/webflow 
       http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
     
+    <!-- TODO: We might as well save the token into the session, saves us from calling GetAuthToken() each time!! -->
     <secured attributes="ROLE_USER" />
     
     <var name="review" class="BOLO.Review"/>
-    <var name="product" class="BOLO.Product" />
+    <var name="product" class="BOLO.Product" /> 
+    <var name="characteristics" class="BOLO.Wrappers.CharacteristicList" />  
     
     <!-- First thing we do is prepare the review flow. 
     We get the requetsed productID from the request here too and put it into flowScope.
@@ -24,8 +26,15 @@
     <action-state id="determineProductSelected">        
         <evaluate expression="webflowReviewController.isProductSelected(flowRequestContext)"/>
         <transition on="no"  to="selectProduct" />
-        <transition on="yes" to="createReview"  />
+        <transition on="yes" to="SelectCharacteristics"  />
     </action-state>  
+     
+    <view-state id="SelectCharacteristics" view="Reviews/SelectCharacteristics" model="characteristics">
+        <on-render>
+        <evaluate expression="webflowReviewController.getProductCharacteristics(flowRequestContext,product)" />
+        </on-render>
+        <transition on="ok" to="createReview" />
+    </view-state>
      
     <!-- Show the create review form and on submission, save it. Also note that there
         is automatic validation for this step provied by Webflow via the BOLO.ReviewValidators.ReviewValidator        
