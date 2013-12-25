@@ -5,6 +5,7 @@
 package BOLO;
 
 import DEL.Product;
+import java.io.Serializable;
 import javax.xml.bind.annotation.XmlElement;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -12,34 +13,23 @@ import org.hibernate.validator.constraints.NotEmpty;
  * A Product characteristic
  * @author Stuart Mathews <stuart@stuartmathews.com>
  */
-public class ProductCharacteristic 
+public class ProductCharacteristic implements Serializable
 {
     @NotEmpty
     private String title;
     @NotEmpty
-    private String description;
-    @NotEmpty
-    private String review;
-    private BOLO.Product product;
-
+    private String description;        
+    private Long Id;
     
-    public BOLO.Product getProduct() {
-        return product;
+
+    public Long getId() {
+        return Id;
     }
 
-    public void setProduct(BOLO.Product product) {
-        this.product = product;
-    }
-    
-    
-    public String getReview() {
-        return review;
+    public void setId(Long Id) {
+        this.Id = Id;
     }
 
-    public void setReview(String review) {
-        this.review = review;
-    }
-    
     public String getDescription() {
         return description;
     }

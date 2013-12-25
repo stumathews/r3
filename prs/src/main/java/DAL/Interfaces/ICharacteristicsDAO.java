@@ -17,9 +17,11 @@ public interface ICharacteristicsDAO
 {
     
     public void addCharacteristic( String name, String description);
-    public void addProductCharacteristic(Product product, String title, String description, String review) throws Exception;
-    public List<Characteristic> getProductCharacteristics(String productID) throws Exception;
-    public List<ProductCharacteristic> getAllCharacteristics() throws Exception;
-    public BOLO.ProductCharacteristic Convert( DEL.Characteristic characteristic) throws Exception;
+    public void addProductCharacteristic(Product product, String title, String description) throws Exception;
+    public List<DEL.Characteristic> getProductCharacteristics(String productID) throws Exception;
+    public List<BOLO.ProductCharacteristic> getAllCharacteristics() throws Exception;
+    public BOLO.ProductCharacteristic Convert( DEL.Characteristic characteristic, DEL.Product product) throws Exception;
+
+    public Characteristic getCharacteristic(Long characteristic_id) throws Exception;
     
 }

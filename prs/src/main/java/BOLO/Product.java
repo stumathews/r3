@@ -22,7 +22,18 @@ public class Product implements Serializable
     private String whoMadeIt;
     @NotEmpty( message="Please specify common, usual way to identify the product. Eg. Sunuto Ambit 2003")
     private String title;
-    private String identifier;    
+    private String identifier;  
+    
+    
+    private List<BOLO.ProductCharacteristic> characteristics;
+
+    public List<ProductCharacteristic> getCharacteristics() {
+        return characteristics;
+    }
+
+    public void setCharacteristics(List<ProductCharacteristic> characteristics) {
+        this.characteristics = characteristics;
+    }
     
     public String getIdentifier() {
         return identifier;

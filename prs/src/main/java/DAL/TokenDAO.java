@@ -45,7 +45,7 @@ public class TokenDAO implements ITokenDAO
 
             Session session = sessionFactory.getCurrentSession();		
 
-            DEL.Token del_token = new DEL.Token(del_user);
+            DEL.Token del_token = new DEL.Token();
             del_token.setIssued_time(token.getIssued_time());
             del_token.setMins_valid(token.getMins_valid());
             del_token.setToken(token.getToken());
@@ -89,20 +89,7 @@ public class TokenDAO implements ITokenDAO
 	 */        
 	public void cleanOldUserTokens(String token) throws Exception
 	{					
-            Session session = sessionFactory.getCurrentSession();
-
-            // Get user associated with this token
-            DEL.Token mgt_tokn = (DEL.Token) session.createQuery("from DAL.DEL.Token t where t.token = :token ").setString("token", token).uniqueResult();
-            DEL.User user = mgt_tokn.getUser();
-
-            // get all tokens issued to this user
-            List<DEL.Token> user_tokens = session.createQuery("from DAL.DEL.Token t where t.user = :user_id ").setString("user_id", user.getId().toString()).list();
-            // for each invalid token, remove it
-            int count = 0;
-            for( DEL.Token t : user_tokens )
-            {				
-                    session.delete(t);				
-            }			
+           			
 	}
         
         /***

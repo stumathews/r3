@@ -5,6 +5,7 @@
 package BOLO;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
@@ -20,6 +21,20 @@ public class Review implements Serializable {
     private String highlights;
     private List<BOLO.ProductCharacteristic> characteristics;
     private BOLO.User reviewer;
+    private BOLO.Product product;
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+    
+    public Review()
+    {
+        characteristics = new ArrayList<BOLO.ProductCharacteristic>();
+    }
     
     public String getText() {
         return text;

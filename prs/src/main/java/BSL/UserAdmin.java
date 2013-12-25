@@ -70,4 +70,12 @@ public class UserAdmin implements IUserAdmin
         serviceAuthorisor.authorise(token);
         return userBOL.cleanOldUserTokens(token);         
     }	
+    
+    @Transactional
+    public BOLO.User getUser(String token, String username) throws Exception 
+    {
+        serviceAuthorisor.authorise(token);
+        DEL.User user = userDAO.getUser(username);
+        return userDAO.toBOLO(user);
+    }
 }

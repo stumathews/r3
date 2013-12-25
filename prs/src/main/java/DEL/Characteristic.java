@@ -12,21 +12,10 @@ public class Characteristic
     private Long id;
     private String name;
     private String description;
-    private int useful_value;
-    private String review;
+    private int useful_value;    
     private User creator;
-    private Product product;
+    private Product product;   
     
-    public String getReview() {
-        return review;
-    }
-
-    public void setReview(String review) {
-        this.review = review;
-    }
-    
-    
-
     public User getCreator() {
         return creator;
     }

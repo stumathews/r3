@@ -1,6 +1,7 @@
 
 package DEL;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -20,12 +21,20 @@ public class Review  {
     private String lowlights;
     private Recommendation recommendation;
     private Set<Characteristic> characteristics;
+    private Product product;
     private DEL.User reviewer;
-    private int reuse_rate;
-    /** 
-     * Rating depending on something - system value
-     */
-    private int credibility_rating;
+    private int reuse_rate;   
+    private int credibility_rating; //Rating depending on something - system value
+
+        
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+   
     
 
     public Set<Characteristic> getCharacteristics() {

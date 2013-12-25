@@ -19,6 +19,15 @@ public class Product implements Serializable{
     private String whoMadeIt;
     private String imageURL;
     private Set<Characteristic> characteristics;
+    private Set<Review> reviews;
+
+    public Set<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Set<Review> reviews) {
+        this.reviews = reviews;
+    }
 
     public Set<Characteristic> getCharacteristics() {
         return characteristics;

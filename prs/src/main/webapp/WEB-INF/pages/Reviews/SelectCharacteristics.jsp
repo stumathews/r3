@@ -1,6 +1,6 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,22 +30,43 @@
           Select characterteristics that you'd like to review.
           Show all the product's characteristics.
           -->
-          
+          <h1>Select the characteristic of ${product.getTitle()}</h1>
           <!-- Get the products characteristics -->
           
           <!-- Ask user to select the characteristics to base review on -->
-          <table class="table table-hover">
-              <th>Title</th>
-              <th>description</th>
-              <th>review</th>
-            <c:forEach items="${characteristics.getItems()}" var="characteristic" >
-                <tr>
-                    <td>${characteristic.getTitle()}</td>
-                    <td>${characteristic.getDescription()}</td>
-                    <td>${characteristic.getReview()}</td>                
-                </tr>
-            </c:forEach>
-            </table>
+          
+                <form:form modelAttribute="selectedCharacteristic">
+                    <table class="table table-hover">
+                    <th></th>
+                    <th>Title</th>
+                    <th>description</th>
+
+                    <c:forEach items="${characteristics.getItems()}" var="characteristic" >
+                      <tr>                
+                          <td> 
+                              <form:radiobutton path="title" 
+                                     name="characteristic" 
+                                     value="${characteristic.getTitle()}" 
+                                     id="characteristic"/>
+                          </td>
+                          <td> ${characteristic.getTitle()} </td>
+                          <td>  ${characteristic.getDescription()}</td>
+
+                      </tr>
+
+                    </c:forEach>
+                    </table>                   
+                    <input type="hidden" name="_flowExecutionKey" value="${flowExecutionKey}" />
+                    <input type="hidden" name="_eventId" value="submit" />
+                    <input type="submit" value="Next >" />
+
+                    <c:forEach items="${flowRequestContext.messageContext.allMessages}" var="message">                       
+                        <p class="text-error">${message.text}</p>                      
+                    </c:forEach>
+                </form:form>
+                  
+              
+            
           
           
         </div><!--/span-->

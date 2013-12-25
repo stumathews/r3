@@ -15,4 +15,5 @@ public interface IReviewAdmin
 {    
     public List<BOLO.Review> getAllReviews(String token) throws Exception;    
     public void SaveReview(String token, Review theReview) throws Exception;
+    public List<BOLO.Review> getProductReviews(String token, String productID) throws Exception;
 }

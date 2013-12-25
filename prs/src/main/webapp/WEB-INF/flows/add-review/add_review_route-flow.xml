@@ -8,8 +8,10 @@
     <secured attributes="ROLE_USER" />
     
     <var name="review" class="BOLO.Review"/>
+    <var name="reviewer" class="BOLO.User"/>
     <var name="product" class="BOLO.Product" /> 
     <var name="characteristics" class="BOLO.Wrappers.CharacteristicList" />  
+    <var name="selectedCharacteristic" class="BOLO.ProductCharacteristic" />
     
     <!-- First thing we do is prepare the review flow. 
     We get the requetsed productID from the request here too and put it into flowScope.
@@ -20,7 +22,7 @@
     </on-start>
     
     <!-- Determine if we had a productID or not based on the flowScope existance or not.
-        If it exists - we fast forward to the createReview state, otherwise we go to the
+        If it exists - we fast forward to the createCharacteristicReview state, otherwise we go to the
         product selection state. Fair enough.
     -->
     <action-state id="determineProductSelected">        
@@ -29,20 +31,30 @@
         <transition on="yes" to="SelectCharacteristics"  />
     </action-state>  
      
-    <view-state id="SelectCharacteristics" view="Reviews/SelectCharacteristics" model="characteristics">
-        <on-render>
-        <evaluate expression="webflowReviewController.getProductCharacteristics(flowRequestContext,product)" />
-        </on-render>
-        <transition on="ok" to="createReview" />
+    <view-state id="SelectCharacteristics" view="Reviews/SelectCharacteristics" model="selectedCharacteristic">        
+        <transition on="submit" to="createCharacteristicReview"/>
+        <on-exit>
+            <evaluate expression="webflowReviewController.validateCharactersticSelection(flowRequestContext, selectedCharacteristic)"/>
+        </on-exit>        
     </view-state>
      
     <!-- Show the create review form and on submission, save it. Also note that there
         is automatic validation for this step provied by Webflow via the BOLO.ReviewValidators.ReviewValidator        
     -->
-    <view-state id="createReview" view="Reviews/CreateReview" model="review">                
-        <transition on="submit" to="show-all-reviews">
-           <evaluate expression="webflowReviewController.saveReview(flowRequestContext, review, product)"/>
-        </transition>                
+    <view-state id="createCharacteristicReview" view="Reviews/CreateCharacteristicReview" model="review">                
+        <transition on="finish" to="save-review">                        
+            <evaluate expression="webflowReviewController.saveCharacteristicReview(flowRequestContext, review, product, selectedCharacteristic)"/>                        
+        </transition>
+        
+    </view-state>
+    
+    <action-state id="save-review">
+        <evaluate expression="webflowReviewController.saveReview(flowRequestContext, review, product, reviewer)"/>            
+        <transition on="ok" to="show-review"/>
+    </action-state>
+    
+    <view-state id="show-review" view="Reviews/ShowReview" model="review">
+        
     </view-state>
     
     <!--  This view lets the user select a product to review. 

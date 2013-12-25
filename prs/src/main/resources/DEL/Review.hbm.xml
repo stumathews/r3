@@ -20,6 +20,7 @@
       <property name="reuse_rate" column="reuse_rate" type="integer" />
       <property name="credibility_rating" column="cred_rating" type="integer" />
       
+      
       <many-to-one class="Recommendation" name="recommendation" unique="true" column="recommendation_id" />
       
       <set name="characteristics" inverse="true" >
@@ -28,6 +29,7 @@
       </set>
       
       <many-to-one name="reviewer" class="User" column="user_id"/>
+      <many-to-one name="product" class="Product" column="product_id"/>
      
       
       

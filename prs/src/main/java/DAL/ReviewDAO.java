@@ -4,23 +4,61 @@
  */
 package DAL;
 
+import BOL.Characteristic;
+import BOL.Interfaces.ICharacteristic;
+import BOL.Interfaces.IProduct;
+import BOL.Product;
+import DAL.Interfaces.ICharacteristicsDAO;
+import DAL.Interfaces.IProductDAO;
 import DAL.Interfaces.IReviewDAO;
 import DAL.Interfaces.IUserDAO;
 import DEL.Review;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import Utility.SwapableCollection;
 
 
 public class ReviewDAO implements IReviewDAO {
 
     private SessionFactory sessionFactory;
     private IUserDAO userDAO;
+    private IProductDAO productDAO;
+    private DAL.Interfaces.ICharacteristicsDAO characteristicDAO;
+    private ICharacteristic characteristicBOL;
+    private IProduct productLogic;
 
+    @Autowired
+    public void setCharacteristicDAO(ICharacteristicsDAO characteristicDAO) {
+        this.characteristicDAO = characteristicDAO;
+    }
+    @Autowired
+    public void setCharacteristicBOL(ICharacteristic characteristicBOL) {
+        this.characteristicBOL = characteristicBOL;
+    }
+    @Autowired
+    public void setProductLogic(IProduct productLogic) {
+        this.productLogic = productLogic;
+    }
+
+    @Autowired
+    public void setCharacteristicBOL(Characteristic characteristicBOL) {
+        this.characteristicBOL = characteristicBOL;
+    }
+    
+    @Autowired
+    public void setProductDAO(IProductDAO productDAO) {
+        this.productDAO = productDAO;
+    }
+    
+
+    
     @Autowired
     public void setUserDAO(IUserDAO userDAO) {
         this.userDAO = userDAO;
@@ -52,18 +90,29 @@ public class ReviewDAO implements IReviewDAO {
      * Saves a BOLO.Review as best it can( converts to DEL.Review)
      * @param theReview
      */
-    public void SaveReview(BOLO.Review theReview)
+    public void SaveReview(BOLO.Review theReview) throws Exception
     {
+
+        DEL.Review del_review = new DEL.Review();
+        del_review.setText(theReview.getText());
+        del_review.setLowlights(theReview.getLowlights());
+        del_review.setHighlights(theReview.getHighlights());        
+        BOLO.Product product = theReview.getProduct();
+        del_review.setProduct( productDAO.getProductByID(product.getIdentifier()) );
+
+        // This review consists on one of more characteristics that are saved in the database.
+        del_review.setCharacteristics(new HashSet<DEL.Characteristic>());
+        for( BOLO.ProductCharacteristic bch : theReview.getCharacteristics())
+        {
+            // Get the details of the characteristics of this potential review...
+            DEL.Characteristic dch = characteristicDAO.getCharacteristic(bch.getId());
+            del_review.getCharacteristics().add(dch);
+        }        
         
-        DEL.Review review = new DEL.Review();
-        review.setText(theReview.getText());
-        review.setLowlights(theReview.getLowlights());
-        review.setHighlights(theReview.getHighlights());
-           
        Session session = sessionFactory.getCurrentSession();
        
        
-       session.save(review);
+       session.save(del_review);
     }
 
     /***
@@ -83,6 +132,15 @@ public class ReviewDAO implements IReviewDAO {
             reviews.add(newReview);
         }
         return reviews;
+    }
+
+    public List<DEL.Review> getProductReviews(String productID) throws Exception 
+    {        
+        Session session = sessionFactory.getCurrentSession();	        
+        List<DEL.Review> del_reviews = new ArrayList<DEL.Review>();     
+        
+        del_reviews = (ArrayList<DEL.Review>) session.createQuery(String.format("from Review where product_id = %s", productID)).list();
+        return del_reviews;
     }
     
 

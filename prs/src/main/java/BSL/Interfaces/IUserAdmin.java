@@ -14,4 +14,5 @@ public interface IUserAdmin
     public ArrayList<User> getAllUsers(String string) throws Exception;
     public void deleteUser(String token, String username) throws Exception;
     public boolean cleanOldUserTokens(String token) throws Exception;
+    public BOLO.User getUser(String token, String username) throws Exception;
 }

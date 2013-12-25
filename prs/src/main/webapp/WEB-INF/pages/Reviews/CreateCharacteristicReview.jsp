@@ -25,27 +25,28 @@
         </div><!--/span-->       
         <div class="span9">
           <!-- Create a review -->
-        <c:url var="CreateReviewPostURL" value="/Review" />
+          <c:url var="CreateReviewPostURL" value="/Review" />    
+          <div class="pull-right">
+              ${product.getTitle()}><br/>
+              Review count: ${review.getCharacteristics().size()}
+          </div>
         <form:form modelAttribute="review" >
                 <fieldset>
-                    <legend>Add a review for ${product.getTitle()}</legend> 
-                    <div class="alert alert-warning"><Strong>TODO</strong> Specify the characteristics available for product. Select one to review.</div>
+                    <legend>Add a review of ${selectedCharacteristic.getTitle()}</legend> 
+                    <div class="alert alert-info">
+                        <Strong>Info</strong> Please add your review of ${product.getTitle()}'s ${selectedCharacteristic.getTitle()}
+                    </div>
+                    <strong>Characteristic: </strong>${selectedCharacteristic.getTitle()}
+                    <br/>
+                    <strong>Characteristic Description: </strong>${selectedCharacteristic.getDescription()}   
+                    <br/><br/>
                     
-                        <form:label for="text" path="text">Review</form:label>
-                        <form:input type="text" path="text" />  
-                        <span class="help-block">What is the summary of your review</span>      
-                        
-                        <form:label type="text" path="highlights">Highlights</form:label>
-                        <form:input type="text" path="highlights" />
-                        <span class="help-block">What were the highlights?</span>
-                        
-                        <form:label type="text" path="lowlights">Lowlights</form:label>
-                        <form:input type="text" path="lowlights" />
-                        <span class="help-block">What were the lowlights?</span>
-                            
-                        <input type="hidden" name="_flowExecutionKey" value="${flowExecutionKey}" />
-                        <input type="hidden" name="_eventId" value="submit" />
-                        <input type="submit" value="Next >" />                                     
+                       <form:label for="text" path="text">Review</form:label>                        
+                        <form:textarea path="text" rows="6"/>
+                                                
+                        <br/>
+                         <input type="submit" name="_eventId_finish"  class=Button value="Finish"/> 
+                         <!--<input type="submit" name="_eventId_more" class=Button value="Add review on another characteristic"/>-->
                 </fieldset> 
                 
                 <br/>

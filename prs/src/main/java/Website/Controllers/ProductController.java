@@ -1,11 +1,10 @@
 package Website.Controllers;
  
 import BOL.Interfaces.IProduct;
-import BOL.com.dotcypress.ljbeetle.upload.ImageShackHosting;
 import BSL.Interfaces.ICharacteristicAdmin;
 import BSL.Interfaces.ILoginAdmin;
 import BSL.Interfaces.IProductAdmin;
-import DEL.Characteristic;
+import BSL.Interfaces.IReviewAdmin;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +31,12 @@ public class ProductController
     private BSL.Interfaces.IProductAdmin productAdmin;    
     private BSL.Interfaces.ILoginAdmin loginAdmin;
     private BSL.Interfaces.ICharacteristicAdmin characteristicAdmin;
+    private BSL.Interfaces.IReviewAdmin reviewAdmin;
+
+    @Autowired
+    public void setReviewAdmin(IReviewAdmin reviewAdmin) {
+        this.reviewAdmin = reviewAdmin;
+    }
     private BOL.Interfaces.IProduct productLogic;
 
     @Autowired
@@ -168,10 +172,13 @@ public class ProductController
                                ModelMap model) throws Exception
     {    
         //FIXME: We should remove reliance on the DEL here and replace it with BOLO objects
-        BOLO.Product prod = productAdmin.getProductByID(Common.GetGenAdminAuthToken(), productID);        
+        String token = Common.GetGenAdminAuthToken();
+        BOLO.Product prod = productAdmin.getProductByID(token, productID);        
         List<BOLO.ProductCharacteristic> productCharacteristics = characteristicAdmin.getProductCharacteristics(Common.GetGenAdminAuthToken(), productID);
+        List<BOLO.Review> reviews = reviewAdmin.getProductReviews( token, productID );
         model.addAttribute("productCharacteristics", productCharacteristics);
         model.addAttribute("product",prod);
+        model.addAttribute("reviews", reviews);
         return "Products/ViewProduct";
     }
     
@@ -244,8 +251,7 @@ public class ProductController
             characteristicAdmin.addProductCharacteristic(Common.GetGenAdminAuthToken(),
                                                         productID, 
                                                         newChar.getTitle(),
-                                                        newChar.getDescription(),
-                                                        newChar.getReview());
+                                                        newChar.getDescription());
         
         return String.format("redirect:/Product/Show/%s", productID);
     }

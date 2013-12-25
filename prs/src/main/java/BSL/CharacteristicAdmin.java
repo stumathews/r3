@@ -2,10 +2,8 @@
 package BSL;
 
 import BOL.Interfaces.ICharacteristic;
-import BOL.Interfaces.IProduct;
 import BOL.Interfaces.IServiceAuthoriser;
 import BSL.Interfaces.ICharacteristicAdmin;
-import DEL.Characteristic;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CharacteristicAdmin implements ICharacteristicAdmin 
 {    
     private IServiceAuthoriser serviceAuthorisor;
-    private ICharacteristic characteristicBOL;
-    private IProduct productLogic;
-
-    @Autowired
-    public void setProductLogic(IProduct productLogic) {
-        this.productLogic = productLogic;
-    }
+    private ICharacteristic characteristicBOL;    
 
     @Autowired
     public void setCharacteristicBOL(ICharacteristic characteristicBOL) 
@@ -47,10 +39,10 @@ public class CharacteristicAdmin implements ICharacteristicAdmin
     }
 
     @Transactional
-    public void addProductCharacteristic(String token, String productID, String title, String description, String review) throws Exception
+    public void addProductCharacteristic(String token, String productID, String title, String description) throws Exception
     {       
         serviceAuthorisor.authorise(token);            
-        characteristicBOL.addProductCharacteristic(productID, title, description, review);               
+        characteristicBOL.addProductCharacteristic(productID, title, description);               
     }
     
     

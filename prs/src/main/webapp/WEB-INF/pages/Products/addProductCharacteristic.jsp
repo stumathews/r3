@@ -46,13 +46,7 @@
                         <form:input type="text" path="description" /><form:errors path="description" cssClass="text-error"></form:errors>
                             <span id="char_description" class="help-block"> What is specific aspect of the characteristic ? Give a description eg. Its affects the usability, style, robustness etc....</span> 
                         </div>
-                          
-                        <div class="form-group">
-                        <form:label for="review" path="review">Review</form:label>
-                        <form:textarea class="default boxsizingBorder" path="review" rows="6"/> <form:errors path="review" cssClass="text-error"></form:errors>
-                            <c:url value="/Product/Show/${productID}" var="ViewProductURL"/>
-                            <span class="help-block">Go ahead, provide your take on this specific aspect of the <a href="${ViewProductURL}">${product.getTitle()}</a>. </span>                      
-                        </div>                    
+                                           
                 </fieldset> 
                     <br/>
                 <input type="submit" value="Add this aspect" class="btn btn-primary" />

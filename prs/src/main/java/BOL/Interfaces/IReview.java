@@ -16,4 +16,8 @@ public interface IReview {
     public void SaveReview(Review theReview) throws Exception;
 
     public List<BOLO.Review> getAllReviews() throws Exception;
+
+    public List<BOLO.Review> getProductReviews(String productID) throws Exception;
+
+    public DEL.Review ConvertToDel(BOLO.Review review) throws Exception;
 }

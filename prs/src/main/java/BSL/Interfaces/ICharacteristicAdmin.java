@@ -15,8 +15,7 @@ public interface ICharacteristicAdmin
     public void addProductCharacteristic(String GetGenAuthToken,
                                          String productID,
                                          String title,
-                                         String description,
-                                         String review) throws Exception;
+                                         String description) throws Exception;
 
     public List<BOLO.ProductCharacteristic> getProductCharacteristics(String GetGenAuthToken,
                                                           String productID) throws Exception;

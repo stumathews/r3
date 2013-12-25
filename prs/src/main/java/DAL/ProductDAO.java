@@ -1,18 +1,16 @@
 package DAL;
 
-import BOLO.Product;
 import DAL.Interfaces.ICharacteristicsDAO;
 import DAL.Interfaces.IProductDAO;
 import java.util.ArrayList;
-import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This is a object which manages the interaction with the db adn the product
- * This is capable of being injected as a dependency as it interfaces with IProduct
+ * This is capable of being injected as a dependency as it interfaces with IProduct.
+ * This should be mananged by a @Transaction
  * @author Stuart
  */
 public class ProductDAO implements IProductDAO
@@ -77,7 +75,8 @@ public class ProductDAO implements IProductDAO
      * @return 
      */
     
-    public DEL.Product getProductByID(String productID) {
+    public DEL.Product getProductByID(String productID) throws Exception
+    {
         Session session = sessionFactory.getCurrentSession();
         DEL.Product prod = new DEL.Product();
         prod =  (DEL.Product) session.get(DEL.Product.class, Long.parseLong(productID));

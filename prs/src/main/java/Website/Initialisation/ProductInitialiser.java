@@ -9,6 +9,8 @@ package Website.Initialisation;
 import BSL.Interfaces.ICharacteristicAdmin;
 import BSL.Interfaces.IProductAdmin;
 import BSL.Interfaces.IUserAdmin;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +36,8 @@ public class ProductInitialiser
             BOLO.Product product = new BOLO.Product();
                 product.setTitle("Product Title #" + i);
                 product.setWhatIsIt("What is it place holder #"+i);
-                product.setWhoMadeIt("Who made it place holder #"+i);                    
+                product.setWhoMadeIt("Who made it place holder #"+i);     
+            
             productAdmin.addProduct(token, product);
             
         }

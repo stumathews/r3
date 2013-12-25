@@ -31,6 +31,7 @@
    <c:url value="/add-review?productId=${product.getIdentifier()}" var="AddReviewURL"/>        
    <c:url value="/add-recommendation?productId=${product.getIdentifier()}" var="AddRecommendationURL"/>
    
+   
     <!-- Column for main page content -->
     <div class="span9">
         <div class="row">  
@@ -50,9 +51,9 @@
                 <div class="row-fluid">                       
                     <ul class="inline"> 
                         <li><a href="${EditURL}">Edit</a><br/></li>
-                        <li><a href="${AddProductCharacteristicURL}" class="btn btn-primary">Add new product aspect</a></li>
-                        <li><a href="${AddReviewURL}" class="btn btn-primary">Review this product</a></li>
-                        <li><a href="${AddRecommendationURL}" class="btn btn-primary">Recommend this product</a></li>
+                        <li><a href="${AddProductCharacteristicURL}" class="btn btn-primary">Add detail</a></li>
+                        <li><a href="${AddReviewURL}" class="btn btn-primary">Review this</a></li>
+                        <li><a href="${AddRecommendationURL}" class="btn btn-primary">Recommend this</a></li>
                     </ul>                     
                 </div>
                 
@@ -88,14 +89,14 @@
                                         <strong>Description: </strong>${description}
                                     </p>
                                     <br/>
-                                    <c:forEach begin="1" end="3" varStatus="status">
+                                    <c:forEach items="${reviews}" var="review"  varStatus="status">
                                     <div class="row-fluid">
                                         <div class="span2">                                            
                                             <img src="http://lorempixel.com/80/8${status.index}/"/>
-                                            <div><strong>User name</strong></div>                                            
+                                            <div><strong>${review.getReviewer()}</strong></div>                                            
                                         </div>
                                         <div class="span9">                                            
-                                            <p>${currentCharacteristic.getReview()}</p>                                            
+                                            <p>${review.getText()}</p>                                            
                                             <!-- Show pictures detailing the characteristic of the product -->
                                             <br/><br/><br/>
                                             <p><strong>User images:</strong> Images detailing this aspect</p>

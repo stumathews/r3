@@ -4,8 +4,10 @@
  */
 package BOL.Interfaces;
 
+import BOLO.ProductCharacteristic;
 import DEL.Characteristic;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Contract for implementing new Characteristic business logic
@@ -14,9 +16,11 @@ import java.util.List;
 public interface ICharacteristic 
 {
     public void addCharacteristic( String name, String Description);
-
-    public void addProductCharacteristic(String productID, String title, String description, String review) throws Exception;
-
+    public void addProductCharacteristic(String productID, String title, String description) throws Exception;
     public List<BOLO.ProductCharacteristic> getProductCharacteristics(String productID) throws Exception;
     public List<BOLO.ProductCharacteristic> getAllCharacteristics() throws Exception;
+    public List<BOLO.ProductCharacteristic> Convert(List<DEL.Characteristic> characteristics) throws Exception;
+    public List<DEL.Characteristic> ConvertToDels(List<BOLO.ProductCharacteristic> characteristics) throws Exception;
+
+
 }

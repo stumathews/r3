@@ -1,12 +1,13 @@
 package BOLO;
 
+import java.io.Serializable;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * Business Object to represent a User
  * @author Stuart Mathews <stuart@stuartmathews.com>
  */
-public class User 
+public class User implements Serializable
 {
         @NotEmpty
 	private String username;

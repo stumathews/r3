@@ -6,6 +6,7 @@ package BSL;
 
 import BOL.Interfaces.IReview;
 import BOL.Interfaces.IServiceAuthoriser;
+import BOLO.Review;
 import BSL.Interfaces.IReviewAdmin;
 import DAL.Interfaces.IReviewDAO;
 import java.util.List;
@@ -17,10 +18,10 @@ public class ReviewAdmin implements IReviewAdmin {
 
     private BOL.Interfaces.IServiceAuthoriser serviceAuthorisor; // Authorisation provider
     private IReviewDAO reviewDAO;
-    private BOL.Interfaces.IReview ReviewLogic;
+    private BOL.Review ReviewLogic;
     
     @Autowired
-    public void setReviewLogic(IReview ReviewLogic) {
+    public void setReviewLogic(BOL.Review ReviewLogic) {
         this.ReviewLogic = ReviewLogic;
     }
 
@@ -47,4 +48,11 @@ public class ReviewAdmin implements IReviewAdmin {
         serviceAuthorisor.authorise(token);
         return ReviewLogic.getAllReviews();
     }    
+
+    @Transactional
+    public List<Review> getProductReviews(String token, String productID) throws Exception 
+    {
+       serviceAuthorisor.authorise(token); 
+       return ReviewLogic.getProductReviews(productID);
+    }
 }

@@ -101,17 +101,17 @@
     </bean>
    
    
-    <!--
+    
     <bean id="myDataSource" 
          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 	<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 	<property name="url" value="jdbc:mysql://localhost:3306/r3" />
-	<property name="username" value="axis2" />
-	<property name="password" value="axis2" />
+	<property name="username" value="root" />
+	<property name="password" value="" />
     </bean>
-    -->
     
     
+    <!--
     <bean id="myDataSource" 
          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 	<property name="driverClassName" value="org.hsqldb.jdbcDriver" />
@@ -119,7 +119,7 @@
 	<property name="username" value="sa" />
 	<property name="password" value="" />
     </bean>
-    
+    -->
     
    
     
@@ -129,8 +129,8 @@
     <property name="dataSource" ref="myDataSource"/>
     <property name="hibernateProperties">
       <props>
-        <!--<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>-->
-        <prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
+        <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+        <!--<prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>-->
         <prop key="hibernate.show_sql">true</prop>
         <prop key="hibernate.c3p0.min_size">5</prop>
         <prop key="hibernate.c3p0.max_size">20</prop>
