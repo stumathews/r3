@@ -66,11 +66,18 @@ public class Characteristic implements ICharacteristic
         }
     }
 
+    /**
+     * Gets all the product's characteristics
+     * @param productID the id of the product which you;d like its characteristics
+     * @return
+     * @throws Exception 
+     */
     public List<BOLO.ProductCharacteristic> getProductCharacteristics(String productID) throws Exception 
     {
         try 
         {
-            DEL.Product del_product                     = productDAO.getProductByID(productID);
+            DEL.Product del_product                     = productDAO.getProductByID(productID);            
+            
             List<BOLO.ProductCharacteristic> bolo_chars = new ArrayList<ProductCharacteristic>();
             
             for( DEL.Characteristic dch : del_product.getCharacteristics())
@@ -79,7 +86,9 @@ public class Characteristic implements ICharacteristic
                 bch.setDescription(dch.getDescription());
                 bch.setId(dch.getId());                
                 bch.setTitle(dch.getName());
+                
                 bolo_chars.add(bch);
+                
             }
             return bolo_chars;
         } 
@@ -120,17 +129,31 @@ public class Characteristic implements ICharacteristic
         return pch;
     }
 
-    public List<DEL.Characteristic> ConvertToDels(List<BOLO.ProductCharacteristic> characteristics) throws Exception 
+    public List<DEL.CharacteristicReview> ConvertToDels(List<BOLO.CharacteristicReview> characteristicReviews) throws Exception 
     {
-        List<DEL.Characteristic> dels = new ArrayList<DEL.Characteristic>();
-        for( BOLO.ProductCharacteristic bch : characteristics)
+        List<DEL.CharacteristicReview> dels = new ArrayList<DEL.CharacteristicReview>();
+        for( BOLO.CharacteristicReview characteristicReview : characteristicReviews)
         {
-            DEL.Characteristic dch = new DEL.Characteristic();
-            dch.setCreator(null);
-            dch.setDescription(bch.getDescription());
-            dch.setId(bch.getId());
-            dch.setName(bch.getTitle());
-            dch.setUseful_value(0);// not used            
+            DEL.CharacteristicReview dCharacteristicReview = new DEL.CharacteristicReview();
+            DEL.Characteristic dCharacteristic = new DEL.Characteristic();
+            DEL.User user = new DEL.User();
+            user.setId(0L);
+            user.setPassword(characteristicReview.getUser().getPassword());
+            user.setUsername(characteristicReview.getUser().getUsername());            
+                    
+            dCharacteristic.setCreator(user);
+            dCharacteristic.setDescription(characteristicReview.getCharacteristic().getDescription());
+            dCharacteristic.setId(characteristicReview.getCharacteristic().getId());
+            dCharacteristic.setName(characteristicReview.getCharacteristic().getTitle());
+                        
+            dCharacteristic.setProduct(productDAO.getProductByID(dCharacteristic.getProduct().getId().toString()));
+            dCharacteristic.setUseful_value(0);
+            
+            dCharacteristicReview.setCharacteristic(dCharacteristic);
+            dCharacteristicReview.setId(characteristicReview.getId());
+            dCharacteristicReview.setReview_text(characteristicReview.getReview_text());
+            dCharacteristicReview.setUser(null);
+            dels.add(dCharacteristicReview);
         }
         return dels;
     }

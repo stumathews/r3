@@ -64,12 +64,7 @@ public class Product implements IProduct
 
     public DEL.Product ConvertToDel(BOLO.Product product) throws Exception
     {
-        DEL.Product del_product = new DEL.Product();
-        //convert to set
-        Set<DEL.Characteristic> del_characteristics = new HashSet<DEL.Characteristic>();
-        del_characteristics.addAll(characteristicBOL.ConvertToDels(product.getCharacteristics()));
-       del_product.setCharacteristics(del_characteristics);
-        return del_product;
+        return productDAO.getProductByID(product.getIdentifier());        
     }
 
     

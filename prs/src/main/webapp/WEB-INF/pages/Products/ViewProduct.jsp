@@ -93,10 +93,11 @@
                                     <div class="row-fluid">
                                         <div class="span2">                                            
                                             <img src="http://lorempixel.com/80/8${status.index}/"/>
-                                            <div><strong>${review.getReviewer()}</strong></div>                                            
+                                            <div><strong>${review.getReviewer().getUsername()}</strong></div>                                            
                                         </div>
-                                        <div class="span9">                                            
-                                            <p>${review.getText()}</p>                                            
+                                        <div class="span9">
+                                            <c:forEach items="${review.getCharacteristicReviews()}" var="characteristicReview" varStatus="characteristicReviewCount">
+                                            <p>${characteristicReview.getReview_text()}</p>                                            
                                             <!-- Show pictures detailing the characteristic of the product -->
                                             <br/><br/><br/>
                                             <p><strong>User images:</strong> Images detailing this aspect</p>
@@ -110,7 +111,8 @@
                                             <a id="thumbs-up-btn" class="btn btn-success" href="#">
                                                 <i class="icon-thumbs-up icon-white icon-align-left">                    
                                                 </i> I agree with this review
-                                            </a>                                           
+                                            </a>  
+                                            </c:forEach>
                                         </div>  
                                             
                                     </div>

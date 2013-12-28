@@ -3,20 +3,17 @@
 */
 package Webflow.Controllers;
 
-import BOLO.ProductCharacteristic;
-import BOLO.User;
+import BOLO.CharacteristicReview;
 import BSL.Interfaces.ICharacteristicAdmin;
 import BSL.Interfaces.IProductAdmin;
 import BSL.Interfaces.IReviewAdmin;
 import BSL.Interfaces.IUserAdmin;
-import DEL.Product;
 import Website.Controllers.Common;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.webflow.execution.Action;
 import org.springframework.webflow.execution.Event;
@@ -47,16 +44,22 @@ public class WebflowReviewController  implements Action {
         String username = auth.getName();
         
         // lets do some initialisation of the flowscope variables, not sure if needed but ok to do so for now
-        BOLO.Review review = new BOLO.Review();         
+        BOLO.Review review = new BOLO.Review();
+        review.setCharacteristicReviews(new ArrayList<CharacteristicReview>()); // to prevent nulls
+        
         BOLO.User reviewer = userAdmin.getUser(Common.GetGenAdminAuthToken(),username); 
         BOLO.ProductCharacteristic selectedCharacteristic = new BOLO.ProductCharacteristic();
         BOLO.Product product = new BOLO.Product();
         BOLO.Wrappers.CharacteristicList characteristics = new BOLO.Wrappers.CharacteristicList();
+        BOLO.CharacteristicReview currentCharacteristicReview = new CharacteristicReview();
         
+        review.setReviewer(reviewer);
+                
         req.getFlowScope().put("review", review);
         req.getFlowScope().put("product", product);
         req.getFlowScope().put("selectedCharacteristic", selectedCharacteristic);
         req.getFlowScope().put("reviewer", reviewer);
+        req.getFlowScope().put("currentCharacteristicReview", currentCharacteristicReview);
         
         
                                 
@@ -79,10 +82,12 @@ public class WebflowReviewController  implements Action {
      * @param selectedCharacteristic the selected characteristic
      * @throws Exception if any problems arise.
      */
-    public void saveCharacteristicReview(RequestContext req, BOLO.Review review, BOLO.Product theProduct, BOLO.ProductCharacteristic selectedCharacteristic) throws Exception
+    public void saveCharacteristicReview(RequestContext req, BOLO.Review review, BOLO.Product theProduct, BOLO.ProductCharacteristic selectedCharacteristic, BOLO.CharacteristicReview selectedCharacteristicReview) throws Exception
     {      
-        // lets add this characteristic to the review of this product        
-        review.getCharacteristics().add(selectedCharacteristic);        
+        // lets add this characteristic to the review of this product   
+        selectedCharacteristicReview.setCharacteristic(selectedCharacteristic);
+                
+        review.getCharacteristicReviews().add(selectedCharacteristicReview);        
         req.getFlowScope().put("review", review);        
     }
     

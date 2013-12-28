@@ -23,13 +23,14 @@
       
       <many-to-one class="Recommendation" name="recommendation" unique="true" column="recommendation_id" />
       
-      <set name="characteristics" inverse="true" >
+      <set name="characteristicReviews" inverse="true" >
           <key column="review_id"/>
-          <one-to-many class="Characteristic"/>          
+          <one-to-many class="CharacteristicReview"/>          
       </set>
       
       <many-to-one name="reviewer" class="User" column="user_id"/>
       <many-to-one name="product" class="Product" column="product_id"/>
+      
      
       
       

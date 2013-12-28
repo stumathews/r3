@@ -6,6 +6,7 @@ import BOL.Interfaces.IToken;
 import COMMON.exceptions.OutdatedTokenException;
 import DAL.Interfaces.ITokenDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 
 /**
@@ -39,8 +40,10 @@ public class ServiceAuthoriser implements IServiceAuthoriser
                         
         BOLO.Token bolo_token = tokenDAO.getToken(token);			
         if( tokenBOL.isValid(bolo_token) == false )
-        {				
+        {	
+            //SecurityContextHolder.clearContext(); // logs out the current user.
             throw new OutdatedTokenException("Token is outdated. Please re-authenticate.");
+                         
         }        
 
     }

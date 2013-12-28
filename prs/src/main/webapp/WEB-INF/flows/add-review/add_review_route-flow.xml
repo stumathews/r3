@@ -7,12 +7,12 @@
     <!-- TODO: We might as well save the token into the session, saves us from calling GetAuthToken() each time!! -->
     <secured attributes="ROLE_USER" />
     
-    <var name="review" class="BOLO.Review"/>
-    <var name="reviewer" class="BOLO.User"/>
-    <var name="product" class="BOLO.Product" /> 
-    <var name="characteristics" class="BOLO.Wrappers.CharacteristicList" />  
-    <var name="selectedCharacteristic" class="BOLO.ProductCharacteristic" />
-    
+    <var name="review" class="BOLO.Review"/> <!-- The review in progress... -->
+    <var name="reviewer" class="BOLO.User"/> <!-- The user doing the review -->
+    <var name="product" class="BOLO.Product" /> <!-- The product that this review is for -->
+    <var name="characteristics" class="BOLO.Wrappers.CharacteristicList" />  <!-- All the characteristics of this product-->
+    <var name="selectedCharacteristic" class="BOLO.ProductCharacteristic" /> <!-- The characteristic the review will be based off -->
+    <var name="currentCharacteristicReview" class="BOLO.CharacteristicReview" />
     <!-- First thing we do is prepare the review flow. 
     We get the requetsed productID from the request here too and put it into flowScope.
     -->
@@ -41,9 +41,9 @@
     <!-- Show the create review form and on submission, save it. Also note that there
         is automatic validation for this step provied by Webflow via the BOLO.ReviewValidators.ReviewValidator        
     -->
-    <view-state id="createCharacteristicReview" view="Reviews/CreateCharacteristicReview" model="review">                
+    <view-state id="createCharacteristicReview" view="Reviews/CreateCharacteristicReview" model="currentCharacteristicReview">                
         <transition on="finish" to="save-review">                        
-            <evaluate expression="webflowReviewController.saveCharacteristicReview(flowRequestContext, review, product, selectedCharacteristic)"/>                        
+            <evaluate expression="webflowReviewController.saveCharacteristicReview(flowRequestContext, review, product, selectedCharacteristic, currentCharacteristicReview)"/>                        
         </transition>
         
     </view-state>

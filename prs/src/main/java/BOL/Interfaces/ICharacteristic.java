@@ -20,7 +20,7 @@ public interface ICharacteristic
     public List<BOLO.ProductCharacteristic> getProductCharacteristics(String productID) throws Exception;
     public List<BOLO.ProductCharacteristic> getAllCharacteristics() throws Exception;
     public List<BOLO.ProductCharacteristic> Convert(List<DEL.Characteristic> characteristics) throws Exception;
-    public List<DEL.Characteristic> ConvertToDels(List<BOLO.ProductCharacteristic> characteristics) throws Exception;
+    public List<DEL.CharacteristicReview> ConvertToDels(List<BOLO.CharacteristicReview> characteristicReviews) throws Exception;
 
 
 }

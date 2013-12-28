@@ -20,7 +20,7 @@ public class Review  {
     private String highlights;
     private String lowlights;
     private Recommendation recommendation;
-    private Set<Characteristic> characteristics;
+    private Set<CharacteristicReview> characteristicReviews;
     private Product product;
     private DEL.User reviewer;
     private int reuse_rate;   
@@ -33,16 +33,14 @@ public class Review  {
 
     public void setProduct(Product product) {
         this.product = product;
-    }
-   
-    
+    } 
 
-    public Set<Characteristic> getCharacteristics() {
-        return characteristics;
+    public Set<CharacteristicReview> getCharacteristicReviews() {
+        return characteristicReviews;
     }
 
-    public void setCharacteristics(Set<Characteristic> characteristics) {
-        this.characteristics = characteristics;
+    public void setCharacteristicReviews(Set<CharacteristicReview> characteristicReviews) {
+        this.characteristicReviews = characteristicReviews;
     }
 
     public Recommendation getRecommendation() {

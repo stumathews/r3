@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="DEL">
+    
+  <class dynamic-insert="false" 
+         dynamic-update="false" 
+         mutable="true" 
+         name="CharacteristicReview" 
+         optimistic-lock="version" 
+         polymorphism="implicit" 
+         select-before-update="false">
+      
+      <id name="id" type="long" column="characteristic_review_id">
+          <generator class="identity"/>          
+      </id>     
+      
+      <one-to-one class="Characteristic" name="characteristic"/> 
+      <one-to-one class="User" name="user"/>      
+      <property name="review_text" column="review_text" type="text" />
+      
+      <many-to-one class="Review" name="review" column="review_id"/> 
+      
+  </class>
+</hibernate-mapping>

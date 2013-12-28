@@ -8,11 +8,14 @@ import BOL.Characteristic;
 import BOL.Interfaces.ICharacteristic;
 import BOL.Interfaces.IProduct;
 import BOL.Product;
+import DAL.Interfaces.ICharacteristicReviewDAO;
 import DAL.Interfaces.ICharacteristicsDAO;
 import DAL.Interfaces.IProductDAO;
 import DAL.Interfaces.IReviewDAO;
 import DAL.Interfaces.IUserDAO;
+import DEL.CharacteristicReview;
 import DEL.Review;
+import DEL.User;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -33,6 +36,12 @@ public class ReviewDAO implements IReviewDAO {
     private DAL.Interfaces.ICharacteristicsDAO characteristicDAO;
     private ICharacteristic characteristicBOL;
     private IProduct productLogic;
+    private DAL.Interfaces.ICharacteristicReviewDAO characteristicReviewDAO;
+
+    @Autowired
+    public void setCharacteristicReviewDAO(ICharacteristicReviewDAO characteristicReviewDAO) {
+        this.characteristicReviewDAO = characteristicReviewDAO;
+    }
 
     @Autowired
     public void setCharacteristicDAO(ICharacteristicsDAO characteristicDAO) {
@@ -93,26 +102,50 @@ public class ReviewDAO implements IReviewDAO {
     public void SaveReview(BOLO.Review theReview) throws Exception
     {
 
-        DEL.Review del_review = new DEL.Review();
-        del_review.setText(theReview.getText());
-        del_review.setLowlights(theReview.getLowlights());
-        del_review.setHighlights(theReview.getHighlights());        
+        DEL.Review del_review = new DEL.Review();        
+            del_review.setCharacteristicReviews(new HashSet<CharacteristicReview>());
+            del_review.setText(theReview.getText());
+            del_review.setLowlights(theReview.getLowlights());
+            del_review.setHighlights(theReview.getHighlights());
+            del_review.setReviewer(userDAO.retrieve(theReview.getReviewer().getUsername(), theReview.getReviewer().getPassword()));
+            
+            
+                    
+        
         BOLO.Product product = theReview.getProduct();
-        del_review.setProduct( productDAO.getProductByID(product.getIdentifier()) );
+            del_review.setProduct( productDAO.getProductByID(product.getIdentifier()) );
 
-        // This review consists on one of more characteristics that are saved in the database.
-        del_review.setCharacteristics(new HashSet<DEL.Characteristic>());
-        for( BOLO.ProductCharacteristic bch : theReview.getCharacteristics())
+        // This review consists on one of more characteristicReviews that are saved in the database.
+        
+        Set<DEL.CharacteristicReview> dCharacteristicReviews = new HashSet<CharacteristicReview>();
+        for( BOLO.CharacteristicReview chr : theReview.getCharacteristicReviews())
         {
-            // Get the details of the characteristics of this potential review...
-            DEL.Characteristic dch = characteristicDAO.getCharacteristic(bch.getId());
-            del_review.getCharacteristics().add(dch);
+            
+            DEL.CharacteristicReview dchr = new CharacteristicReview();
+                dchr.setReview_text(chr.getReview_text());
+                
+            DEL.Characteristic dCharacteristic = new DEL.Characteristic();                        
+                dCharacteristic.setCreator(null); //TODO: we should set this
+                dCharacteristic.setDescription(chr.getCharacteristic().getDescription());            
+                dCharacteristic.setName(chr.getCharacteristic().getTitle());
+                dCharacteristic.setProduct(del_review.getProduct());
+                dCharacteristic.setUseful_value(0);
+                
+                dchr.setCharacteristic(dCharacteristic);                
+                dCharacteristicReviews.add(dchr);
         }        
         
        Session session = sessionFactory.getCurrentSession();
        
-       
+       // first save the review
        session.save(del_review);
+       // then add objects to it
+       for( DEL.CharacteristicReview dCharacteristicReview : dCharacteristicReviews)
+       {
+           dCharacteristicReview.setReview(del_review);
+           
+           session.save(dCharacteristicReview);
+       }
     }
 
     /***

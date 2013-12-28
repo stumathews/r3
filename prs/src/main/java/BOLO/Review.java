@@ -19,10 +19,10 @@ public class Review implements Serializable {
     private String text;
     private String lowlights;
     private String highlights;
-    private List<BOLO.ProductCharacteristic> characteristics;
+    private List<BOLO.CharacteristicReview> characteristicReviews;
     private BOLO.User reviewer;
     private BOLO.Product product;
-
+    
     public Product getProduct() {
         return product;
     }
@@ -33,7 +33,7 @@ public class Review implements Serializable {
     
     public Review()
     {
-        characteristics = new ArrayList<BOLO.ProductCharacteristic>();
+        characteristicReviews = new ArrayList<BOLO.CharacteristicReview>();
     }
     
     public String getText() {
@@ -62,12 +62,12 @@ public class Review implements Serializable {
         this.highlights = highlights;
     }
         
-    public List<ProductCharacteristic> getCharacteristics() {
-        return characteristics;
+    public List<BOLO.CharacteristicReview> getCharacteristicReviews() {
+        return characteristicReviews;
     }
 
-    public void setCharacteristics(List<ProductCharacteristic> characteristics) {
-        this.characteristics = characteristics;
+    public void setCharacteristicReviews(List<BOLO.CharacteristicReview> characteristicReviews) {
+        this.characteristicReviews = characteristicReviews;
     }
 
     

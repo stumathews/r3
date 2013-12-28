@@ -3,6 +3,7 @@ package BSL;
 
 import BOL.Interfaces.IProduct;
 import BOL.Interfaces.IServiceAuthoriser;
+import BOLO.Token;
 import BSL.Interfaces.IProductAdmin;
 import DEL.Product;
 import DAL.Interfaces.IProductDAO;
@@ -19,7 +20,7 @@ public class ProductAdmin implements IProductAdmin
     private IProductDAO productDAO;     // DB Access Object for Products
     private IProduct productLogic;    
     private IServiceAuthoriser serviceAuthorisor; // Authorisation provider
-    
+   
     @Autowired
     public void setProductLogic(IProduct productLogic) {
         this.productLogic = productLogic;

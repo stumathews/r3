@@ -32,11 +32,11 @@
           
           <c:url var="ViewProductURL" value="/Product/Show/${product.getIdentifier()}"/>
           <strong>Product: </strong><a href="${ViewProductURL}">${product.getTitle()}</a><br/>
-          <c:forEach items="${review.getCharacteristics()}" var="characteristic" varStatus="count">
+          <c:forEach items="${review.getCharacteristicReviews()}" var="characteristicReview" varStatus="count">
               
-              <strong>Title: </strong> ${characteristic.getTitle()}<br/>
-              <strong>Description: </strong><br/> ${characteristic.getDescription()}<br/>
-              <strong>Review: </strong><br/> ${review.getText()}<br/>
+              <strong>Title: </strong> ${characteristicReview.getCharacteristic().getTitle()}<br/>
+              <strong>Description: </strong><br/> ${characteristicReview.getCharacteristic().getDescription()}<br/>
+              <strong>Review: </strong><br/> ${characteristicReview.getReview_text()}<br/>
           </c:forEach>
           
               <br/>

@@ -19,6 +19,12 @@ public class Token
 	private Date issued_time;
 	private int mins_valid;	
 
+        public Token()
+        {
+            token = "";
+            issued_time = new Date();
+            mins_valid = 15; // by default token is valid for 15 minutes 
+        }
 	public String getToken() {
 		return token;
 	}

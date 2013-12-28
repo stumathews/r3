@@ -28,9 +28,9 @@
           <c:url var="CreateReviewPostURL" value="/Review" />    
           <div class="pull-right">
               ${product.getTitle()}><br/>
-              Review count: ${review.getCharacteristics().size()}
+              Review count: ${review.getCharacteristicReviews().size()}
           </div>
-        <form:form modelAttribute="review" >
+        <form:form modelAttribute="currentCharacteristicReview" >
                 <fieldset>
                     <legend>Add a review of ${selectedCharacteristic.getTitle()}</legend> 
                     <div class="alert alert-info">
@@ -41,8 +41,8 @@
                     <strong>Characteristic Description: </strong>${selectedCharacteristic.getDescription()}   
                     <br/><br/>
                     
-                       <form:label for="text" path="text">Review</form:label>                        
-                        <form:textarea path="text" rows="6"/>
+                       <form:label for="review_text" path="review_text">Review</form:label>                        
+                        <form:textarea path="review_text" rows="6"/>
                                                 
                         <br/>
                          <input type="submit" name="_eventId_finish"  class=Button value="Finish"/> 

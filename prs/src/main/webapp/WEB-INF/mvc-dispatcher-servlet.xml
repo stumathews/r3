@@ -146,20 +146,23 @@
     
     </bean>
     
-    <bean id="productLogic" class="BOL.Product"/>
-    <bean id="ReviewLogic" class="BOL.Review"/>    
     <bean id="recommendationAdmin" class="BSL.RecommendationAdmin"/>
     <bean id="recommendationDAO" class="DAL.RecommendationDAO"/>
     <bean id="recommendationBO" class="BOL.Recommendation"/>
     <bean id="reviewAdmin" class="BSL.ReviewAdmin"/>
+    <bean id="userAdmin" class="BSL.UserAdmin"/>    
     
-    <bean id="reviewDAO" class="DAL.ReviewDAO"/>
     <bean id="sessionUserDetails" class="BOLO.sessions.SessionUserDetails"/>    
     <bean id="characteristicBOL" class="BOL.Characteristic"/>    
     <bean id="authenticationBOL" class="BOL.Authentication"/>
-    <bean id="userAdmin" class="BSL.UserAdmin"/>
+    <bean id="productLogic" class="BOL.Product"/>
+    <bean id="ReviewLogic" class="BOL.Review"/> 
+    
     <bean id="tokenBOL" class="BOL.Token"/>
     <bean id="userBOL" class="BOL.User"/>
+    
+    <bean id="reviewDAO" class="DAL.ReviewDAO"/>
+    <bean id="characteristicReviewDAO" class="DAL.CharacteristicReviewDAO"/>
     
     <bean id="productDAO" class="DAL.ProductDAO">
        <property name="sessionFactory" ref="mySessionFactory"/>
@@ -272,6 +275,10 @@
     <bean class="org.springframework.webflow.mvc.servlet.FlowHandlerMapping">
         <property name="flowRegistry" ref="flowRegistry" />
         <property name="order" value="0" />
+    </bean>
+    
+    <bean id="token" class="BOLO.Token" scope="session">
+        <aop:scoped-proxy/>
     </bean>
     
 </beans>

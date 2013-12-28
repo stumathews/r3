@@ -1,6 +1,7 @@
 package Website.Controllers;
  
 import BOL.Interfaces.IProduct;
+import BOLO.Token;
 import BSL.Interfaces.ICharacteristicAdmin;
 import BSL.Interfaces.ILoginAdmin;
 import BSL.Interfaces.IProductAdmin;
@@ -32,7 +33,13 @@ public class ProductController
     private BSL.Interfaces.ILoginAdmin loginAdmin;
     private BSL.Interfaces.ICharacteristicAdmin characteristicAdmin;
     private BSL.Interfaces.IReviewAdmin reviewAdmin;
+    private BOLO.Token token; // session scoped proxy bean which represents a token. To avoid multiple creation attempts
 
+    @Autowired
+    public void setToken(Token token) {
+        this.token = token;
+    }
+    
     @Autowired
     public void setReviewAdmin(IReviewAdmin reviewAdmin) {
         this.reviewAdmin = reviewAdmin;
@@ -65,11 +72,20 @@ public class ProductController
     */
     @RequestMapping(value ="/ShowProductList",method = RequestMethod.GET)
     public String showProductsView(ModelMap model) throws Exception
-    {            
+    {      
+        /*
+        // preliminary code to reuse token that is stored as scoped bean...token should remain constant for each
+        // request to this function for the same user session each time its called.
+        if( token.getToken().isEmpty())
+            token.setToken(Common.GetGenAdminAuthToken());
+        // Get all products in the database
+        ArrayList< BOLO.Product > products = productAdmin.getAllProducts( token.getToken() );
+        */
+        
         String token = Common.GetGenAdminAuthToken();
         // Get all products in the database
         ArrayList< BOLO.Product > products = productAdmin.getAllProducts( token );
-        
+                
         // add products to model view
         model.addAttribute("products", products);
         
