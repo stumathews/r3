@@ -1,5 +1,6 @@
 package Website.Controllers;
  
+import BOL.Interfaces.IUserSessionManager;
 import BSL.Interfaces.ILoginAdmin;
 import BSL.Interfaces.IUserAdmin;
 import BSL.LoginAdmin;
@@ -24,6 +25,12 @@ public class UserController
 {
     private IUserAdmin userAdmin;
     private BSL.Interfaces.ILoginAdmin loginAdmin;
+    private BOL.Interfaces.IUserSessionManager userSessionManager; // each logged in user as their own userSessionManager...
+
+    @Autowired
+    public void setUserSessionManager(IUserSessionManager userSessionManager) {
+        this.userSessionManager = userSessionManager;
+    }
 
     @Autowired
     public void setLoginAdmin(BSL.Interfaces.ILoginAdmin loginAdmin) {
@@ -67,7 +74,7 @@ public class UserController
     @RequestMapping(value = "/ShowUserList", method = RequestMethod.GET)
     public String listUsers(ModelMap model) throws Exception
     {        
-        ArrayList<DEL.User> users = userAdmin.getAllUsers(Common.GetGenAdminAuthToken());
+        ArrayList<DEL.User> users = userAdmin.getAllUsers(userSessionManager.getTokenString());
         model.addAttribute("users", users);
         return "Users/ShowUsers";
     }
@@ -89,7 +96,7 @@ public class UserController
         
         String username = user.getUsername();
         String password = user.getPassword();
-        userAdmin.createUser(Common.GetGenAdminAuthToken(),username, password);
+        userAdmin.createUser(userSessionManager.getTokenString(),username, password);
         return "redirect:/User/ShowUserList";
     }
     
@@ -103,7 +110,7 @@ public class UserController
     @RequestMapping(value = "/Delete/{user}", method = RequestMethod.GET)
     public String deleteUser( @PathVariable("user") String username, ModelMap model) throws Exception
     {
-        userAdmin.deleteUser(Common.GetGenAdminAuthToken(),username);
+        userAdmin.deleteUser(userSessionManager.getTokenString(),username);
         return "redirect:/User/ShowUserList";
     }
 }

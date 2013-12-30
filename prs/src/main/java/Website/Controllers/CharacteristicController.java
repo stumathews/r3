@@ -1,5 +1,6 @@
 package Website.Controllers;
  
+import BOL.Interfaces.IUserSessionManager;
 import BSL.Interfaces.ICharacteristicAdmin;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class CharacteristicController 
 { 
     private ICharacteristicAdmin characteristicAdmin;
+    private BOL.Interfaces.IUserSessionManager userSessionManager; // each logged in user as their own userSessionManager...
+
+    @Autowired
+    public void setUserSessionManager(IUserSessionManager userSessionManager) {
+        this.userSessionManager = userSessionManager;
+    }
 
     @Autowired
     public void setCharacteristicAdmin(ICharacteristicAdmin characteristicAdmin) {
@@ -26,7 +33,7 @@ public class CharacteristicController
     @RequestMapping(value = "ShowCharacteristics", method = RequestMethod.GET)
     public String get(ModelMap model) throws Exception
     {		
-        List<BOLO.ProductCharacteristic> characteristics = characteristicAdmin.getAllCharacteristics(Common.GetGenAdminAuthToken());
+        List<BOLO.ProductCharacteristic> characteristics = characteristicAdmin.getAllCharacteristics(userSessionManager.getTokenString());
         model.addAttribute("characteristics", characteristics);
         
         return "Characteristic/ShowCharacteristics";

@@ -277,7 +277,8 @@
         <property name="order" value="0" />
     </bean>
     
-    <bean id="token" class="BOLO.Token" scope="session">
+    <!-- This is a token for the user's session -->
+    <bean id="userSessionManager" class="BOL.UserSessionManager" scope="session">
         <aop:scoped-proxy/>
     </bean>
     

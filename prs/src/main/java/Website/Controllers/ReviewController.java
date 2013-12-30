@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 package Website.Controllers;
+import BOL.Interfaces.IUserSessionManager;
 import BSL.Interfaces.IReviewAdmin;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,12 @@ public class ReviewController
      */
     
     private BSL.Interfaces.IReviewAdmin reviewAdmin;
+    private BOL.Interfaces.IUserSessionManager userSessionManager; // each logged in user as their own userSessionManager...
+
+    @Autowired
+    public void setUserSessionManager(IUserSessionManager userSessionManager) {
+        this.userSessionManager = userSessionManager;
+    }
 
     @Autowired
     public void setReviewAdmin(IReviewAdmin reviewAdmin) {
@@ -69,7 +76,7 @@ public class ReviewController
             BOLO.User user = new BOLO.User();
             user.setUsername(auth.getName());            
             theReview.setReviewer(user);
-            reviewAdmin.SaveReview(Common.GetGenAdminAuthToken(), theReview);
+            reviewAdmin.SaveReview(userSessionManager.getTokenString(), theReview);
             
         } catch (Exception ex) {
             Logger.getLogger(ReviewController.class.getName()).log(Level.SEVERE, null, ex);
@@ -86,7 +93,7 @@ public class ReviewController
     public String ShowAllReviews(ModelMap model) throws Exception
     {
         List<BOLO.Review> reviews = new ArrayList<BOLO.Review>();
-        reviews = reviewAdmin.getAllReviews(Common.GetGenAdminAuthToken());
+        reviews = reviewAdmin.getAllReviews(userSessionManager.getTokenString());
         model.addAttribute("reviews",reviews);
                
         return "Reviews/ShowAllReviews";

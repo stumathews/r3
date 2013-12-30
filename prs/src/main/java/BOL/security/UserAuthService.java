@@ -29,6 +29,7 @@ public class UserAuthService implements UserDetailsService
 {
      
     private IUserDAO userDAO;
+   
     
     @Autowired
     public void setUserDAO(IUserDAO userDAO) {
@@ -43,7 +44,7 @@ public class UserAuthService implements UserDetailsService
      * @throws UsernameNotFoundException if no user was found at all.
      */
     @Transactional
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException 
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
     {
         UserDetails user = null;
         
@@ -56,48 +57,50 @@ public class UserAuthService implements UserDetailsService
         user_authorities.add(default_authority);  
         // Construct a valid UserDetail object which spring-security expects...
 
+        boolean isAdmin = username.equalsIgnoreCase("administrator");
         
-        if( !username.equalsIgnoreCase("administrator"))
-        {        
-            DEL.User del_user = new DEL.User();
+        if(!isAdmin)
+        {  
             try
             {
-            del_user = userDAO.getUser(username);
+                DEL.User del_user = userDAO.getUser(username);
+                user = new User(del_user.getUsername(), del_user.getPassword(), true, true, true, true, user_authorities); 
             }
             catch( Exception e)
             {
                 throw new UsernameNotFoundException("Error getting username.", e);
-            } 
-            user = new User(del_user.getUsername(), del_user.getPassword(), true, true, true, true, user_authorities);   
-            return user;
+            }            
         }
         else
-        {
-            String default_admin_password = "apps3cur3";
-            CreateAdminDBUser();            
-            user = new User(username, default_admin_password, true, true, true, true, user_authorities);   
-            return user;
+        {    
+            try
+            {
+                return CreateAdminDBUser(user_authorities);  
+            }
+            catch(Exception error)
+            {
+                throw new UsernameNotFoundException("Error creating admin user",error);
+            }
         }
+        
+        return user;
          
     }
 
     /**
      * Creates the administrator user *if* there isn't one already.
      * @param username
-     * @param default_admin_password 
+     * @param default administrator password 
      */
-    private void CreateAdminDBUser() 
-    {
-        try 
-        {
-            String default_admin_password = "apps3cur3";
-            if( !userDAO.exists("administrator", default_admin_password))
-                userDAO.createUser("administrator", default_admin_password);
-        } 
-        catch (Exception ex) 
-        {
-            Logger.getLogger(UserAuthService.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    private UserDetails CreateAdminDBUser(List<DefaultUserAuthority> user_authorities) throws Exception
+    {        
+        String default_admin_password = "apps3cur3";
+        String default_admin_username = "administrator";
+        if( !userDAO.exists(default_admin_username, default_admin_password))
+            userDAO.createUser(default_admin_username, default_admin_password);
+
+        return new User(default_admin_username, default_admin_password, true, true, true, true, user_authorities);  
+        
     }
     
 }

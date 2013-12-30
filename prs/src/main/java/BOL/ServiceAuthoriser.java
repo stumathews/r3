@@ -38,7 +38,8 @@ public class ServiceAuthoriser implements IServiceAuthoriser
     {       	
         // Try and get token from the database, proving that this user has authenticated.
                         
-        BOLO.Token bolo_token = tokenDAO.getToken(token);			
+        BOLO.Token bolo_token = tokenDAO.getToken(token); 
+        
         if( tokenBOL.isValid(bolo_token) == false )
         {	
             //SecurityContextHolder.clearContext(); // logs out the current user.

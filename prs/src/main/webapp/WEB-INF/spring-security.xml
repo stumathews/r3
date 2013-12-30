@@ -29,7 +29,7 @@
         <logout delete-cookies="JSESSIONID" /> <!-- to prevent session mis-timeouts etc... -->
     </http>
     <authentication-manager>
-        <authentication-provider user-service-ref="myUserAuthService"/>
+        <authentication-provider user-service-ref="myUserAuthService" />
         <!--
         <authentication-provider>
             

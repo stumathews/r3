@@ -16,7 +16,7 @@
       
       <property name="issued_time" type="timestamp" column="issued_time" />
       <property name="mins_valid" type="integer" column="mins_valid" />
-      <property name="token" type="string" column="token" />
+      <property name="tokenString" type="string" column="tokenString" />
       
       <many-to-one name="user" class="User" column="user_id" />
       

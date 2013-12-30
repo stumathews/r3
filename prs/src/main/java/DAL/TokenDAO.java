@@ -48,7 +48,7 @@ public class TokenDAO implements ITokenDAO
             DEL.Token del_token = new DEL.Token();
             del_token.setIssued_time(token.getIssued_time());
             del_token.setMins_valid(token.getMins_valid());
-            del_token.setToken(token.getToken());
+            del_token.setTokenString(token.getTokenString());
 
             session.save(del_token);
 	}
@@ -64,19 +64,19 @@ public class TokenDAO implements ITokenDAO
 	{
             Session session = sessionFactory.getCurrentSession();
 
-            String sql_query = String.format("from Token where token = '%s'", token);
+            String sql_query = String.format("from Token where tokenString = '%s'", token);
             
             @SuppressWarnings("rawtypes")
             List<DEL.Token> results = session.createQuery(sql_query).list();
 
             for( DEL.Token db_token : (List<DEL.Token>) results)
             {
-                if( db_token.getToken().equals(token) )
+                if( db_token.getTokenString().equals(token) )
                 {
                     BOLO.Token bol_token = new BOLO.Token();
                     bol_token.setIssued_time(db_token.getIssued_time());
                     bol_token.setMins_valid(db_token.getMins_valid());
-                    bol_token.setToken(db_token.getToken());
+                    bol_token.setTokenString(db_token.getTokenString());
                     return bol_token;
                 }
             }

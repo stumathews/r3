@@ -15,25 +15,27 @@ import java.util.Date;
 public class Token
 {
 	
-	private String token;
+	private String tokenString;    
 	private Date issued_time;
 	private int mins_valid;	
 
         public Token()
         {
-            token = "";
+            tokenString = "";
             issued_time = new Date();
             mins_valid = 15; // by default token is valid for 15 minutes 
         }
-	public String getToken() {
-		return token;
-	}
-	/**
-	 * @param token the token to set
-	 */
-	public void setToken(String token) {
-		this.token = token;
-	}
+        
+        public String getTokenString() 
+        {
+            return tokenString;
+        }
+
+        public void setTokenString(String tokenString)
+        {
+            this.tokenString = tokenString;
+        }
+	
 	/**
 	 * @return the issued_date_time
 	 */

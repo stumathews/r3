@@ -5,6 +5,7 @@ package BSL;
 
 
 import BOL.Interfaces.IAuthentication;
+import BOLO.Token;
 import BSL.Interfaces.ILoginAdmin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,5 +39,10 @@ public class LoginAdmin implements ILoginAdmin
         // No need to check permissions to access this service. 
         // Everyone should be able to at least has to try to authenticate  without authorisation
         return authenticationBOL.authenticate(username, password);        
+    }
+
+    public Token authenticateGetToken(String username, String password) throws Exception 
+    {
+        return authenticationBOL.authenticateGetToken(username, password);
     }
 }

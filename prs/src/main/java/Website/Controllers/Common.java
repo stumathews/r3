@@ -41,4 +41,13 @@ public class Common
     {                
         return loginAdmin.authenticate("administrator", "apps3cur3");
     }
+    /**
+     * Gets a token object back while authenticating
+     * @return BOLO.Token
+     * @throws Exception 
+     */
+    public static BOLO.Token GenAdminToken() throws Exception
+    {        
+        return loginAdmin.authenticateGetToken("administrator", "apps3cur3");
+    }
 }

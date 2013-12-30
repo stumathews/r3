@@ -153,7 +153,7 @@ public class UserDAO implements IUserDAO
          * @param username
          * @return DEL.User object belonging to the specified username passed in.
          * @throws Exception when cannot find user or a problem attempting to was encountered
-         */
+         */        
         public DEL.User getUser(String username) throws Exception 
         {
             List<User> results = new ArrayList<User>();

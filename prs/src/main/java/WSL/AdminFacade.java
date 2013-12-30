@@ -42,4 +42,17 @@ public class AdminFacade implements IAdminFacade
     {      
        return loginAdmin.authenticate(username, password);	        
     }  	
+    
+    /**
+     * Gets a Token object as part of the authentication process
+     * @param username
+     * @param password
+     * @return
+     * @throws Exception 
+     */
+    public BOLO.Token AuthenticateGetToken(@WebParam( name="username") String username, 
+                                           @WebParam( name="password")  String password) throws Exception
+    {
+        return loginAdmin.authenticateGetToken(password, password);
+    }
 }

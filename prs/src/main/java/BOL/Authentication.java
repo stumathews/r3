@@ -1,6 +1,8 @@
 package BOL;
 
 import BOL.Interfaces.IAuthentication;
+import BOLO.Token;
+import BOLO.User;
 import DAL.Interfaces.ITokenDAO;
 import DAL.Interfaces.IUserDAO;
 import java.sql.Timestamp;
@@ -53,35 +55,33 @@ public class Authentication implements IAuthentication
         {		
             boolean store_token = true; //we want to persist it moving forward
             String token = null;			
-            token = makeToken(store_token, username, password);			
+            token = createToken(store_token, username, password).getTokenString();			
             return token;
         }
     }
 
 
     /** 
-        * Produce business logic to create  a UUID that represents a token, store it into the database and give it a DEFAULT_MINS_VALID minute expiry
-        * @param auto_persist indicates if we should persist the token entity that is created.
-        * @return a string representing the token
-        * @throws Exception if persisting causes a problem.
-        */
-
-    private static String makeToken(boolean auto_persist, String username, String password) throws Exception 
+    * Produce business logic to create  a UUID that represents a token, store it into the database and give it a DEFAULT_MINS_VALID minute expiry
+    * @param auto_persist indicates if we should persist the token entity that is created.
+    * @return BOLO.Token
+    * @throws Exception if persisting causes a problem.
+    */    
+    private BOLO.Token createToken(boolean auto_persist, String username, String password) throws Exception
     {
-
             UUID 		uuid = UUID.randomUUID();
             BOLO.Token  token = new BOLO.Token();
             Date 		date = new java.util.Date();
             Timestamp 	tstamp = new java.sql.Timestamp( date.getTime() );		        
 
-            token.setToken(uuid.toString());
+            token.setTokenString(uuid.toString());
             token.setIssued_time(tstamp);
-            token.setMins_valid(DEFAULT_MINS_VALID);				
+            token.setMins_valid(DEFAULT_MINS_VALID);
+            
+             if(auto_persist == true)
+                    tokenDAO.storeToken(token, username, password );	
+            return token;
 
-            // Ask the Data Access layer to store it for us.
-            if(auto_persist == true)
-                    tokenDAO.storeToken(token, username, password );				
-            return token.getToken();
     }
 
 
@@ -111,5 +111,19 @@ public class Authentication implements IAuthentication
             return valid;
     }
 
+    public Token authenticateGetToken(String username, String password) throws Exception
+    {
+        boolean password_is_correct = areCredentialsValid( username, password );
+        if( password_is_correct == false )
+        {
+            throw new Exception("Invalid Username or password.");
+        }
+        else
+        {		
+            boolean store_token = true; //we want to persist it moving forward
+            BOLO.Token token = createToken(true, username, password);
+            return token;
+        }
+    }
 
 }

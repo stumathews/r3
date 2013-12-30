@@ -3,6 +3,7 @@
 */
 package Webflow.Controllers;
 
+import BOL.Interfaces.IUserSessionManager;
 import BOLO.CharacteristicReview;
 import BSL.Interfaces.ICharacteristicAdmin;
 import BSL.Interfaces.IProductAdmin;
@@ -32,6 +33,9 @@ public class WebflowReviewController  implements Action {
     private ICharacteristicAdmin characteristicAdmin;
     @Autowired 
     private IUserAdmin userAdmin;
+    @Autowired
+    private BOL.Interfaces.IUserSessionManager userSessionManager; // each logged in user as their own userSessionManager...
+
         
     /**
      * Sets up the session for this flow. 
@@ -47,7 +51,7 @@ public class WebflowReviewController  implements Action {
         BOLO.Review review = new BOLO.Review();
         review.setCharacteristicReviews(new ArrayList<CharacteristicReview>()); // to prevent nulls
         
-        BOLO.User reviewer = userAdmin.getUser(Common.GetGenAdminAuthToken(),username); 
+        BOLO.User reviewer = userAdmin.getUser(userSessionManager.getTokenString(),username); 
         BOLO.ProductCharacteristic selectedCharacteristic = new BOLO.ProductCharacteristic();
         BOLO.Product product = new BOLO.Product();
         BOLO.Wrappers.CharacteristicList characteristics = new BOLO.Wrappers.CharacteristicList();
@@ -93,7 +97,7 @@ public class WebflowReviewController  implements Action {
     
     public Event saveReview(RequestContext req, BOLO.Review review, BOLO.Product theProduct, BOLO.User reviewer) throws Exception    
     {      
-        String token = Common.GetGenAdminAuthToken();
+        String token = userSessionManager.getTokenString();
         review.setReviewer(reviewer);
         review.setProduct(theProduct);
         
@@ -123,7 +127,7 @@ public class WebflowReviewController  implements Action {
         // This is where the actual items will go, 
         ArrayList<BOLO.ProductCharacteristic> actual_chars = new ArrayList<BOLO.ProductCharacteristic>();
         // Go and get the actual characteristics for this product form the database
-        db_prod_chars = characteristicAdmin.getProductCharacteristics(Common.GetGenAdminAuthToken(), theProduct.getIdentifier());
+        db_prod_chars = characteristicAdmin.getProductCharacteristics(userSessionManager.getTokenString(), theProduct.getIdentifier());
         
         // put the actual items into actual_chars
         for( BOLO.ProductCharacteristic prod_char : db_prod_chars )
@@ -151,7 +155,7 @@ public class WebflowReviewController  implements Action {
         BOLO.Product product = (BOLO.Product) req.getFlowScope().get("product",BOLO.Product.class); 
         if( product.getIdentifier() == null)
             return new Event(this,"no");
-        BOLO.Product result = productAdmin.getProductByID(Common.GetGenAdminAuthToken(), product.getIdentifier() );
+        BOLO.Product result = productAdmin.getProductByID(userSessionManager.getTokenString(), product.getIdentifier() );
         if( result != null)
         {
             req.getFlowScope().put("product", result);   
@@ -172,7 +176,7 @@ public class WebflowReviewController  implements Action {
      */
     public void putAllProductsIntoFlow(RequestContext req) throws Exception
     {        
-        ArrayList<BOLO.Product> result = productAdmin.getAllProducts(Common.GetGenAdminAuthToken());
+        ArrayList<BOLO.Product> result = productAdmin.getAllProducts(userSessionManager.getTokenString());
         req.getFlowScope().put("products", result);
     }
        

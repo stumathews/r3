@@ -18,7 +18,7 @@ import javax.persistence.TemporalType;
 public class Token
 {
 	
-	private String token;
+	private String tokenString;
 	private Date issued_time;
 	private int mins_valid;	
 	private Long id;
@@ -47,15 +47,15 @@ public class Token
 	}
 	
 	
-	public String getToken() {
-		return token;
+	public String getTokenString() {
+		return tokenString;
 	}
 	/**
 	 * @param token the token to set
 	 */
 	
-	public void setToken(String token) {
-		this.token = token;
+	public void setTokenString(String token) {
+		this.tokenString = token;
 	}
 	/**
 	 * @return the issued_date_time

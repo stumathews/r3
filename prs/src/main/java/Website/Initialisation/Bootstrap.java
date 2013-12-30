@@ -14,13 +14,12 @@ import BSL.Interfaces.IUserAdmin;
 import Website.Controllers.Common;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Bootstrap implements ApplicationListener<ContextRefreshedEvent> 
+public class Bootstrap
 {    
      
     @Autowired
@@ -41,21 +40,23 @@ public class Bootstrap implements ApplicationListener<ContextRefreshedEvent>
     @Autowired
     private IUserAdmin userAdmin;
 
-    @Override
-    public void onApplicationEvent(ContextRefreshedEvent event) 
+    @PostConstruct
+    public void onAppStartup()
     {
         try  
         { 
-
            // This is being called twice for some reason...
             // do some boot straping like injecting sample products characteristics etc.
             String token = Common.GetGenAdminAuthToken(); 
             Website.Initialisation.ProductInitialiser prodiniter = new Website.Initialisation.ProductInitialiser(productAdmin);
             prodiniter.CreateProducts(token, 5);
+            
         } 
         catch (Exception ex) 
         {
             Logger.getLogger(Bootstrap.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }    
+    }
+    
+    
 }

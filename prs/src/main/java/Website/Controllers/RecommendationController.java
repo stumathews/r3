@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 package Website.Controllers;
+import BOL.Interfaces.IUserSessionManager;
 import BSL.Interfaces.IRecommendationAdmin;
 import java.util.List;
 import javax.validation.Valid;
@@ -27,6 +28,12 @@ public class RecommendationController
 { 
     
     private BSL.Interfaces.IRecommendationAdmin recommendationAdmin;
+    private BOL.Interfaces.IUserSessionManager userSessionManager; // each logged in user as their own userSessionManager...
+
+    @Autowired
+    public void setUserSessionManager(IUserSessionManager userSessionManager) {
+        this.userSessionManager = userSessionManager;
+    }
 
     @Autowired
     public void setRecommendationAdmin(IRecommendationAdmin recommendationAdmin) {
@@ -61,7 +68,7 @@ public class RecommendationController
             return get(model, theRecommendation);
         }
         /*Store this nito the database*/
-        recommendationAdmin.createRecommendation( Common.GetGenAdminAuthToken(), theRecommendation );
+        recommendationAdmin.createRecommendation( userSessionManager.getTokenString(), theRecommendation );
         return "redirect:/Recommendation/ShowRecommendations";
     }
     
@@ -74,7 +81,7 @@ public class RecommendationController
     @RequestMapping(value = "ShowRecommendations", method = RequestMethod.GET)
     public String ShowAllReviews(ModelMap model) throws Exception
     {        
-        List<BOLO.Recommendation> recommendations = recommendationAdmin.getAllRecommendations( Common.GetGenAdminAuthToken());
+        List<BOLO.Recommendation> recommendations = recommendationAdmin.getAllRecommendations( userSessionManager.getTokenString());
         model.addAttribute("recommendations", recommendations);
         return "Recommendations/ShowAllRecommendations";
     }
