@@ -6,14 +6,12 @@
 
 package BOL;
 import BOL.Interfaces.IAuthentication;
+import BOL.Interfaces.ICommonUtil;
 import BOL.Interfaces.IUserSessionManager;
-import BOL.security.UserAuthService;
 import BOLO.UserSessionInfo;
 import BSL.Interfaces.IUserAdmin;
 import DAL.Interfaces.IUserDAO;
-import com.sun.xml.ws.security.impl.policy.Constants;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.Serializable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,13 +21,27 @@ import org.springframework.transaction.annotation.Transactional;
  * Objects to control, manages details about the current user session
  * @author Stuart
  */
-public class UserSessionManager implements IUserSessionManager
+public class UserSessionManager implements IUserSessionManager, Serializable
 {
-    private UserSessionInfo userSessionInfo = null;
+    private UserSessionInfo userSessionInfo; // this is a scoped proxy session object. There is a unique one instantiated for each session   
     private IUserAdmin userAdmin;
     private IAuthentication authenticationBOL; 
     private IUserDAO userDAO;
+    private ICommonUtil commonUtil;
 
+    @Autowired
+    public void setCommonUtil(ICommonUtil commonUtil) {
+        this.commonUtil = commonUtil;
+    }
+
+    
+    
+
+    @Autowired
+    public void setUserSessionInfo(UserSessionInfo userSessionInfo) 
+    {
+       this.userSessionInfo = userSessionInfo;
+    }
     @Autowired
     public void setIUserDAO(IUserDAO userDAO) {
         this.userDAO = userDAO;
@@ -47,11 +59,15 @@ public class UserSessionManager implements IUserSessionManager
     }
 
     
-    
+    /**
+     * Gets the current Session Token for the user. 
+     * @return
+     * @throws Exception 
+     */
     @Transactional
     public BOLO.UserSessionInfo GetCurrentUserSession() throws Exception 
     {
-        if( userSessionInfo == null)
+        if( userSessionInfo.getSessionToken() == null)
         {
             userSessionInfo = new UserSessionInfo();            
             try
@@ -81,15 +97,14 @@ public class UserSessionManager implements IUserSessionManager
                     userSessionInfo.setSessionToken(token);
                 }
                 catch(Exception error)
-                {
-                    
+                {                    
                     throw new Exception("Unable to find user while getting current user session", error);
                 }
             }
             catch(Exception error)
             {
                 userSessionInfo = null;
-                Logger.getLogger(UserAuthService.class.getName()).log(Level.SEVERE, null, new Exception("Creating user session ",error));
+                commonUtil.justLogException("Error creating user session", error);
                 throw new Exception("Creating user session ",error);
             }
         }       
