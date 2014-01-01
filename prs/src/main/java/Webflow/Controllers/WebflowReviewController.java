@@ -160,7 +160,7 @@ public class WebflowReviewController  implements Action {
         {
             req.getFlowScope().put("product", result);   
             // we might as well get the product characteristics now and put them into the flow also
-            getProductCharacteristics(req, product);
+            getProductCharacteristics(req, result);
             return new Event(this, "yes");
         }else
         {

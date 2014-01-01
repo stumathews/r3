@@ -6,7 +6,7 @@
 
 package Website.Initialisation;
 
-
+import WSL.Interfaces.IAdminFacade;
 import BSL.Interfaces.ICharacteristicAdmin;
 import BSL.Interfaces.ILoginAdmin;
 import BSL.Interfaces.IProductAdmin;
@@ -39,6 +39,10 @@ public class Bootstrap
     
     @Autowired
     private IUserAdmin userAdmin;
+    
+    @Autowired
+    private WSL.Interfaces.IAdminFacade adminFacade;
+    
 
     @PostConstruct
     public void onAppStartup()

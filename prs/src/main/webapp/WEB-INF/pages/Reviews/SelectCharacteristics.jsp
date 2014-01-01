@@ -26,15 +26,19 @@
         </div><!--/span-->       
         <div class="span9">
           
-          <!--
-          Select characterteristics that you'd like to review.
-          Show all the product's characteristics.
-          -->
-          <h1>Select the characteristic of ${product.getTitle()}</h1>
-          <!-- Get the products characteristics -->
           
-          <!-- Ask user to select the characteristics to base review on -->
+        
+           <c:choose>
+            <c:when test="${empty characteristics.getItems()}">
+               <c:url var="ViewProductURL" value="/Product/Show/${product.getIdentifier()}"/>
+                This product has not characteristics to review: <a href="${ViewProductURL}">${product.getTitle()}</a><br/>     
+            </c:when>
+            <c:otherwise>
+                <!-- Select characterteristics that you'd like to review. Show all the product's characteristics.          -->
+            <p>Select a characteristic of <a href="${ViewProductURL}">${product.getTitle()}</a> that you want to review.</p>
+            <!-- Get the products characteristics -->
           
+                <!-- Ask user to select the characteristics to base review on -->
                 <form:form modelAttribute="selectedCharacteristic">
                     <table class="table table-hover">
                     <th></th>
@@ -64,6 +68,9 @@
                         <p class="text-error">${message.text}</p>                      
                     </c:forEach>
                 </form:form>
+            </c:otherwise>
+          </c:choose>
+                
                   
               
             

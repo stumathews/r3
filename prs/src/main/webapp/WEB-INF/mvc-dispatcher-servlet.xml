@@ -204,6 +204,9 @@
     </bean>
     
     <!-- BOLO Beans ... -->
+    <bean id="r3config" class="BOLO.R3GlobalConfig">
+      <property name="validateToken" value="false"/>
+    </bean>
     <!-- This is a token for the user's session -->
     <bean id="userSessionInfo" class="BOLO.UserSessionInfo" scope="session">
         <aop:scoped-proxy/>
