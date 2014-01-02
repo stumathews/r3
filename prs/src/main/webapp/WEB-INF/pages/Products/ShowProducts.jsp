@@ -44,7 +44,7 @@
                         <td class="span1">
                             <a href="${ViewProductURL}"><img src="http://lorempixel.com/149/20${counter.index}" class="img-polaroid"/></a>
                             <br/>
-                            characteristics: ${productCharacteristics.size()}
+                            characteristics: ${product.getCharacteristics()}
                         </td>
                         <td>
                             <a href="${ViewProductURL}"><c:out value="${product.getTitle()}"></c:out></a>

@@ -81,8 +81,8 @@ public class ProductController
         
         // Get all products in the database
         ArrayList< BOLO.Product > products = productAdmin.getAllProducts( token );
-                
-        // add products to model view
+        
+        // add products to model view        
         model.addAttribute("products", products);
         
         return "Products/ShowProducts"; 

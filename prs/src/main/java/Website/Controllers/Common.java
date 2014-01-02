@@ -17,13 +17,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Common 
 {
-    private static ILoginAdmin loginAdmin;
-    private static IServiceAuthoriser auth;
-
-    @Autowired
-    public static void setAuth(IServiceAuthoriser auth) {
-        Common.auth = auth;
-    }
+    private static ILoginAdmin loginAdmin;  
     
     
     @Autowired

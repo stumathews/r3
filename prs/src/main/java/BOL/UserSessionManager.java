@@ -15,12 +15,14 @@ import java.io.Serializable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Objects to control, manages details about the current user session
  * @author Stuart
  */
+@Component
 public class UserSessionManager implements IUserSessionManager, Serializable
 {
     private UserSessionInfo userSessionInfo; // this is a scoped proxy session object. There is a unique one instantiated for each session   

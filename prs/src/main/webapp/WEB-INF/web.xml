@@ -21,14 +21,13 @@
     </listener> -->
     
     <!-- Listeners -->
-    
+   
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
-    <!--
+    </listener>         
     <listener>
         <listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
-    </listener> -->
+    </listener> 
     
     <!-- Servlets -->
     <servlet>
@@ -41,11 +40,17 @@
         <servlet-class>com.sun.xml.ws.transport.http.servlet.WSSpringServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    
     <servlet>
         <servlet-name>mvc-dispatcher</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <!--<load-on-startup>1</load-on-startup>-->
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>        
     </servlet>
+    <servlet-mapping>
+        <servlet-name>mvc-dispatcher</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+    
+    
     <servlet>
         <servlet-name>ProductFacade</servlet-name>
         <servlet-class>com.sun.xml.ws.transport.http.servlet.WSSpringServlet</servlet-class>
@@ -68,10 +73,7 @@
     </servlet>
     
     <!-- Servlet mappings -->
-    <servlet-mapping>
-        <servlet-name>mvc-dispatcher</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>AdminFacade</servlet-name>
         <url-pattern>/AdminFacade</url-pattern>
@@ -110,8 +112,11 @@
         <res-auth>Container</res-auth>
     </resource-ref>
     
+    <!--
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>/WEB-INF/mvc-dispatcher-servlet.xml</param-value>
     </context-param>
+    -->
+    
 </web-app>

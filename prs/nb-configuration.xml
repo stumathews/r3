@@ -6,12 +6,6 @@ The configuration is intended to be shared among all the users of project and
 therefore it is assumed to be part of version control checkout.
 Without this configuration present, some functionality in the IDE may be limited or fail altogether.
 -->
-    <spring-data xmlns="http://www.netbeans.org/ns/spring-data/1">
-        <config-files>
-            <config-file>src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml</config-file>
-        </config-files>
-        <config-file-groups/>
-    </spring-data>
     <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
         <word>css</word>
         <word>href</word>
@@ -38,4 +32,11 @@ Any value defined here will override the pom.xml file value but is only applicab
         <org-netbeans-modules-web-clientproject-api.js_2e_libs_2e_folder>themes/bootstrap/js</org-netbeans-modules-web-clientproject-api.js_2e_libs_2e_folder>
         <netbeans.compile.on.save>all</netbeans.compile.on.save>
     </properties>
+    <spring-data xmlns="http://www.netbeans.org/ns/spring-data/1">
+        <config-files>
+            <config-file>src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml</config-file>
+            <config-file>src/main/webapp/WEB-INF/applicationContext.xml</config-file>
+        </config-files>
+        <config-file-groups/>
+    </spring-data>
 </project-shared-configuration>
