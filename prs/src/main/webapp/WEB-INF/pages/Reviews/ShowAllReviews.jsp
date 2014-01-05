@@ -60,7 +60,7 @@
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="${themeURLBase}/jquery.js"></script>
     <script src="${themeURLBase}/bootstrap/js/bootstrap.min.js"></script>
 
   

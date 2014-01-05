@@ -29,12 +29,69 @@
  http://www.springframework.org/schema/webflow-config  
  http://www.springframework.org/schema/webflow-config/spring-webflow-config-2.0.xsd">
 
+  
+  <!-- Spring Internal configuration stuff... -->
+        
+   
+    <!-- Database/hibernate stuff/beans etc... --> 
+     <!-- Allows transactions to be made at a function level via @Transactional -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <!-- Process annotations on registered beans like @Autowired... -->
+    <context:annotation-config/>
+    
+    
     <!-- Spring Security beans etc -->
     <bean id="myUserAuthService" class="BOL.security.UserAuthService">
         <property name="userDAO" ref="userDAO"/>
     </bean>
      <!-- Spring security -->
     <import resource="spring-security.xml" />
+            
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="mySessionFactory"/>    
+    </bean>
+    
+    <bean id="myDataSource" 
+         class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/r3" />
+        <property name="username" value="root" />
+        <property name="password" value="" />
+    </bean>
+    
+    
+    <!--
+    <bean id="myDataSource" 
+         class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	<property name="driverClassName" value="org.hsqldb.jdbcDriver" />
+	<property name="url" value="jdbc:hsqldb:mem:r3" />        
+	<property name="username" value="sa" />
+	<property name="password" value="" />
+    </bean>
+    -->
+    
+   <!--<jee:jndi-lookup id="myDataSource" jndi-name="java:comp/env/jdbc/test"/>-->
+   
+    <bean id="mySessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+     <property name="dataSource" ref="myDataSource"/>
+     <property name="hibernateProperties">
+       <props>
+         <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+         <!-- <prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop> -->
+         <prop key="hibernate.show_sql">true</prop>
+         <prop key="hibernate.c3p0.min_size">5</prop>
+         <prop key="hibernate.c3p0.max_size">20</prop>
+         <prop key="hibernate.c3p0.timeout">300</prop>
+         <prop key="hibernate.c3p0.max_statements">50</prop>
+         <prop key="hibernate.c3p0.idle_test_period">3000</prop>
+         <prop key="hibernate.hbm2ddl.auto">create</prop>
+       </props>
+     </property>
+     <property name="mappingLocations">
+         <value>classpath*:DEL/**/*.hbm.xml</value>
+     </property>  
+    </bean>
+    
     
     <!-- Web Services: this bean implements web service methods -->
    <bean id="adminFacade" class="WSL.AdminFacade"/>
@@ -64,60 +121,6 @@
             <ws:service bean="#productFacade" />
         </wss:service>
     </wss:binding>
-    
-    
-    
-    
-    <!-- Database/hibernate stuff/beans etc... --> 
-     <!-- Allows transactions to be made at a function level via @Transactional -->
-    <tx:annotation-driven transaction-manager="transactionManager"/>
-    <!-- Process annotations on registered beans like @Autowired... -->
-    <context:annotation-config/>
-    
-    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-        <property name="sessionFactory" ref="mySessionFactory"/>    
-    </bean>
-    <!--
-    <bean id="myDataSource" 
-         class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/r3" />
-        <property name="username" value="root" />
-        <property name="password" value="" />
-    </bean>
-    -->
-    
-    
-    <bean id="myDataSource" 
-         class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-	<property name="driverClassName" value="org.hsqldb.jdbcDriver" />
-	<property name="url" value="jdbc:hsqldb:mem:r3" />        
-	<property name="username" value="sa" />
-	<property name="password" value="" />
-    </bean>
-    
-    
-   <!--<jee:jndi-lookup id="myDataSource" jndi-name="java:comp/env/jdbc/test"/>-->
-   
-    <bean id="mySessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
-     <property name="dataSource" ref="myDataSource"/>
-     <property name="hibernateProperties">
-       <props>
-         <!-- <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop> -->
-         <prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
-         <prop key="hibernate.show_sql">true</prop>
-         <prop key="hibernate.c3p0.min_size">5</prop>
-         <prop key="hibernate.c3p0.max_size">20</prop>
-         <prop key="hibernate.c3p0.timeout">300</prop>
-         <prop key="hibernate.c3p0.max_statements">50</prop>
-         <prop key="hibernate.c3p0.idle_test_period">3000</prop>
-         <prop key="hibernate.hbm2ddl.auto">create</prop>
-       </props>
-     </property>
-     <property name="mappingLocations">
-         <value>classpath*:DEL/**/*.hbm.xml</value>
-     </property>  
-    </bean>
     
      <!-- General Website beans etc... -->
     

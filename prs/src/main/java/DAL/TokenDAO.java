@@ -41,6 +41,7 @@ public class TokenDAO implements ITokenDAO
 
             if( del_user == null ){ // user not found, auto-create it...
                     userDAO.createUser(username, password);
+                    del_user = userDAO.retrieve(username, password);
             }
 
             Session session = sessionFactory.getCurrentSession();		
@@ -49,6 +50,7 @@ public class TokenDAO implements ITokenDAO
             del_token.setIssued_time(token.getIssued_time());
             del_token.setMins_valid(token.getMins_valid());
             del_token.setTokenString(token.getTokenString());
+            del_token.setUser(del_user);
 
             session.save(del_token);
 	}

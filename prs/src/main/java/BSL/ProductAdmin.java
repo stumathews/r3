@@ -82,7 +82,7 @@ public class ProductAdmin implements IProductAdmin
         DEL.Product del_prod = new DEL.Product();
             
             // If we have an existing product, we'll need to use the same id
-            if(prod.getIdentifier() != null)
+            if(prod.getIdentifier() != null && !prod.getIdentifier().isEmpty())
                 del_prod.setId( Long.parseLong(prod.getIdentifier()));
             
             del_prod.setTitle(prod.getTitle());

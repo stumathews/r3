@@ -27,12 +27,16 @@
  http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
  http://www.springframework.org/schema/webflow-config  
  http://www.springframework.org/schema/webflow-config/spring-webflow-config-2.0.xsd">
- 	
-   
-    <!-- Spring Internal configuration stuff... -->
-        
-    <!-- Scan for spring annotated components -->
+    
+  <!-- == SHARED START == -->  
+  <!-- Scan for spring annotated components -->
     <context:component-scan base-package="Website.Controllers, BOL, Webflow.Controllers, BOLO.Validators, Website.Initialisation" />
+    
+  <!-- Allows transactions to be made at a function level via @Transactional -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+  <!-- Process annotations on registered beans like @Autowired... -->
+    <context:annotation-config/>    
+  <!-- == SHARED END == -->  
     <mvc:resources mapping="/themes/**" location="/themes/" />   
     
     <!-- This tag registers the DefaultAnnotationHandlerMapping and
@@ -62,11 +66,6 @@
                <value>.jsp</value>
        </property>
     </bean>
-    
-   
-   
-    
-    
     
    
     
