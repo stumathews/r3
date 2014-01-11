@@ -7,25 +7,21 @@ package DAL;
 import BOL.Characteristic;
 import BOL.Interfaces.ICharacteristic;
 import BOL.Interfaces.IProduct;
-import BOL.Product;
+import BOLO.Review;
 import DAL.Interfaces.ICharacteristicReviewDAO;
 import DAL.Interfaces.ICharacteristicsDAO;
 import DAL.Interfaces.IProductDAO;
 import DAL.Interfaces.IReviewDAO;
 import DAL.Interfaces.IUserDAO;
 import DEL.CharacteristicReview;
-import DEL.Review;
 import DEL.User;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
-import Utility.SwapableCollection;
 
 
 public class ReviewDAO implements IReviewDAO {
@@ -175,6 +171,17 @@ public class ReviewDAO implements IReviewDAO {
         del_reviews = (ArrayList<DEL.Review>) session.createQuery(String.format("from Review where product_id = %s", productID)).list();
         return del_reviews;
     }
+
+  public List<DEL.Review> getUserReviews(User user) throws Exception 
+  {
+    
+    // Get reviews for this user only.
+    Session session = sessionFactory.getCurrentSession();    
+    List<DEL.Review> user_reviews = session.createQuery(String.format("from Review where user_id = %s",user.getId())).list();
+    
+    return user_reviews;
+    
+  }
     
 
 }

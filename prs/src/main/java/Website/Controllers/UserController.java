@@ -1,10 +1,16 @@
 package Website.Controllers;
  
 import BOL.Interfaces.IUserSessionManager;
+import BOLO.Token;
+import BOLO.User;
+import BSL.Interfaces.ICharacteristicAdmin;
 import BSL.Interfaces.ILoginAdmin;
+import BSL.Interfaces.IProductAdmin;
+import BSL.Interfaces.IReviewAdmin;
 import BSL.Interfaces.IUserAdmin;
 import BSL.LoginAdmin;
 import java.util.ArrayList;
+import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +32,24 @@ public class UserController
     private IUserAdmin userAdmin;
     private BSL.Interfaces.ILoginAdmin loginAdmin;
     private BOL.Interfaces.IUserSessionManager userSessionManager; // each logged in user as their own userSessionManager...
+    private BSL.Interfaces.IProductAdmin productAdmin;        
+    private BSL.Interfaces.ICharacteristicAdmin characteristicAdmin;
+    private BSL.Interfaces.IReviewAdmin reviewAdmin; 
+
+    @Autowired
+    public void setProductAdmin(IProductAdmin productAdmin) {
+      this.productAdmin = productAdmin;
+    }
+
+    @Autowired
+    public void setCharacteristicAdmin(ICharacteristicAdmin characteristicAdmin) {
+      this.characteristicAdmin = characteristicAdmin;
+    }
+
+    @Autowired
+    public void setReviewAdmin(IReviewAdmin reviewAdmin) {
+      this.reviewAdmin = reviewAdmin;
+    }
 
     @Autowired
     public void setUserSessionManager(IUserSessionManager userSessionManager) {
@@ -112,6 +136,26 @@ public class UserController
     {
         userAdmin.deleteUser(userSessionManager.getTokenString(),username);
         return "redirect:/User/ShowUserList";
+    }
+    
+    /***
+     * HTTP Get a user. This shows the user page
+     * @param username the name of the user to view details on
+     * @param model
+     * @return the Users.ShowUser page
+     * @throws Exception 
+     */
+    @RequestMapping(value="/{username}", method = RequestMethod.GET)
+    public String showUser( @PathVariable("username") String username, ModelMap model) throws Exception    
+    {
+      User user = userSessionManager.GetCurrentUserSession().getLoggedInUser();
+      Token token = userSessionManager.GetCurrentUserSession().getSessionToken();
+      List<BOLO.Review> user_reviews = reviewAdmin.getUserReviews(user.getUsername(), token.getTokenString());
+      
+      model.addAttribute("reviews",user_reviews);
+      model.addAttribute("user", user);
+      
+      return "Users/ShowUser";      
     }
 }
 

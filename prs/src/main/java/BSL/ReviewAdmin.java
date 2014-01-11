@@ -4,7 +4,7 @@
  */
 package BSL;
 
-import BOL.Interfaces.IReview;
+
 import BOL.Interfaces.IServiceAuthoriser;
 import BOLO.Review;
 import BSL.Interfaces.IReviewAdmin;
@@ -54,5 +54,12 @@ public class ReviewAdmin implements IReviewAdmin {
     {
        serviceAuthorisor.authorise(token); 
        return ReviewLogic.getProductReviews(productID);
+    }
+
+    @Transactional
+    public List<BOLO.Review> getUserReviews(String username, String tokenString) throws Exception 
+    {      
+      serviceAuthorisor.authorise(tokenString);
+      return ReviewLogic.getUserReviews(username);
     }
 }

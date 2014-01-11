@@ -9,11 +9,13 @@ import BOL.Interfaces.IReview;
 import BOLO.CharacteristicReview;
 import BOLO.ProductCharacteristic;
 import DAL.Interfaces.IReviewDAO;
+import DAL.Interfaces.IUserDAO;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import Utility.SwapableCollection;
 import java.util.AbstractList;
+import java.util.HashSet;
 
 /**
  * Review business logic
@@ -24,6 +26,12 @@ public class Review implements IReview
 
     private IReviewDAO reviewDAO;
     private ICharacteristic characteristicBOL;
+    private IUserDAO userDAO;
+
+    @Autowired
+    public void setUserDAO(IUserDAO userDAO) {
+      this.userDAO = userDAO;
+    }
         
    @Autowired
    public void setCharacteristicBOL(ICharacteristic characteristicBOL) {
@@ -174,6 +182,76 @@ public class Review implements IReview
                                         );
             
         return del_review;                
+    }
+
+    /***
+     * Gets the list of reviews that this user has
+     * @param username of the user to get reviews for
+     * @return a list of reviews that the user had done
+     */
+    public List<BOLO.Review> getUserReviews(String username)  throws Exception
+    {
+      try
+      {
+        DEL.User user = userDAO.getUser(username);
+        List<BOLO.Review> user_reviews = new ArrayList<BOLO.Review>();
+          for( DEL.Review dReview : reviewDAO.getUserReviews(user))
+          {
+            BOLO.Review bReview = new BOLO.Review();
+            List<BOLO.CharacteristicReview> cReviews = new ArrayList<BOLO.CharacteristicReview>();
+            for( DEL.CharacteristicReview dCharacteristicReview : dReview.getCharacteristicReviews())
+            {
+              BOLO.CharacteristicReview cr = new CharacteristicReview();
+              cr.setReview_text(dCharacteristicReview.getReview_text());
+              BOLO.User  bUser = new BOLO.User();
+              bUser.setUsername(user.getUsername());
+              bUser.setPassword(user.getPassword());                           
+              cr.setUser(bUser);
+              DEL.Characteristic dCharacteristic = dCharacteristicReview.getCharacteristic();
+              BOLO.ProductCharacteristic bProductCharacteristic = new ProductCharacteristic();
+              bProductCharacteristic.setDescription(dCharacteristic.getDescription());
+              bProductCharacteristic.setTitle(dCharacteristic.getName());
+              bProductCharacteristic.setId(dCharacteristic.getId());
+              cr.setCharacteristic(bProductCharacteristic);
+              cr.setId(dReview.getId());
+              cReviews.add(cr);
+              
+            }
+            bReview.setCharacteristicReviews(cReviews);
+            bReview.setHighlights(dReview.getHighlights());
+            bReview.setLowlights(dReview.getLowlights());
+            BOLO.Product product = new BOLO.Product();
+              product.setCharacteristics(new ArrayList<ProductCharacteristic>());
+            DEL.Product dProduct = dReview.getProduct();
+              
+            for( DEL.Characteristic dCharacteristic : dProduct.getCharacteristics())
+            {
+              BOLO.ProductCharacteristic pc = new ProductCharacteristic();
+              pc.setDescription(dCharacteristic.getDescription());
+              pc.setId(dCharacteristic.getId());  
+              pc.setTitle(dCharacteristic.getName());
+              product.getCharacteristics().add(pc);
+            }
+            product.setIdentifier(dProduct.getId().toString());
+            product.setTitle(dProduct.getTitle());
+            product.setWhatIsIt(dProduct.getWhatIsIt());
+            product.setWhoMadeIt(dProduct.getWhoMadeIt());
+            bReview.setProduct(product);
+            BOLO.User bUser = new BOLO.User();
+            bUser.setPassword( dReview.getReviewer().getPassword());
+            bUser.setUsername(dReview.getReviewer().getUsername());
+            
+            bReview.setReviewer(bUser);  
+            
+            user_reviews.add(bReview);
+          }
+        return user_reviews;
+      }
+      catch(Exception error)
+      {
+        throw new Exception("Unable to retrieve user object fom databse", error);
+      }
+      
     }
     
 }

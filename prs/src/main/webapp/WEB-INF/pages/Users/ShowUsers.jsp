@@ -36,7 +36,8 @@
 		<c:forEach items="${users}" var="user" varStatus="counter">			
                     <tr>
                         <td><c:out value="${counter.count}"></c:out></td>
-                        <td><c:out value="${user.getUsername()}"></c:out></td>
+                        <c:url value="/User/${user.getUsername()}" var="viewUserURL" />
+                        <td><a href="${viewUserURL}"><c:out value="${user.getUsername()}"></c:out></a></td>
                         <c:url value="/User/Delete/${user.getUsername()}" var="deleteURL"/>
                         <td><a href="${deleteURL}"> Delete </a></td>
                     </tr>
