@@ -33,7 +33,10 @@ public class CharacteristicController
     @RequestMapping(value = "ShowCharacteristics", method = RequestMethod.GET)
     public String get(ModelMap model) throws Exception
     {		
-        List<BOLO.ProductCharacteristic> characteristics = characteristicAdmin.getAllCharacteristics(userSessionManager.getTokenString());
+      String token = userSessionManager.GetCurrentUserSession()
+                                         .getSessionToken()
+                                         .getTokenString();
+        List<BOLO.ProductCharacteristic> characteristics = characteristicAdmin.getAllCharacteristics(token);
         model.addAttribute("characteristics", characteristics);
         
         return "Characteristic/ShowCharacteristics";

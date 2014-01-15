@@ -72,11 +72,14 @@ public class ReviewController
     public String post(@ModelAttribute("NewReview") BOLO.Review theReview, ModelMap model)
     {
         try {
+          String token = userSessionManager.GetCurrentUserSession()
+                                         .getSessionToken()
+                                         .getTokenString();
             Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
             BOLO.User user = new BOLO.User();
             user.setUsername(auth.getName());            
             theReview.setReviewer(user);
-            reviewAdmin.SaveReview(userSessionManager.getTokenString(), theReview);
+            reviewAdmin.SaveReview(token, theReview);
             
         } catch (Exception ex) {
             Logger.getLogger(ReviewController.class.getName()).log(Level.SEVERE, null, ex);
@@ -92,8 +95,11 @@ public class ReviewController
     @RequestMapping(value = "ShowAllReviews", method = RequestMethod.GET)
     public String ShowAllReviews(ModelMap model) throws Exception
     {
+      String token = userSessionManager.GetCurrentUserSession()
+                                         .getSessionToken()
+                                         .getTokenString();
         List<BOLO.Review> reviews = new ArrayList<BOLO.Review>();
-        reviews = reviewAdmin.getAllReviews(userSessionManager.getTokenString());
+        reviews = reviewAdmin.getAllReviews(token);
         model.addAttribute("reviews",reviews);
                
         return "Reviews/ShowAllReviews";

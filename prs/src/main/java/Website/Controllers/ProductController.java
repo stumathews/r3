@@ -100,7 +100,10 @@ public class ProductController
     public BOLO.Product getProductRaw( @PathVariable("productID") String productID, 
                                ModelMap model) throws Exception
     {
-        return productAdmin.getProductByID(userSessionManager.getTokenString(), productID);
+      String token = userSessionManager.GetCurrentUserSession()
+                                         .getSessionToken()
+                                         .getTokenString();
+        return productAdmin.getProductByID(token, productID);
     }
     
     
@@ -151,7 +154,10 @@ public class ProductController
     public String deleteProductByIDView( @PathVariable("productID") String productID, 
                                          ModelMap model) throws Exception
     {
-        String token = userSessionManager.getTokenString();
+        String token = userSessionManager.GetCurrentUserSession()
+                                         .getSessionToken()
+                                         .getTokenString();
+        
         productAdmin.deleteProductByID( token, productID );
 
         return "redirect:/Product/ShowProductList";
@@ -184,9 +190,11 @@ public class ProductController
                                ModelMap model) throws Exception
     {    
         //FIXME: We should remove reliance on the DEL here and replace it with BOLO objects
-        String token = userSessionManager.getTokenString();
+        String token = userSessionManager.GetCurrentUserSession()
+                                         .getSessionToken()
+                                         .getTokenString();
         BOLO.Product prod = productAdmin.getProductByID(token, productID);        
-        List<BOLO.ProductCharacteristic> productCharacteristics = characteristicAdmin.getProductCharacteristics(userSessionManager.getTokenString(), productID);
+        List<BOLO.ProductCharacteristic> productCharacteristics = characteristicAdmin.getProductCharacteristics(token, productID);
         List<BOLO.Review> reviews = reviewAdmin.getProductReviews( token, productID );
         model.addAttribute("productCharacteristics", productCharacteristics);
         model.addAttribute("product",prod);
@@ -216,8 +224,10 @@ public class ProductController
 
         
         
-        //prod.setImageURL(url); 
-        productAdmin.addProduct( userSessionManager.getTokenString() , product);	
+        String token = userSessionManager.GetCurrentUserSession()
+                                         .getSessionToken()
+                                         .getTokenString();
+        productAdmin.addProduct( token , product);	
 
         return "redirect:/Product/ShowProductList";
 
@@ -260,7 +270,11 @@ public class ProductController
         {
             return addProductCharacteristicView(newChar,productID,map);
         }
-            characteristicAdmin.addProductCharacteristic(userSessionManager.getTokenString(),
+        String token = userSessionManager.GetCurrentUserSession()
+                                         .getSessionToken()
+                                         .getTokenString();
+        
+            characteristicAdmin.addProductCharacteristic(token,
                                                         productID, 
                                                         newChar.getTitle(),
                                                         newChar.getDescription());

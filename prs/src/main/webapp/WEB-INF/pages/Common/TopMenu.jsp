@@ -13,7 +13,8 @@
         <div class="nav-collapse collapse">       
             <p class="navbar-text pull-right">
             <c:url value="/j_spring_security_logout" var="logoutURL"></c:url>             
-            Hi user
+            <c:url value="/User/${user.getUsername()}" var="UserPageLink"/>
+            Hi <a href="${UserPageLink}" class="navbar-link"> ${user.getUsername()}</a>
             <a href="${logoutURL}" class="navbar-link"> logout</a>
             </p>       
             

@@ -50,8 +50,10 @@ public class WebflowRecommendationController  implements Action {
         BOLO.Product product = (BOLO.Product) req.getFlowScope().get("product",BOLO.Product.class); 
         if( product.getIdentifier() == null)
             return new Event(this,"no");
-        
-        BOLO.Product result = productAdmin.getProductByID(userSessionManager.getTokenString(), product.getIdentifier() );
+        String token = userSessionManager.GetCurrentUserSession()
+                                         .getSessionToken()
+                                         .getTokenString();
+        BOLO.Product result = productAdmin.getProductByID(token, product.getIdentifier() );
         
         if( result != null)
         {
@@ -66,7 +68,10 @@ public class WebflowRecommendationController  implements Action {
     
     public void saveRecommendation(RequestContext req, BOLO.Recommendation recommendation, BOLO.Product product) throws Exception
     {        
-        recommendationAdmin.createRecommendation(userSessionManager.getTokenString(), recommendation);        
+      String token = userSessionManager.GetCurrentUserSession()
+                                         .getSessionToken()
+                                         .getTokenString();
+        recommendationAdmin.createRecommendation(token, recommendation);        
         req.getFlowScope().put("recommendation", recommendation);  
     }
     

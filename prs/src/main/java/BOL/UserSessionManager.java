@@ -28,7 +28,7 @@ public class UserSessionManager implements IUserSessionManager, Serializable
     private UserSessionInfo userSessionInfo; // this is a scoped proxy session object. There is a unique one instantiated for each session   
     private IUserAdmin userAdmin;
     private IAuthentication authenticationBOL; 
-    private IUserDAO userDAO;
+    private IUserDAO userDAO;    
     private ICommonUtil commonUtil;
 
     @Autowired
@@ -65,7 +65,7 @@ public class UserSessionManager implements IUserSessionManager, Serializable
      * Gets the current Session Token for the user. 
      * @return
      * @throws Exception 
-     */
+     */ 
     @Transactional
     public BOLO.UserSessionInfo GetCurrentUserSession() throws Exception 
     {
@@ -87,7 +87,7 @@ public class UserSessionManager implements IUserSessionManager, Serializable
                  
                 try
                 {
-                    DEL.User dUser = userDAO.getUser(auth.getName());
+                    DEL.User dUser =  userDAO.getUser(auth.getName());
                     BOLO.User bUser = new BOLO.User();
                     
                     bUser.setPassword(dUser.getPassword());
@@ -112,11 +112,6 @@ public class UserSessionManager implements IUserSessionManager, Serializable
         }       
         
         return userSessionInfo;
-    }
-
-    public String getTokenString() throws Exception 
-    {
-        return GetCurrentUserSession().getSessionToken().getTokenString();
-    }
+    }   
     
 }

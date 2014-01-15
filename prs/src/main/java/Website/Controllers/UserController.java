@@ -84,7 +84,8 @@ public class UserController
      * @return add user view
      */
     @RequestMapping(value = "/ShowAddUser", method = RequestMethod.GET)
-    public String addUser(ModelMap model) { 
+    public String addUser(ModelMap model) 
+    { 
         model.addAttribute("user", new BOLO.User());
         return "Users/AddUser";
     }
@@ -98,7 +99,10 @@ public class UserController
     @RequestMapping(value = "/ShowUserList", method = RequestMethod.GET)
     public String listUsers(ModelMap model) throws Exception
     {        
-        ArrayList<DEL.User> users = userAdmin.getAllUsers(userSessionManager.getTokenString());
+       String token = userSessionManager.GetCurrentUserSession()
+                                         .getSessionToken()
+                                         .getTokenString();
+        ArrayList<DEL.User> users = userAdmin.getAllUsers(token);
         model.addAttribute("users", users);
         return "Users/ShowUsers";
     }
@@ -113,6 +117,9 @@ public class UserController
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String createUser(ModelMap model, @Valid @ModelAttribute("user") BOLO.User user, BindingResult result ) throws Exception 
     {
+      String token = userSessionManager.GetCurrentUserSession()
+                                         .getSessionToken()
+                                         .getTokenString();
         if( result.hasErrors() )
         {
             return "Users/AddUser";
@@ -120,7 +127,7 @@ public class UserController
         
         String username = user.getUsername();
         String password = user.getPassword();
-        userAdmin.createUser(userSessionManager.getTokenString(),username, password);
+        userAdmin.createUser(token,username, password);
         return "redirect:/User/ShowUserList";
     }
     
@@ -134,7 +141,10 @@ public class UserController
     @RequestMapping(value = "/Delete/{user}", method = RequestMethod.GET)
     public String deleteUser( @PathVariable("user") String username, ModelMap model) throws Exception
     {
-        userAdmin.deleteUser(userSessionManager.getTokenString(),username);
+      String token = userSessionManager.GetCurrentUserSession()
+                                         .getSessionToken()
+                                         .getTokenString();
+        userAdmin.deleteUser(token,username);
         return "redirect:/User/ShowUserList";
     }
     

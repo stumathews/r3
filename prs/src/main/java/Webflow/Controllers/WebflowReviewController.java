@@ -47,11 +47,15 @@ public class WebflowReviewController  implements Action {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
         String username = auth.getName();
         
+        String token = userSessionManager.GetCurrentUserSession()
+                                         .getSessionToken()
+                                         .getTokenString();
+        
         // lets do some initialisation of the flowscope variables, not sure if needed but ok to do so for now
         BOLO.Review review = new BOLO.Review();
         review.setCharacteristicReviews(new ArrayList<CharacteristicReview>()); // to prevent nulls
         
-        BOLO.User reviewer = userAdmin.getUser(userSessionManager.getTokenString(),username); 
+        BOLO.User reviewer = userAdmin.getUser(token,username); 
         BOLO.ProductCharacteristic selectedCharacteristic = new BOLO.ProductCharacteristic();
         BOLO.Product product = new BOLO.Product();
         BOLO.Wrappers.CharacteristicList characteristics = new BOLO.Wrappers.CharacteristicList();
@@ -97,7 +101,9 @@ public class WebflowReviewController  implements Action {
     
     public Event saveReview(RequestContext req, BOLO.Review review, BOLO.Product theProduct, BOLO.User reviewer) throws Exception    
     {      
-        String token = userSessionManager.getTokenString();
+        String token = userSessionManager.GetCurrentUserSession()
+                                         .getSessionToken()
+                                         .getTokenString();
         review.setReviewer(reviewer);
         review.setProduct(theProduct);
         
@@ -119,6 +125,9 @@ public class WebflowReviewController  implements Action {
      */
     public void getProductCharacteristics(RequestContext req, BOLO.Product theProduct) throws Exception
     {
+        String token = userSessionManager.GetCurrentUserSession()
+                                         .getSessionToken()
+                                         .getTokenString();
         List<BOLO.ProductCharacteristic> db_prod_chars   = new ArrayList<BOLO.ProductCharacteristic>();  
         // Get the session storage variable for characteristics...
         // This is a wrapper for a collection of items
@@ -127,7 +136,7 @@ public class WebflowReviewController  implements Action {
         // This is where the actual items will go, 
         ArrayList<BOLO.ProductCharacteristic> actual_chars = new ArrayList<BOLO.ProductCharacteristic>();
         // Go and get the actual characteristics for this product form the database
-        db_prod_chars = characteristicAdmin.getProductCharacteristics(userSessionManager.getTokenString(), theProduct.getIdentifier());
+        db_prod_chars = characteristicAdmin.getProductCharacteristics(token, theProduct.getIdentifier());
         
         // put the actual items into actual_chars
         for( BOLO.ProductCharacteristic prod_char : db_prod_chars )
@@ -152,10 +161,15 @@ public class WebflowReviewController  implements Action {
      */
     public Event isProductSelected(RequestContext req) throws Exception
     {
+      String token = userSessionManager.GetCurrentUserSession()
+                                         .getSessionToken()
+                                         .getTokenString();
         BOLO.Product product = (BOLO.Product) req.getFlowScope().get("product",BOLO.Product.class); 
         if( product.getIdentifier() == null)
             return new Event(this,"no");
-        BOLO.Product result = productAdmin.getProductByID(userSessionManager.getTokenString(), product.getIdentifier() );
+        
+        
+        BOLO.Product result = productAdmin.getProductByID(token, product.getIdentifier() );
         if( result != null)
         {
             req.getFlowScope().put("product", result);   
@@ -176,7 +190,10 @@ public class WebflowReviewController  implements Action {
      */
     public void putAllProductsIntoFlow(RequestContext req) throws Exception
     {        
-        ArrayList<BOLO.Product> result = productAdmin.getAllProducts(userSessionManager.getTokenString());
+      String token = userSessionManager.GetCurrentUserSession()
+                                         .getSessionToken()
+                                         .getTokenString();
+        ArrayList<BOLO.Product> result = productAdmin.getAllProducts(token);
         req.getFlowScope().put("products", result);
     }
        

@@ -19,7 +19,7 @@ public interface IUserSessionManager
      * @throws Exception 
      */
     public BOLO.UserSessionInfo GetCurrentUserSession() throws Exception;
-
-    public String getTokenString() throws Exception;
+ 
+    
     
 }

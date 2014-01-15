@@ -63,12 +63,15 @@ public class RecommendationController
     @RequestMapping( method = RequestMethod.POST)
     public String create( ModelMap model, @Valid @ModelAttribute("NewRecommendation") BOLO.Recommendation theRecommendation,BindingResult result) throws Exception
     {
+      String token = userSessionManager.GetCurrentUserSession()
+                                         .getSessionToken()
+                                         .getTokenString();
         if( result.hasErrors())
         {
             return get(model, theRecommendation);
         }
         /*Store this nito the database*/
-        recommendationAdmin.createRecommendation( userSessionManager.getTokenString(), theRecommendation );
+        recommendationAdmin.createRecommendation(token, theRecommendation );
         return "redirect:/Recommendation/ShowRecommendations";
     }
     
@@ -81,7 +84,10 @@ public class RecommendationController
     @RequestMapping(value = "ShowRecommendations", method = RequestMethod.GET)
     public String ShowAllReviews(ModelMap model) throws Exception
     {        
-        List<BOLO.Recommendation> recommendations = recommendationAdmin.getAllRecommendations( userSessionManager.getTokenString());
+      String token = userSessionManager.GetCurrentUserSession()
+                                         .getSessionToken()
+                                         .getTokenString();
+        List<BOLO.Recommendation> recommendations = recommendationAdmin.getAllRecommendations( token);
         model.addAttribute("recommendations", recommendations);
         return "Recommendations/ShowAllRecommendations";
     }

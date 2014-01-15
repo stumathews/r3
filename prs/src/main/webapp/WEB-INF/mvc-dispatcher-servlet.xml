@@ -30,8 +30,7 @@
     
   <!-- == SHARED START == -->  
   <!-- Scan for spring annotated components -->
-    <context:component-scan base-package="Website.Controllers, BOL, Webflow.Controllers, BOLO.Validators, Website.Initialisation" />
-    
+    <context:component-scan base-package="Website.Controllers, BOL, Webflow.Controllers, BOLO.Validators, Website.Initialisation" />    
   <!-- Allows transactions to be made at a function level via @Transactional -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
   <!-- Process annotations on registered beans like @Autowired... -->
