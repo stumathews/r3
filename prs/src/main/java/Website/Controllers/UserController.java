@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Controller that manages /user routes
@@ -159,13 +160,11 @@ public class UserController
     public String showUser( @PathVariable("username") String username, ModelMap model) throws Exception    
     {
       User user = userSessionManager.GetCurrentUserSession().getLoggedInUser();
-      Token token = userSessionManager.GetCurrentUserSession().getSessionToken();
-      List<BOLO.Review> user_reviews = reviewAdmin.getUserReviews(user.getUsername(), token.getTokenString());
-      
-      model.addAttribute("reviews",user_reviews);
+      Token token = userSessionManager.GetCurrentUserSession().getSessionToken();      
       model.addAttribute("user", user);
       
       return "Users/ShowUser";      
     }
+        
 }
 

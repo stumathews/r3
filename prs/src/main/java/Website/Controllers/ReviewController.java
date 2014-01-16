@@ -15,8 +15,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -103,6 +105,24 @@ public class ReviewController
         model.addAttribute("reviews",reviews);
                
         return "Reviews/ShowAllReviews";
+    }
+    
+    /***
+     * Return JSON representation of a DEL.Product
+     * @param productID
+     * @param model
+     * @return
+     * @throws Exception 
+     */
+    @RequestMapping(value="/{username}/json", method = RequestMethod.GET)
+    @ResponseBody
+    public List<BOLO.Review> getUserReviews( @PathVariable("username") String username, 
+                               ModelMap model) throws Exception
+    {
+      String token = userSessionManager.GetCurrentUserSession()
+                                         .getSessionToken()
+                                         .getTokenString();
+        return reviewAdmin.getUserReviews(username, token);
     }
          
 }

@@ -49,18 +49,13 @@
             <div class="row-fluid">   
               <!-- User Reviews -->
               User Reviews:<hr/>
-                    <dl class="dl-horizontal">
-                      <c:forEach items="${reviews}" var="review" varStatus="count">
-                        <c:set var="product" value="${review.getProduct()}" />
-                        <dt>Product:</dt><dd>${product.getTitle()}</dd>
-                        <c:set var="aspects" value="${review.getCharacteristicReviews()}"/>
-                        <c:forEach items="${aspects}" var="aspect" >
-                          <c:set var="characteristic" value="${aspect.getCharacteristic()}"/>
-                          <dt>Aspect:</dt><dd>${characteristic.getTitle()}</dd>
-                          <dt>Review:</dt><dd>${aspect.getReview_text()}</dd>
-                        </c:forEach>
-                      </c:forEach>                        
-                    </dl>
+            <dl class="dl-horizontal">
+                <div id="reviews">
+                    <div id="ajax-loader" class="pagination-centered">
+                        <img src="${themeURLBase}/images/ajax-loader.gif"/>
+                    </div>   
+                </div>
+            </dl>
             </div>           
           </div>
           
@@ -82,7 +77,75 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="${themeURLBase}/jquery.js"></script>
     <script src="${themeURLBase}/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+   
+    $( document ).ready(function(){        
+         if (request) {
+              request.abort();  // abort any pending request
+         }
+       
+        
+       var request = $.ajax({
+              dataType: "json",
+              url : "/PRS/Review/${user.getUsername()}/json",
+              type : "GET"              
+            });
+            
+        // This is jQuery 1.8+
+        // callback handler that will be called on success
+        request.done(function(data) {
+          
+          $("#ajax-loader").remove();
+          
+          /* We're expecting a list of user's reviews */
+          for ( var i = 0; i < data.length; i++) {
+            var review = data[i];
+            var product = review.product;
+            var reviewer = review.reviewer;            
+            var characteristicReviews = review.characteristicReviews;
+            var newDiv = "<dt>Product:</dt>"+
+                         "<dd>"+product.title+"</dd>";
+            $(newDiv).appendTo('#reviews');
+            
+            /* Lets detail each of the characteristics the user has reviewed in each review */    
+            characteristicReviews.forEach(function(entry){
+                var ch_review = entry;
+                var review_text = ch_review.review_text;
+                var characteristic = ch_review.characteristic;
+                var title = ch_review.title;
+                var description = ch_review.description;
+                
+                /* Inject it into the page */
+                var newDiv = "<dt>Aspect:</dt>"+
+                             "<dd>"+characteristic.title+ "</dd>"+
+                             "<dt>Review:</dt>"+
+                             "<dd>"+review_text+"</dd>"    
+                    $(newDiv).appendTo('#reviews');
 
+            })                 
+        }
+
+            
+          
+
+        });
+            
+        // callback handler that will be called on failure
+        request.fail(function(jqXHR, textStatus, errorThrown) {
+          // log the error to the console
+          alert("The following error occured: " + textStatus, errorThrown);
+        });
+        
+        // callback handler that will be called regardless if the request failed or succeeded
+            request.always(function() {
+              //$inputs.prop("disabled", false);  // re-enable the inputs
+            });
+
+            event.preventDefault();   // prevent default posting of form
+       
+    });
+
+    </script>
   
 
 </body>
