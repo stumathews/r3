@@ -51,9 +51,27 @@
               User Reviews:<hr/>
             <dl class="dl-horizontal">
                 <div id="reviews">
-                    <div id="ajax-loader" class="pagination-centered">
-                        <img src="${themeURLBase}/images/ajax-loader.gif"/>
-                    </div>   
+                    <!-- Choose between traditional page data for load lazy loading ajax -->
+                    <c:choose>
+                        <c:when test="${useAjax == true}">
+                            <div id="ajax-loader" class="pagination-centered">
+                                <img src="${themeURLBase}/images/ajax-loader.gif"/>
+                             </div> 
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach items="${reviews}" var="review" varStatus="count">
+                            <c:set var="product" value="${review.getProduct()}" />
+                            <dt>Product:</dt><dd>${product.getTitle()}</dd>
+                            <c:set var="aspects" value="${review.getCharacteristicReviews()}"/>
+                            <c:forEach items="${aspects}" var="aspect" >
+                              <c:set var="characteristic" value="${aspect.getCharacteristic()}"/>
+                              <dt>Aspect:</dt><dd>${characteristic.getTitle()}</dd>
+                              <dt>Review:</dt><dd>${aspect.getReview_text()}</dd>
+                            </c:forEach>
+                          </c:forEach>
+                        </c:otherwise>                        
+                    </c:choose>
+                    
                 </div>
             </dl>
             </div>           
@@ -84,6 +102,7 @@
               request.abort();  // abort any pending request
          }
        
+       /* Determine if we should run or not */
         
        var request = $.ajax({
               dataType: "json",
@@ -95,38 +114,39 @@
         // callback handler that will be called on success
         request.done(function(data) {
           
-          $("#ajax-loader").remove();
+          if($("#ajax-loader").length > 0 ) // do ajax if page designed that way
+          {
+             $("#ajax-loader").remove();         
           
-          /* We're expecting a list of user's reviews */
-          for ( var i = 0; i < data.length; i++) {
-            var review = data[i];
-            var product = review.product;
-            var reviewer = review.reviewer;            
-            var characteristicReviews = review.characteristicReviews;
-            var newDiv = "<dt>Product:</dt>"+
-                         "<dd>"+product.title+"</dd>";
-            $(newDiv).appendTo('#reviews');
-            
-            /* Lets detail each of the characteristics the user has reviewed in each review */    
-            characteristicReviews.forEach(function(entry){
-                var ch_review = entry;
-                var review_text = ch_review.review_text;
-                var characteristic = ch_review.characteristic;
-                var title = ch_review.title;
-                var description = ch_review.description;
-                
-                /* Inject it into the page */
-                var newDiv = "<dt>Aspect:</dt>"+
-                             "<dd>"+characteristic.title+ "</dd>"+
-                             "<dt>Review:</dt>"+
-                             "<dd>"+review_text+"</dd>"    
-                    $(newDiv).appendTo('#reviews');
+            /* We're expecting a list of user's reviews */
+            for ( var i = 0; i < data.length; i++) 
+            {
+              var review = data[i];
+              var product = review.product;
+              var reviewer = review.reviewer;            
+              var characteristicReviews = review.characteristicReviews;
+              var newDiv = "<dt>Product:</dt>"+
+                           "<dd>"+product.title+"</dd>";
+              $(newDiv).appendTo('#reviews');
 
-            })                 
-        }
+              /* Lets detail each of the characteristics the user has reviewed in each review */    
+              characteristicReviews.forEach(function(entry){
+                  var ch_review = entry;
+                  var review_text = ch_review.review_text;
+                  var characteristic = ch_review.characteristic;
+                  var title = ch_review.title;
+                  var description = ch_review.description;
 
-            
-          
+                  /* Inject it into the page */
+                  var newDiv = "<dt>Aspect:</dt>"+
+                               "<dd>"+characteristic.title+ "</dd>"+
+                               "<dt>Review:</dt>"+
+                               "<dd>"+review_text+"</dd>"    
+                      $(newDiv).appendTo('#reviews');
+
+              })                 
+            }
+          }
 
         });
             

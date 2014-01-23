@@ -160,8 +160,17 @@ public class UserController
     public String showUser( @PathVariable("username") String username, ModelMap model) throws Exception    
     {
       User user = userSessionManager.GetCurrentUserSession().getLoggedInUser();
-      Token token = userSessionManager.GetCurrentUserSession().getSessionToken();      
+      Token token = userSessionManager.GetCurrentUserSession().getSessionToken();           
       model.addAttribute("user", user);
+      
+      boolean useAjax = false;
+      model.addAttribute("useAjax", useAjax);
+      
+      if( useAjax == false){
+        List<BOLO.Review> user_reviews = reviewAdmin.getUserReviews(user.getUsername(), token.getTokenString());      
+        model.addAttribute("reviews",user_reviews);
+      }
+      
       
       return "Users/ShowUser";      
     }
