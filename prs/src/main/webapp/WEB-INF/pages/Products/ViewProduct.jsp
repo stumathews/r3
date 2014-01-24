@@ -35,6 +35,7 @@
     <!-- Column for main page content -->
     <div class="span9">
         <div class="row">  
+            <div style="padding-left:10px;">
             <!-- Column for produt picture -->
             <div class="span2">
                 <img class="img-polaroid" src="http://lorempixel.com/149/207"/>                
@@ -58,8 +59,9 @@
                 </div>
                 
             </div>
-        </div>
-            
+           </div>         
+        
+        </div>    
         <br/> <!-- next row -->
         
         <div class="row">    
@@ -73,8 +75,7 @@
                         <strong>Characteristics:</strong>
                         <p>These are the characteristics that make up this product.<br>You can review each of them separately or make a full review, choosing multiple to base your review on.</p>   
                         <ul class="nav nav-tabs" id="characteristicTabs">
-                            <!-- Loop through all the characteristics. 
-                            Later well need to loop through only the most valuable ones -->
+                            <!-- Loop through all the characteristics. Later well need to loop through only the most valuable ones -->
                             <c:forEach items="${productCharacteristics}" var="currentCharacteristic" varStatus="counter">
                                 <c:set var="name" value="${currentCharacteristic.getTitle()}" />
                                 <li><a href="#${fn:replace(name,' ','_')}" data-toggle="tab" >${name} <span class="badge">${counter.index + 3}</span></a></li>                        
@@ -86,6 +87,7 @@
                         <div class="span11">
                             <div class="tab-content">                        
                                 <c:forEach items="${productCharacteristics}" var="currentCharacteristic">
+                                                                       
                                         <c:set var="description" value="${currentCharacteristic.getDescription()}"/>
                                         <c:set var="name" value="${currentCharacteristic.getTitle()}" />                                             
                                         <!-- <div class="tab-pane active" id="{name}">...</div> -->
@@ -94,34 +96,45 @@
                                                 <strong>Description: </strong>${description}
                                             </p>
                                             <br/>
-                                            <c:forEach items="${reviews}" var="review"  varStatus="status">
-                                            <div class="row-fluid">
-                                                <div class="span2">                                            
-                                                    <img src="http://lorempixel.com/80/8${status.index}/"/>
-                                                    <div><strong>${review.getReviewer().getUsername()}</strong></div>                                            
-                                                </div>
-                                                <div class="span9">
-                                                    <c:forEach items="${review.getCharacteristicReviews()}" var="characteristicReview" varStatus="characteristicReviewCount">
-                                                    <p>${characteristicReview.getReview_text()}</p>                                            
-                                                    <!-- Show pictures detailing the characteristic of the product -->
-                                                    <br/><br/><br/>
-                                                    <p><strong>User images:</strong> Images detailing this aspect</p>
+                                             <!-- Look for reviews for this characteristic -->
+                                            <c:forEach items="${reviews}" var="review" >                                        
+                                                <c:forEach items="${review.getCharacteristicReviews()}" var="characteristicReview"> 
+                                                    <c:choose>                                                        
+                                                        <c:when test="${characteristicReview.getCharacteristic().getTitle() == currentCharacteristic.getTitle()}"> 
+                                                            ${currentCharacteristic.getTitle()} = ${characteristicReview.getCharacteristic().getTitle()} <br/>                                                            
+                                                                <!-- print this review -->
+                                                             <div class="row-fluid">
+                                                                <div class="span2">                                            
+                                                                    <img src="http://lorempixel.com/80/80/"/>
+                                                                    <div><strong>${review.getReviewer().getUsername()}</strong></div>                                            
+                                                                </div>
+                                                                <div class="span9">                                                    
+                                                                    
+                                                                    <p>${characteristicReview.getReview_text()}</p>                                            
+                                                                    <!-- Show pictures detailing the characteristic of the product -->
+                                                                    <br/><br/><br/>
+                                                                    <p><strong>User images:</strong> Images detailing this aspect</p>
 
-                                                    <c:forEach begin="1" end="3">
-                                                        <!--<img class="img-polaroid" src="http://img825.imageshack.us/img825/4719/filedm.jpg"/>-->
-                                                        <img src="http://placehold.it/100x50" alt="..." class="img-thumbnail">
-                                                    </c:forEach>   
-                                                    <br/><br/>
-                                                    <a href="#">Change this review</a><br><br/>
-                                                    <a id="thumbs-up-btn" class="btn btn-success" href="#">
-                                                        <i class="icon-thumbs-up icon-white icon-align-left">                    
-                                                        </i> I agree with this review
-                                                    </a>  
-                                                    </c:forEach>
-                                                </div>  
-
-                                            </div>
-                                            <br/><br/>
+                                                                    <c:forEach begin="1" end="3">
+                                                                        <!--<img class="img-polaroid" src="http://img825.imageshack.us/img825/4719/filedm.jpg"/>-->
+                                                                        <img src="http://placehold.it/100x50" alt="..." class="img-thumbnail">
+                                                                    </c:forEach>   
+                                                                    <br/><br/>
+                                                                    <a href="#">Change this review</a><br><br/>
+                                                                    <a id="thumbs-up-btn" class="btn btn-success" href="#">
+                                                                        <i class="icon-thumbs-up icon-white icon-align-left">                    
+                                                                        </i> I agree with this review
+                                                                    </a>  
+                                                                    
+                                                                </div>  
+                                                            </div>
+                                                            <br/><br/>           
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                             
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </c:forEach> 
                                             </c:forEach>
 
                                         </div>                            

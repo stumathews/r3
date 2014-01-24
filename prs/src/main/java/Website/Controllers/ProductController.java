@@ -195,7 +195,7 @@ public class ProductController
                                          .getTokenString();
         BOLO.Product prod = productAdmin.getProductByID(token, productID);        
         List<BOLO.ProductCharacteristic> productCharacteristics = characteristicAdmin.getProductCharacteristics(token, productID);
-        List<BOLO.Review> reviews = reviewAdmin.getProductReviews( token, productID );
+        List<BOLO.Review> reviews = reviewAdmin.getProductReviews( token, productID );        
         model.addAttribute("productCharacteristics", productCharacteristics);
         model.addAttribute("product",prod);
         model.addAttribute("reviews", reviews);
