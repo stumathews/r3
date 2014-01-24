@@ -65,7 +65,7 @@
         <br/> <!-- next row -->
         
         <div class="row">    
-           
+           <div style="padding-left:10px;">
             <div class="span12">      
                 <c:choose>
                     <c:when test="${empty productCharacteristics}">
@@ -146,7 +146,7 @@
                 </c:choose>
                     
                 <!-- Construct the characteristics for the product -->
-                           
+            </div>
             </div>  <!-- span12 -->               
         </div>
         <div class="row"> 
