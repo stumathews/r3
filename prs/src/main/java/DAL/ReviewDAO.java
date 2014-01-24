@@ -19,8 +19,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -168,7 +170,12 @@ public class ReviewDAO implements IReviewDAO {
         Session session = sessionFactory.getCurrentSession();	        
         List<DEL.Review> del_reviews = new ArrayList<DEL.Review>();     
         
-        del_reviews = (ArrayList<DEL.Review>) session.createQuery(String.format("from Review where product_id = %s", productID)).list();
+        del_reviews = (ArrayList<DEL.Review>) session.createCriteria(DEL.Review.class)
+                                                      .setFetchMode("characteristicReviews", FetchMode.JOIN)
+                                                      .createCriteria("product")
+                                                      .add(Restrictions.eq("id", Long.parseLong(productID)))
+                                                      .list();
+                //.createQuery(String.format("from Review where product_id = %s", productID)).list();
         return del_reviews;
     }
 

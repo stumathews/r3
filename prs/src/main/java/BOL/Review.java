@@ -57,61 +57,9 @@ public class Review implements IReview
         reviewDAO.SaveReview( theReview );
     }
 
-    public List<BOLO.Review> getProductReviews(String productID) throws Exception 
-    {
-        List<BOLO.Review> bolo_reviews = new ArrayList<BOLO.Review>();
-        List<DEL.Review> del_reviews =  reviewDAO.getProductReviews(productID);
-        for( DEL.Review dr : del_reviews)
-        {
-            BOLO.Review review = new BOLO.Review();
-            review.setHighlights(dr.getHighlights()); 
-            review.setLowlights(dr.getLowlights());
-            review.setText(dr.getText());
-            
-            BOLO.User user = new BOLO.User();
-            user.setUsername(dr.getReviewer().getUsername());
-            user.setPassword(dr.getReviewer().getPassword());
-            
-            for( DEL.CharacteristicReview dchr : dr.getCharacteristicReviews())
-            {
-                BOLO.CharacteristicReview characteristicReview = new BOLO.CharacteristicReview();
-                characteristicReview.setId(dchr.getId());
-                characteristicReview.setReview_text(dchr.getReview_text());
-                
-                characteristicReview.setUser(user);    
-                BOLO.ProductCharacteristic productCharacteristic = new ProductCharacteristic();
-                productCharacteristic.setDescription(dchr.getCharacteristic().getDescription());
-                productCharacteristic.setId(dchr.getCharacteristic().getId());
-                productCharacteristic.setTitle(dchr.getCharacteristic().getName());
-                        
-                characteristicReview.setCharacteristic(productCharacteristic);
-                review.getCharacteristicReviews().add(characteristicReview);
-            }
-            
-            DEL.Product review_product = dr.getProduct();
-            
-            
-            review.setReviewer(user);
-            
-            BOLO.Product bolo_product = new BOLO.Product();
-            bolo_product.setCharacteristics(new ArrayList<ProductCharacteristic>());                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
-            for( DEL.Characteristic dch : review_product.getCharacteristics())
-            {
-                BOLO.ProductCharacteristic pch = new ProductCharacteristic();
-                pch.setDescription(dch.getDescription());
-                pch.setId(dch.getId());
-                pch.setTitle(dch.getName());
-                bolo_product.getCharacteristics().add(pch);
-            }            
-            bolo_product.setIdentifier(review_product.getId().toString() );
-            bolo_product.setTitle(review_product.getTitle());
-            bolo_product.setWhatIsIt(review_product.getWhatIsIt());
-            bolo_product.setWhoMadeIt(review_product.getWhoMadeIt());
-            
-            review.setProduct(bolo_product);
-            bolo_reviews.add(review);
-        }
-        return bolo_reviews;
+    public List<DEL.Review> getProductReviews(String productID) throws Exception 
+    {        
+        return reviewDAO.getProductReviews(productID);
     }
 
     private List<BOLO.Review> Convert(List<DEL.Review> del_reviews) throws Exception
