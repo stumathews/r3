@@ -34,7 +34,7 @@
           <!-- SPLIT PANEL 1-->
           <div class="span3">
             <!-- User picture -->
-            <img class="img-polaroid" src="http://lorempixel.com/149/207"/> 
+            <img class="img-polaroid" src="${themeURLBase}/images/product_image.gif"/>
           </div>
           
           <div class="span6">

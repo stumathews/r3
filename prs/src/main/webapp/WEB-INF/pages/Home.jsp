@@ -42,8 +42,8 @@
                     <dt>Custom Characteristics</dt>
                     <dd>The system primarily provides functionality for a user to define a product's characteristics and then provide feedback on those aspects of the product
                         <ul>
-                            <li>Construct characteristics with custom meaning</li>
-                            <li>Review characteristics</li>
+                            <li>Construct characteristics with custom meaning &#10004;</li>
+                            <li>Review characteristics &#10004;</li>
                         </ul>
                     </dd>
                     <dt>Peer insight visibility</dt>

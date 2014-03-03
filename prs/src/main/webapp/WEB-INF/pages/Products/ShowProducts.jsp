@@ -42,7 +42,7 @@
                     <c:url var="ViewProductURL" value="/Product/Show/${product.getIdentifier()}"/>
                     <tr>
                         <td class="span1">
-                            <a href="${ViewProductURL}"><img src="http://lorempixel.com/149/20${counter.index}" class="img-polaroid"/></a>
+                            <a href="${ViewProductURL}"><img src="${themeURLBase}/images/product_image.gif" class="img-polaroid"/></a>
                             <br/>
                             characteristics: ${product.getCharacteristics()}
                         </td>

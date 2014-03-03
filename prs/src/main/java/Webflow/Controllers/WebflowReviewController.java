@@ -69,8 +69,6 @@ public class WebflowReviewController  implements Action {
         req.getFlowScope().put("reviewer", reviewer);
         req.getFlowScope().put("currentCharacteristicReview", currentCharacteristicReview);
         
-        
-                                
         // Lets pull out the product Id of the product that this reviw will be based on
         String productIdentifier = req.getRequestParameters().get("productId");        
         // get the stored product object which is in flow scope session
@@ -93,8 +91,7 @@ public class WebflowReviewController  implements Action {
     public void saveCharacteristicReview(RequestContext req, BOLO.Review review, BOLO.Product theProduct, BOLO.ProductCharacteristic selectedCharacteristic, BOLO.CharacteristicReview selectedCharacteristicReview) throws Exception
     {      
         // lets add this characteristic to the review of this product   
-        selectedCharacteristicReview.setCharacteristic(selectedCharacteristic);
-                
+        selectedCharacteristicReview.setCharacteristic(selectedCharacteristic);                
         review.getCharacteristicReviews().add(selectedCharacteristicReview);        
         req.getFlowScope().put("review", review);        
     }

@@ -37,8 +37,8 @@
         <div class="row">  
             <div style="padding-left:10px;">
             <!-- Column for produt picture -->
-            <div class="span2">
-                <img class="img-polaroid" src="http://lorempixel.com/149/207"/>                
+            <div class="span2">              
+                <img class="img-polaroid" src="${themeURLBase}/images/product_image.gif"/>                
             </div>
             <!-- Column next to picture for basic product details -->            
             <div class="span9">
@@ -100,12 +100,11 @@
                                             <c:forEach items="${reviews}" var="review" >                                        
                                                 <c:forEach items="${review.getCharacteristicReviews()}" var="characteristicReview"> 
                                                     <c:choose>                                                        
-                                                        <c:when test="${characteristicReview.getCharacteristic().getName() == currentCharacteristic.getTitle()}"> 
-                                                            ${currentCharacteristic.getTitle()} = ${characteristicReview.getCharacteristic().getName()} <br/>                                                            
+                                                        <c:when test="${characteristicReview.getCharacteristic().getName() == currentCharacteristic.getTitle()}">                                                             
                                                                 <!-- print this review -->
                                                              <div class="row-fluid">
                                                                 <div class="span2">                                            
-                                                                    <img src="http://lorempixel.com/80/80/"/>
+                                                                    <img src="${themeURLBase}/images/user_image.gif"/>
                                                                     <div><strong>${review.getReviewer().getUsername()}</strong></div>                                            
                                                                 </div>
                                                                 <div class="span9">                                                    
@@ -117,7 +116,7 @@
 
                                                                     <c:forEach begin="1" end="3">
                                                                         <!--<img class="img-polaroid" src="http://img825.imageshack.us/img825/4719/filedm.jpg"/>-->
-                                                                        <img src="http://placehold.it/100x50" alt="..." class="img-thumbnail">
+                                                                        <img src="${themeURLBase}/images/charac_pic.gif" alt="..." class="img-thumbnail">
                                                                     </c:forEach>   
                                                                     <br/><br/>
                                                                     <a href="#">Change this review</a><br><br/>

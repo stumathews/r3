@@ -168,10 +168,11 @@ public class ReviewDAO implements IReviewDAO {
     public List<DEL.Review> getProductReviews(String productID) throws Exception 
     {        
         Session session = sessionFactory.getCurrentSession();	        
-        List<DEL.Review> del_reviews = new ArrayList<DEL.Review>();     
+        List<DEL.Review> del_reviews = new ArrayList<DEL.Review>();    
         
         del_reviews = (ArrayList<DEL.Review>) session.createCriteria(DEL.Review.class)
                                                       .setFetchMode("characteristicReviews", FetchMode.JOIN)
+                                                      .setFetchMode("reviewer", FetchMode.JOIN)
                                                       .createCriteria("product")
                                                       .add(Restrictions.eq("id", Long.parseLong(productID)))
                                                       .list();
