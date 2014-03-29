@@ -18,6 +18,10 @@
       <property name="name" column="name" type="string" />
       <property name="useful_value" column="useful_value" type="int" />
       
+      <set name="characteristicReviews" inverse="true">
+             <key column="characteristic_id"/>
+            <one-to-many class="CharacteristicReview"/>
+      </set>
       <one-to-one class="User" name="creator"/>     
       <many-to-one name="product" class="Product" column="product_id"  />  
        

@@ -50,7 +50,7 @@ public class ReviewAdmin implements IReviewAdmin {
     }    
 
     @Transactional
-    public List<DEL.Review> getProductReviews(String token, String productID) throws Exception 
+    public List<BOLO.Review> getProductReviews(String token, String productID) throws Exception 
     {
        serviceAuthorisor.authorise(token); 
        return ReviewLogic.getProductReviews(productID);

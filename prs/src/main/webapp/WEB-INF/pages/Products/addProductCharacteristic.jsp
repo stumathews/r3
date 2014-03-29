@@ -33,8 +33,8 @@
             <c:url value="/Product/add/characteristic/${productID}" var="AddProductCharacteristicURL"/>
             <form:form modelAttribute="FormProductCharacteristic" cssClass="form-horizontal" action="${AddProductCharacteristicURL}" method="post">
                 <fieldset>
-                    <legend>Add product characteristic</legend> 
-                    <p>Add an aspect of the product you wish to review. Eg. Colour, ease of use etc. </p>
+                    <legend>Add product aspect</legend> 
+                    <p>Add an aspect or characteristic of the product you wish to review. Eg. Colour, ease of use etc. </p>
                     
                         <div class="form-group">
                         <form:label for="title" path="title">Title</form:label>

@@ -14,11 +14,10 @@
           <generator class="identity"/>          
       </id>     
       
-      <one-to-one class="Characteristic" name="characteristic"/> 
+      <many-to-one class="Characteristic" name="characteristic" column="characteristic_id"/> 
       <one-to-one class="User" name="user"/>      
       <property name="review_text" column="review_text" type="text" />
       
-      <many-to-one class="Review" name="review" column="review_id"/> 
-      
+      <many-to-one class="Review" name="review" column="review_id"/>
   </class>
 </hibernate-mapping>

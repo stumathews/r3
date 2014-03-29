@@ -1,6 +1,8 @@
 
 package DEL;
 
+import java.util.Set;
+
 /**
  * A Characteristic
  * @author Stuart
@@ -14,7 +16,16 @@ public class Characteristic
     private String description;
     private int useful_value;    
     private User creator;
-    private Product product;   
+    private Product product;
+    private Set<CharacteristicReview> characteristicReviews;
+
+  public Set<CharacteristicReview> getCharacteristicReviews() {
+    return characteristicReviews;
+  }
+
+  public void setCharacteristicReviews(Set<CharacteristicReview> characteristicReviews) {
+    this.characteristicReviews = characteristicReviews;
+  }
     
     public User getCreator() {
         return creator;

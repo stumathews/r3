@@ -6,8 +6,7 @@ package BOL;
 
 import BOL.Interfaces.ICharacteristic;
 import BOL.Interfaces.IReview;
-import BOLO.CharacteristicReview;
-import BOLO.ProductCharacteristic;
+import BOLO.*;
 import DAL.Interfaces.IReviewDAO;
 import DAL.Interfaces.IUserDAO;
 import DEL.User;
@@ -17,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import Utility.SwapableCollection;
 import java.util.AbstractList;
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Review business logic
@@ -49,7 +49,13 @@ public class Review implements IReview
     
     public List<BOLO.Review> getAllReviews() throws Exception
     {
-        return reviewDAO.getAllReviews();
+      List<BOLO.Review> bolo_reviews = new ArrayList<BOLO.Review>();
+      for( DEL.Review dr : reviewDAO.getAllReviews())
+      {
+        BOLO.Review br = convertToBOLO(dr);
+        bolo_reviews.add(br);
+      }
+        return bolo_reviews;
     }
     
 
@@ -57,9 +63,19 @@ public class Review implements IReview
         reviewDAO.SaveReview( theReview );
     }
 
-    public List<DEL.Review> getProductReviews(String productID) throws Exception 
+    public List<BOLO.Review> getProductReviews(String productID) throws Exception 
     {        
-        return reviewDAO.getProductReviews(productID);
+        List<DEL.Review> del_reviews = reviewDAO.getProductReviews(productID);
+        List<BOLO.Review> bolo_reviews = new ArrayList<BOLO.Review>();
+        
+        // Convert to bolo to eliminate del lazy loading.
+        for( DEL.Review del_review : del_reviews)
+        {
+          BOLO.Review bolo_review = convertToBOLO(del_review);
+          bolo_reviews.add(bolo_review);                 
+        }
+        
+        return bolo_reviews;
     }
 
     private List<BOLO.Review> Convert(List<DEL.Review> del_reviews) throws Exception
@@ -157,57 +173,62 @@ public class Review implements IReview
       }
       
     }
-
+    
   private BOLO.Review convertToBOLO(DEL.Review dReview) throws Exception
   {
-    User user = dReview.getReviewer();
-    BOLO.Review bReview = new BOLO.Review();
-    bReview.setCharacteristicReviews(new ArrayList<CharacteristicReview>());
-    List<BOLO.CharacteristicReview> cReviews = new ArrayList<BOLO.CharacteristicReview>();
-    for( DEL.CharacteristicReview dCharacteristicReview : dReview.getCharacteristicReviews())
-    {
-      BOLO.CharacteristicReview cr = new CharacteristicReview();
-      cr.setReview_text(dCharacteristicReview.getReview_text());
-      BOLO.User  bUser = new BOLO.User();
-      bUser.setUsername(user.getUsername());
-      bUser.setPassword(user.getPassword());
-      cr.setUser(bUser);
-      DEL.Characteristic dCharacteristic = dCharacteristicReview.getCharacteristic();
-      BOLO.ProductCharacteristic bProductCharacteristic = new ProductCharacteristic();
-      bProductCharacteristic.setDescription(dCharacteristic.getDescription());
-      bProductCharacteristic.setTitle(dCharacteristic.getName());
-      bProductCharacteristic.setId(dCharacteristic.getId());
-      cr.setCharacteristic(bProductCharacteristic);
-      cr.setId(dReview.getId());
-      cReviews.add(cr);
+    User user = dReview.getReviewer();    
+    BOLO.Review bReview = new BOLO.Review();    
+      bReview.setCharacteristicReviews(new ArrayList<CharacteristicReview>());
       
-    }
+    List<BOLO.CharacteristicReview> cReviews = new ArrayList<BOLO.CharacteristicReview>();
+      for( DEL.CharacteristicReview dCharacteristicReview : dReview.getCharacteristicReviews())
+      {
+        BOLO.CharacteristicReview cr = new CharacteristicReview();
+        cr.setReview_text(dCharacteristicReview.getReview_text());
+          BOLO.User  bUser = new BOLO.User();
+          bUser.setUsername(user.getUsername());
+          bUser.setPassword(user.getPassword());
+        cr.setUser(bUser);
+          DEL.Characteristic dCharacteristic = dCharacteristicReview.getCharacteristic();
+          BOLO.ProductCharacteristic bProductCharacteristic = new ProductCharacteristic();
+            bProductCharacteristic.setDescription(dCharacteristic.getDescription());
+            bProductCharacteristic.setTitle(dCharacteristic.getName());
+            bProductCharacteristic.setId(dCharacteristic.getId());
+        cr.setCharacteristic(bProductCharacteristic);
+        cr.setId(dReview.getId());
+        cReviews.add(cr);
+      }
     bReview.setCharacteristicReviews(cReviews);
     bReview.setHighlights(dReview.getHighlights());
     bReview.setLowlights(dReview.getLowlights());
+    
     BOLO.Product product = new BOLO.Product();
-    product.setCharacteristics(new ArrayList<ProductCharacteristic>());
+      product.setCharacteristics(new ArrayList<ProductCharacteristic>());
     DEL.Product dProduct = dReview.getProduct();
     
     for( DEL.Characteristic dCharacteristic : dProduct.getCharacteristics())
     {
       BOLO.ProductCharacteristic pc = new ProductCharacteristic();
-      pc.setDescription(dCharacteristic.getDescription());
-      pc.setId(dCharacteristic.getId());
-      pc.setTitle(dCharacteristic.getName());
+        pc.setDescription(dCharacteristic.getDescription());
+        pc.setId(dCharacteristic.getId());
+        pc.setTitle(dCharacteristic.getName());
       product.getCharacteristics().add(pc);
     }
-    product.setIdentifier(dProduct.getId().toString());
-    product.setTitle(dProduct.getTitle());
-    product.setWhatIsIt(dProduct.getWhatIsIt());
-    product.setWhoMadeIt(dProduct.getWhoMadeIt());
+      product.setIdentifier(dProduct.getId().toString());
+      product.setTitle(dProduct.getTitle());
+      product.setWhatIsIt(dProduct.getWhatIsIt());
+      product.setWhoMadeIt(dProduct.getWhoMadeIt());
     bReview.setProduct(product);
-    BOLO.User bUser = new BOLO.User();
-    bUser.setPassword( dReview.getReviewer().getPassword());
-    bUser.setUsername(dReview.getReviewer().getUsername());
+      BOLO.User bUser = new BOLO.User();
+        bUser.setPassword( dReview.getReviewer().getPassword());
+        bUser.setUsername(dReview.getReviewer().getUsername());
     
     bReview.setReviewer(bUser);
     return bReview;
+  }
+
+  private CharacteristicReview convertToBOLO(DEL.CharacteristicReview dCharacteristicReview) {
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
     
 }

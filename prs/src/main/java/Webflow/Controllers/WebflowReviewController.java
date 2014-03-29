@@ -3,13 +3,11 @@
 */
 package Webflow.Controllers;
 
-import BOL.Interfaces.IUserSessionManager;
 import BOLO.CharacteristicReview;
 import BSL.Interfaces.ICharacteristicAdmin;
 import BSL.Interfaces.IProductAdmin;
 import BSL.Interfaces.IReviewAdmin;
 import BSL.Interfaces.IUserAdmin;
-import Website.Controllers.Common;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,7 +89,8 @@ public class WebflowReviewController  implements Action {
     public void saveCharacteristicReview(RequestContext req, BOLO.Review review, BOLO.Product theProduct, BOLO.ProductCharacteristic selectedCharacteristic, BOLO.CharacteristicReview selectedCharacteristicReview) throws Exception
     {      
         // lets add this characteristic to the review of this product   
-        selectedCharacteristicReview.setCharacteristic(selectedCharacteristic);                
+        selectedCharacteristicReview.setCharacteristic(selectedCharacteristic);  
+        selectedCharacteristicReview.setUser(review.getReviewer());
         review.getCharacteristicReviews().add(selectedCharacteristicReview);        
         req.getFlowScope().put("review", review);        
     }

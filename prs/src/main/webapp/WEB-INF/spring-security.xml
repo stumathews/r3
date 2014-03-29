@@ -24,12 +24,13 @@
         <form-login login-page="/login" default-target-url="/" authentication-failure-url="/loginfailed" />         
         <logout logout-success-url="/logout" />
         <session-management invalid-session-url="/sessiontimeout" >
-            <concurrency-control max-sessions="1" error-if-maximum-exceeded="true" />
+            <concurrency-control max-sessions="1" error-if-maximum-exceeded="true" />            
         </session-management>
         <logout delete-cookies="JSESSIONID" /> <!-- to prevent session mis-timeouts etc... -->
     </http>
     <authentication-manager>
         <authentication-provider user-service-ref="myUserAuthService" />
+        
         <!--
         <authentication-provider>
             

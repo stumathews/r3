@@ -100,7 +100,7 @@
                                             <c:forEach items="${reviews}" var="review" >                                        
                                                 <c:forEach items="${review.getCharacteristicReviews()}" var="characteristicReview"> 
                                                     <c:choose>                                                        
-                                                        <c:when test="${characteristicReview.getCharacteristic().getName() == currentCharacteristic.getTitle()}">                                                             
+                                                        <c:when test="${characteristicReview.getCharacteristic().getTitle() == currentCharacteristic.getTitle()}">                                                             
                                                                 <!-- print this review -->
                                                              <div class="row-fluid">
                                                                 <div class="span2">                                            

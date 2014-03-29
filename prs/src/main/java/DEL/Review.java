@@ -20,7 +20,7 @@ public class Review  {
     private String highlights;
     private String lowlights;
     private Recommendation recommendation;
-    private Set<CharacteristicReview> characteristicReviews;
+    private Set<CharacteristicReview> characteristicReviews = new HashSet<CharacteristicReview>();
     private Product product;
     private DEL.User reviewer;
     private int reuse_rate;   

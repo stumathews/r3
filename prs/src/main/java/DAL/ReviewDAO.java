@@ -85,11 +85,9 @@ public class ReviewDAO implements IReviewDAO {
      */    
     private List<DEL.Review> getAllRawReviews() 
     {
-        ArrayList<DEL.Review> reviews = new ArrayList<DEL.Review>();
-        
+        ArrayList<DEL.Review> reviews = new ArrayList<DEL.Review>();        
         Session session = sessionFactory.getCurrentSession();		
-        reviews = (ArrayList<DEL.Review>) session.createQuery("from Review").list();
-        
+        reviews = (ArrayList<DEL.Review>) session.createQuery("from Review").list();        
         return reviews;
     }    
     
@@ -99,70 +97,62 @@ public class ReviewDAO implements IReviewDAO {
      */
     public void SaveReview(BOLO.Review theReview) throws Exception
     {
-
-        DEL.Review del_review = new DEL.Review();        
-            del_review.setCharacteristicReviews(new HashSet<CharacteristicReview>());
-            del_review.setText(theReview.getText());
-            del_review.setLowlights(theReview.getLowlights());
-            del_review.setHighlights(theReview.getHighlights());
-            del_review.setReviewer(userDAO.retrieve(theReview.getReviewer().getUsername(), theReview.getReviewer().getPassword()));
-            
-            
+        Session session = sessionFactory.getCurrentSession();
+        
+        DEL.Review  del_review = new DEL.Review();
+                    del_review.setCredibility_rating(0);
+                    del_review.setHighlights(theReview.getHighlights());
+                    del_review.setLowlights(theReview.getLowlights());
+                    del_review.setRating(0);
+                    del_review.setRecommendation(null);
+                    del_review.setReuse_rate(0);
+                    del_review.setText(theReview.getText());
                     
+        session.save(del_review); //del_review is how persistant tracked variable...
         
-        BOLO.Product product = theReview.getProduct();
-            del_review.setProduct( productDAO.getProductByID(product.getIdentifier()) );
-
-        // This review consists on one of more characteristicReviews that are saved in the database.
-        
-        Set<DEL.CharacteristicReview> dCharacteristicReviews = new HashSet<CharacteristicReview>();
-        for( BOLO.CharacteristicReview chr : theReview.getCharacteristicReviews())
+        for( BOLO.CharacteristicReview bCharacteristicReview : theReview.getCharacteristicReviews())
         {
+          DEL.CharacteristicReview dCharacteristicReview = new CharacteristicReview();
+                                   dCharacteristicReview.setReview(del_review);
+                                   session.save(dCharacteristicReview); // This is persistant now
+          
+          DEL.Characteristic dCharacteristic = (DEL.Characteristic) 
+                                                session.get(DEL.Characteristic.class,
+                                                            bCharacteristicReview.getCharacteristic().getId()); // this i spersistant now
             
-            DEL.CharacteristicReview dchr = new CharacteristicReview();
-                dchr.setReview_text(chr.getReview_text());
-                
-            DEL.Characteristic dCharacteristic = new DEL.Characteristic();                        
-                dCharacteristic.setCreator(null); //TODO: we should set this
-                dCharacteristic.setDescription(chr.getCharacteristic().getDescription());            
-                dCharacteristic.setName(chr.getCharacteristic().getTitle());
-                dCharacteristic.setProduct(del_review.getProduct());
-                dCharacteristic.setUseful_value(0);
-                
-                dchr.setCharacteristic(dCharacteristic);                
-                dCharacteristicReviews.add(dchr);
-        }        
+                                  dCharacteristicReview.setCharacteristic(dCharacteristic);
+                                  dCharacteristicReview.setReview_text(theReview.getText());
+                                  dCharacteristicReview.setUser(dCharacteristicReview.getCharacteristic().getCreator());
+                                  dCharacteristicReview.setReview_text(bCharacteristicReview.getReview_text());
+          
+          if( del_review.getReviewer() == null )
+          {
+            DEL.User user = userDAO.getUser(theReview.getReviewer().getUsername());
+            del_review.setReviewer(user);            
+          }
+          
+          if( del_review.getProduct() == null)
+          {
+            del_review.setProduct(dCharacteristicReview.getCharacteristic().getProduct());
+          }          
+          del_review.getCharacteristicReviews().add(dCharacteristicReview);
+          
+        }
         
-       Session session = sessionFactory.getCurrentSession();
+            
+        
+                
+        
        
-       // first save the review
-       session.save(del_review);
-       // then add objects to it
-       for( DEL.CharacteristicReview dCharacteristicReview : dCharacteristicReviews)
-       {
-           dCharacteristicReview.setReview(del_review);
-           
-           session.save(dCharacteristicReview);
-       }
     }
 
     /***
      * Gets all reviews as Business objects
      * @return 
      */
-    public List<BOLO.Review> getAllReviews(){
-        
-        List<BOLO.Review> reviews = new ArrayList<BOLO.Review>();
-        for( DEL.Review review : getAllRawReviews() )
-        {
-            BOLO.Review newReview = new BOLO.Review();
-            newReview.setText(review.getText());
-            newReview.setHighlights(review.getHighlights());
-            newReview.setLowlights(review.getLowlights());
-            
-            reviews.add(newReview);
-        }
-        return reviews;
+    public List<DEL.Review> getAllReviews()
+    {        
+        return getAllRawReviews();
     }
 
     public List<DEL.Review> getProductReviews(String productID) throws Exception 
@@ -170,9 +160,7 @@ public class ReviewDAO implements IReviewDAO {
         Session session = sessionFactory.getCurrentSession();	        
         List<DEL.Review> del_reviews = new ArrayList<DEL.Review>();    
         
-        del_reviews = (ArrayList<DEL.Review>) session.createCriteria(DEL.Review.class)
-                                                      .setFetchMode("characteristicReviews", FetchMode.JOIN)
-                                                      .setFetchMode("reviewer", FetchMode.JOIN)
+        del_reviews = (ArrayList<DEL.Review>) session.createCriteria(DEL.Review.class)                                  
                                                       .createCriteria("product")
                                                       .add(Restrictions.eq("id", Long.parseLong(productID)))
                                                       .list();
