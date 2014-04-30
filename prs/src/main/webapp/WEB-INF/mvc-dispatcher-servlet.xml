@@ -80,6 +80,7 @@
  
     <webflow:flow-builder-services id="flowBuilderServices"
         view-factory-creator="viewFactoryCreator" />
+    
  
     <!--
     <webflow:flow-registry id="flowRegistry" flow-builder-services="flowBuilderServices">

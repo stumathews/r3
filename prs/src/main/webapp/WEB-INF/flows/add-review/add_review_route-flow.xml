@@ -11,6 +11,7 @@
     <var name="reviewer" class="BOLO.User"/> <!-- The user doing the review -->
     <var name="product" class="BOLO.Product" /> <!-- The product that this review is for -->
     <var name="characteristics" class="BOLO.Wrappers.CharacteristicList" />  <!-- All the characteristics of this product-->
+    <var name="selectedCharacteristics" class="BOLO.Wrappers.CharacteristicList" /> <!-- Will hold all characteristics user wasnt to review -->
     <var name="selectedCharacteristic" class="BOLO.ProductCharacteristic" /> <!-- The characteristic the review will be based off -->
     <var name="currentCharacteristicReview" class="BOLO.CharacteristicReview" />
     <!-- First thing we do is prepare the review flow. 
@@ -31,10 +32,10 @@
         <transition on="yes" to="SelectCharacteristics"  />
     </action-state>  
      
-    <view-state id="SelectCharacteristics" view="Reviews/SelectCharacteristics" model="selectedCharacteristic">        
+    <view-state id="SelectCharacteristics" view="Reviews/SelectCharacteristics" model="selectedCharacteristics">      
         <transition on="submit" to="createCharacteristicReview"/>
         <on-exit>
-            <evaluate expression="webflowReviewController.validateCharactersticSelection(flowRequestContext, selectedCharacteristic)"/>
+            <evaluate expression="webflowReviewController.validateCharactersticSelection(flowRequestContext, selectedCharacteristics)"/>
         </on-exit>        
     </view-state>
      

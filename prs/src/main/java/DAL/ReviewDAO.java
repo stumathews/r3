@@ -164,7 +164,7 @@ public class ReviewDAO implements IReviewDAO {
                                                       .createCriteria("product")
                                                       .add(Restrictions.eq("id", Long.parseLong(productID)))
                                                       .list();
-                //.createQuery(String.format("from Review where product_id = %s", productID)).list();
+                //.createQuery(String.iformat("from Review where product_id = %s", productID)).list();
         return del_reviews;
     }
 

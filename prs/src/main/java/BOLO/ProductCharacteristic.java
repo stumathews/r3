@@ -15,6 +15,11 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class ProductCharacteristic implements Serializable
 {
+
+  @Override
+  public String toString() {
+    return "ProductCharacteristic{" + "title=" + title + ", description=" + description + ", Id=" + Id + '}';
+  }
     @NotEmpty
     private String title;
     @NotEmpty
@@ -46,4 +51,27 @@ public class ProductCharacteristic implements Serializable
         this.title = title;
     }
     
+    @Override  
+    public boolean equals(Object obj) {  
+        if (obj == null) { return false; }  
+        if (getClass() != obj.getClass()) { return false; }  
+        if (! super.equals(obj)) return false;
+        else {
+           // compare subclass fields
+          ProductCharacteristic otherObject = (ProductCharacteristic) obj;
+          return getTitle().equalsIgnoreCase(otherObject.getTitle()) && 
+                  getDescription().equalsIgnoreCase(otherObject.getDescription());                  
+        }
+     
+    
+    
+}
+
+  @Override
+  public int hashCode() {
+    int hash = 7;
+    hash = 31 * hash + (this.title != null ? this.title.hashCode() : 0);
+    hash = 31 * hash + (this.description != null ? this.description.hashCode() : 0);
+    return hash;
+  }
 }

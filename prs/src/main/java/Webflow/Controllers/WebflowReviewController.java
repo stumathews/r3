@@ -4,16 +4,26 @@
 package Webflow.Controllers;
 
 import BOLO.CharacteristicReview;
+import BOLO.ProductCharacteristic;
+import BOLO.Wrappers.CharacteristicList;
+import BOLO.Wrappers.CharacteristicReviewList;
+import BOLO.Wrappers.GenericList;
 import BSL.Interfaces.ICharacteristicAdmin;
 import BSL.Interfaces.IProductAdmin;
 import BSL.Interfaces.IReviewAdmin;
 import BSL.Interfaces.IUserAdmin;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.DataBinder;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.webflow.action.FormAction;
 import org.springframework.webflow.execution.Action;
 import org.springframework.webflow.execution.Event;
 import org.springframework.webflow.execution.RequestContext;
@@ -21,7 +31,7 @@ import org.springframework.webflow.execution.RequestContext;
 
 
 @Service("webflowReviewController") 
-public class WebflowReviewController  implements Action {
+public class WebflowReviewController extends FormAction {
     
     @Autowired
     private IProductAdmin productAdmin;
@@ -58,6 +68,7 @@ public class WebflowReviewController  implements Action {
         BOLO.Product product = new BOLO.Product();
         BOLO.Wrappers.CharacteristicList characteristics = new BOLO.Wrappers.CharacteristicList();
         BOLO.CharacteristicReview currentCharacteristicReview = new CharacteristicReview();
+        BOLO.Wrappers.CharacteristicList selectedCharacteristics = new BOLO.Wrappers.CharacteristicList();
         
         review.setReviewer(reviewer);
                 
@@ -66,6 +77,7 @@ public class WebflowReviewController  implements Action {
         req.getFlowScope().put("selectedCharacteristic", selectedCharacteristic);
         req.getFlowScope().put("reviewer", reviewer);
         req.getFlowScope().put("currentCharacteristicReview", currentCharacteristicReview);
+        req.getFlowScope().put("selectedCharacteristics", selectedCharacteristics);
         
         // Lets pull out the product Id of the product that this reviw will be based on
         String productIdentifier = req.getRequestParameters().get("productId");        
@@ -199,35 +211,30 @@ public class WebflowReviewController  implements Action {
      * @return "ok"
      * @throws Exception if a problem arises
      */
-    @Override
-    public Event execute(RequestContext req) throws Exception {
-          //String name = req.getRequestParameters().get("inputName");
-
-          return new Event(this, "ok");
-    }
+//    @Override
+//    public Event execute(RequestContext req) throws Exception {
+//          //String name = req.getRequestParameters().get("inputName");
+//
+//          return new Event(this, "ok");
+//    }
     
-    public Event validateCharactersticSelection(RequestContext req, BOLO.ProductCharacteristic selectedCharacteristic)
-    {  
-        if( !selectedCharacteristic.getTitle().isEmpty())
-        {           
-            
+    public Event validateCharactersticSelection(RequestContext req, BOLO.Wrappers.CharacteristicList selectedCharacteristics)
+    { 
+      if( selectedCharacteristics == null || selectedCharacteristics.getItems() == null)
+        return new Event(this, "fail");
+     
+        if( !selectedCharacteristics.getItems().isEmpty())
+        { 
             BOLO.Wrappers.CharacteristicList chars = (BOLO.Wrappers.CharacteristicList) req.getFlowScope().get("characteristics");            
-            for( BOLO.ProductCharacteristic ch : chars.getItems())  
-            {
-                if( ch.getTitle().equalsIgnoreCase(selectedCharacteristic.getTitle()))
-                {
-                    // lets get the rest of the object, the part which couldnt be set in the form
-                    selectedCharacteristic.setDescription(ch.getDescription());                     
-                    selectedCharacteristic.setId(ch.getId());
-                    req.getFlowScope().put("selectedCharacteristic", selectedCharacteristic);
-                    break;
-                } 
-            }
+            
+             //req.getFlowScope().put("selectedCharacteristic", selectedCharacteristics);                
+            
             return new Event(this,"ok");
         }
         else
             return new Event(this,"fail");
     }
+
 
 }
 

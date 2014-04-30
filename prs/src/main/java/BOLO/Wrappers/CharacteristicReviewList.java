@@ -16,22 +16,21 @@ import javax.xml.bind.annotation.XmlElementWrapper;
  *
  * @author Stuart
  */
-public class CharacteristicList implements Serializable 
+public class CharacteristicReviewList implements Serializable 
 {
     @XmlElementWrapper(name="CharacteristicReview")    
-    private List<BOLO.ProductCharacteristic> items;
+      private List<BOLO.CharacteristicReview> items;
     
-    public CharacteristicList()
+    public CharacteristicReviewList()
     {
-        items = new ArrayList<BOLO.ProductCharacteristic>();
+        items = new ArrayList<BOLO.CharacteristicReview>();
     }
 
-    public List<BOLO.ProductCharacteristic> getItems() {
+    public List<BOLO.CharacteristicReview> getItems() {
         return items;
     }
 
-    public void setItems(List<BOLO.ProductCharacteristic> items) {
+    public void setItems(List<BOLO.CharacteristicReview> items) {
         this.items = items;
     }
 }
-    

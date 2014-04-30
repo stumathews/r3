@@ -39,26 +39,16 @@
             <!-- Get the products characteristics -->
           
                 <!-- Ask user to select the characteristics to base review on -->
-                <form:form modelAttribute="selectedCharacteristic">
+                <form:form modelAttribute="selectedCharacteristics">
                     <table class="table table-hover">
                     <th></th>
                     <th>Title</th>
-                    <th>description</th>
-
-                    <c:forEach items="${characteristics.getItems()}" var="characteristic" >
-                      <tr>                
-                          <td> 
-                              <form:radiobutton path="title" 
-                                     name="characteristic" 
-                                     value="${characteristic.getTitle()}" 
-                                     id="characteristic"/>
-                          </td>
-                          <td> ${characteristic.getTitle()} </td>
-                          <td>  ${characteristic.getDescription()}</td>
-
-                      </tr>
-
-                    </c:forEach>
+                    <th>description</th>                  
+                             
+                      <ul>                        
+                        <form:checkboxes itemLabel="title" path="items" items="${characteristics.getItems()}"/>
+                      </ul>
+                              
                     </table>                   
                     <input type="hidden" name="_flowExecutionKey" value="${flowExecutionKey}" />
                     <input type="hidden" name="_eventId" value="submit" />

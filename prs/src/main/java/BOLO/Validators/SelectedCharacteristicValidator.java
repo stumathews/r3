@@ -6,8 +6,6 @@
 
 package BOLO.Validators;
 
-import BOLO.Recommendation;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.binding.message.MessageBuilder;
 import org.springframework.binding.message.MessageContext;
 import org.springframework.binding.validation.ValidationContext;
@@ -20,14 +18,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class SelectedCharacteristicValidator 
 {
-    public void validateSelectCharacteristics(BOLO.ProductCharacteristic characteristic, ValidationContext context) {
-        MessageContext messages = context.getMessageContext();
-        if (StringUtils.isBlank(characteristic.getTitle())) {
-            messages.addMessage(new MessageBuilder().error().source("title").
-                defaultText("Characteristics title cannot be blank. Please make a selection").build());
-        }
-        
-    } 
+//    public void validateSelectCharacteristics(BOLO.Wrappers.CharacteristicList selectedCharacteristics, ValidationContext context)
+//    {
+//        MessageContext messages = context.getMessageContext();
+//        if (selectedCharacteristics.getItems().size() < 1) {
+//            messages.addMessage(new MessageBuilder().error().source("title").
+//                defaultText("Characteristics title cannot be blank. Please make a selection").build());
+//        }
+//        
+//    } 
 }
 
 
