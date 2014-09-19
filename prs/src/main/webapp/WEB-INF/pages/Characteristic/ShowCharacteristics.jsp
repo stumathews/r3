@@ -29,15 +29,17 @@
             <th>Description</th>
             <th>Review</th>  
             <th>Product</th>
-            <c:forEach items="${characteristics}" var="characteristic" varStatus="count">
-                <c:set value="${characteristic.getProduct()}" var="product" />
+            <th>Manufacturer</th>
+            
+            <c:forEach items="${characteristics}" var="characteristic" varStatus="count">                
                 <tr>
-                <td>${characteristic.getTitle()}</td>                
-                <td>${characteristic.getReview()}</td>
-                <td>${characteristic.getDescription()}</td> 
-                <c:url var="view_product_url" value="/Product/Show/${product.getIdentifier()}" />
+                <td><a href="#">${characteristic.getTitle()}</a></td>                
+                <td>${characteristic.getDescription()}</td>
+                <td>Review</td> 
+                <td>Product</td>
+                
                 <td>
-                    <a href="${view_product_url}">${product.getTitle()}</a> which is a ${product.getWhatIsIt()} by ${product.getWhoMadeIt()}</td> 
+                    what is it by manufacturer</td> 
                 </tr>
            </c:forEach>
             

@@ -74,8 +74,9 @@ public class Product implements Serializable{
     public Product() {
     }
 
-    public Product(String title) {
-        
+    public Product(String title) 
+    {
+        setTitle(title);
     }
 
     public Long getId() {
