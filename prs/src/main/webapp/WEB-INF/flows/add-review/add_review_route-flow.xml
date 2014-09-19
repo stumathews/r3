@@ -32,8 +32,9 @@
         <transition on="yes" to="SelectCharacteristics"  />
     </action-state>  
      
-    <view-state id="SelectCharacteristics" view="Reviews/SelectCharacteristics" model="selectedCharacteristics">      
-        <transition on="submit" to="createCharacteristicReview"/>
+    <view-state id="SelectCharacteristics" view="Reviews/SelectCharacteristics" model="selectedCharacteristics">  
+          
+        <transition on="submit" to="createCharacteristicReview"/>       
         <on-exit>
             <evaluate expression="webflowReviewController.validateCharactersticSelection(flowRequestContext, selectedCharacteristics)"/>
         </on-exit>        

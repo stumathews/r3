@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package BOL.security;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -17,3 +13,4 @@ class DefaultUserAuthority implements GrantedAuthority
     }
     
 }
+

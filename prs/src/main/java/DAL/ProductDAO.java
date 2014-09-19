@@ -42,13 +42,7 @@ public class ProductDAO implements IProductDAO
         products = (ArrayList<DEL.Product>) session.createQuery("from Product").list();                	
         return products;
     }
-    
-    /**
-     * Adds a product
-     * @param product product to add
-     * @throws Exception 
-     */
-    
+
     public void addProduct(DEL.Product product) throws Exception 
     {		
         Session session = sessionFactory.getCurrentSession();		
@@ -56,25 +50,13 @@ public class ProductDAO implements IProductDAO
         
         session.saveOrUpdate(product);               
     }
-    
-    /**
-     * Delete a product by ID
-     * @param productID existing product id to delete
-     * @throws Exception 
-     */
-    
+
     public void deleteProductByID(String productID) throws Exception 
     {
         Session session = sessionFactory.getCurrentSession();
         session.createQuery(String.format("delete from Product where id = %s",productID)).executeUpdate();				
     }
-     
-    /**
-     * Retrieve a product by ID
-     * @param productID existing product id to retrieve
-     * @return 
-     */
-    
+
     public DEL.Product getProductByID(String productID) throws Exception
     {
         Session session = sessionFactory.getCurrentSession();

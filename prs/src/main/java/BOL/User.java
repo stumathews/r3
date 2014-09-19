@@ -16,23 +16,17 @@ public class User implements IUser
     private  ITokenDAO tokenDAO;
 
     @Autowired
-    public void setTokenDAO(ITokenDAO tokenDAO) {
+    public void setTokenDAO(ITokenDAO tokenDAO)
+    {
         this.tokenDAO = tokenDAO;
     }
     
     @Autowired
-    public void setUserDAO( IUserDAO userDAO)
+    public void setUserDAO(IUserDAO userDAO)
     {
         this.userDAO = userDAO;
     }
 
-
-    /**
-        * Creates a user and returns it, represented as a BOLO object
-        * @param username
-        * @return BOLO object that represents the created user
-        * @exception If error occured accessing the database.
-        */
     public BOLO.User createUser(String username, String password) throws Exception
     {		
         if(!userDAO.exists(username, password))
@@ -40,13 +34,7 @@ public class User implements IUser
         else
             return userDAO.getUser(username, password);
     }
-
-    /**
-     * Cleans out old, expired tokens for user associated with provided token
-     * @param token
-     * @return true if successful, false if not
-     * @throws Exception 
-     */
+    
     public boolean cleanOldUserTokens(String token) throws Exception
     {
         try 
@@ -60,12 +48,6 @@ public class User implements IUser
         }
     }
 
-    
-    /**
-     * Deletes a user
-     * @param username
-     * @throws Exception 
-     */
     public void deleteUser(String username) throws Exception 
     {
         try 
@@ -79,11 +61,6 @@ public class User implements IUser
         
     }
 
-    /**
-     * Gets all the users
-     * @return ArrayList<DAL.DEL.User>
-     * @throws Exception 
-     */
     public ArrayList<DEL.User> getAllUsers() throws Exception 
     {
         try 
@@ -94,6 +71,12 @@ public class User implements IUser
         {
             throw new Exception("Unable to get all users",e);
         }
+    }
+
+    public BOLO.User getUser(String username) throws Exception 
+    {
+      DEL.User user = userDAO.getUser(username);
+      return userDAO.toBOLO(user);
     }
 	
 

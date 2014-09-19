@@ -28,20 +28,13 @@
  http://www.springframework.org/schema/webflow-config  
  http://www.springframework.org/schema/webflow-config/spring-webflow-config-2.0.xsd">
     
-  <!-- == SHARED START == -->  
-  <!-- Scan for spring annotated components -->
+  
     <context:component-scan base-package="Website.Controllers, BOL, Webflow.Controllers, BOLO.Validators, Website.Initialisation" />    
-  <!-- Allows transactions to be made at a function level via @Transactional -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
-  <!-- Process annotations on registered beans like @Autowired... -->
     <context:annotation-config/>    
-  <!-- == SHARED END == -->  
-    <mvc:resources mapping="/themes/**" location="/themes/" />   
-    
-    <!-- This tag registers the DefaultAnnotationHandlerMapping and
-         AnnotationMethodHandlerAdapter beans that are required for Spring MVC  -->
-    <mvc:annotation-driven/> 
-    <!-- This tag allows for mapping the DispatcherServlet to "/" -->
+  
+    <mvc:resources mapping="/themes/**" location="/themes/" />     
+    <mvc:annotation-driven/>     
     <mvc:default-servlet-handler/> 
     
     <!-- Exception Resolver that resolves exceptions through @ExceptionHandler methods -->    
@@ -65,28 +58,15 @@
                <value>.jsp</value>
        </property>
     </bean>
-    
-   
-    
-    <!-- ================================================================== -->
-    <!-- Spring Web Flow beans/stuff -->
-    <!-- ================================================================== -->
- 
+          
     <!-- This creates an XmlFlowRegistryFactory bean -->
     <bean id="viewFactoryCreator"
         class="org.springframework.webflow.mvc.builder.MvcViewFactoryCreator">
         <property name="viewResolvers" ref="viewResolver" />
     </bean>
  
-    <webflow:flow-builder-services id="flowBuilderServices"
-        view-factory-creator="viewFactoryCreator" />
-    
- 
-    <!--
-    <webflow:flow-registry id="flowRegistry" flow-builder-services="flowBuilderServices">
-        <webflow:flow-location path="/WEB-INF/flows/helloworldflow.xml" />
-    </webflow:flow-registry>
-    -->
+    <webflow:flow-builder-services id="flowBuilderServices" view-factory-creator="viewFactoryCreator" />
+   
     <webflow:flow-registry id="flowRegistry"
       base-path="/WEB-INF/flows"
       flow-builder-services="flowBuilderServices">
@@ -101,9 +81,7 @@
     <bean class="org.springframework.webflow.mvc.servlet.FlowHandlerAdapter">
         <property name="flowExecutor" ref="flowExecutor" />
     </bean>
- 
-    <!-- Maps request paths to flows in the flowRegistry; e.g. a path of /hotels/booking
-        looks for a flow with id "hotels/booking" -->
+
     <bean class="org.springframework.webflow.mvc.servlet.FlowHandlerMapping">
         <property name="flowRegistry" ref="flowRegistry" />
         <property name="order" value="0" />

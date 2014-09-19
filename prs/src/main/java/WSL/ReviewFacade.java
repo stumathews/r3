@@ -1,8 +1,3 @@
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package WSL;
 
 import BOLO.Wrappers.ReviewList;
@@ -13,22 +8,18 @@ import javax.jws.soap.SOAPBinding;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- *
+ * Web service for dealing with reviews.
  * @author Stuart Mathews <stumathews@gmail.com>
  */
-@SOAPBinding( parameterStyle=SOAPBinding.ParameterStyle.WRAPPED,
-        style=SOAPBinding.Style.RPC,
-        use=SOAPBinding.Use.LITERAL)//Optional 
-@WebService(serviceName = "ReviewFacade",
-        portName = "AdminFacadePort",
-        targetNamespace = "http://www.stuartmathews.com/ReviewFacade")
+@SOAPBinding( parameterStyle=SOAPBinding.ParameterStyle.WRAPPED, style=SOAPBinding.Style.RPC, use=SOAPBinding.Use.LITERAL)//Optional 
+@WebService(serviceName = "ReviewFacade", portName = "ReviewFacadePort", targetNamespace = "http://www.stuartmathews.com/ReviewFacade")
 public class ReviewFacade 
 {
     @Autowired
     private BSL.Interfaces.IReviewAdmin reviewAdmin;
         
-    /**
-     * Web service operation
+    /** 
+     * Gets all the reviews
      */
     @WebMethod(operationName = "GetAllReviews")    
     public ReviewList GetAllReviews(@WebParam(name = "token") String token) throws Exception 
@@ -37,8 +28,6 @@ public class ReviewFacade
         ret.items = reviewAdmin.getAllReviews(token);
         return ret;
     }
-    
-    
 }
 
     

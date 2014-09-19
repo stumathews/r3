@@ -1,7 +1,4 @@
-
 package BSL.Interfaces;
-
-import DEL.Characteristic;
 import java.util.List;
 
 /**

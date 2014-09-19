@@ -1,13 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package DAL;
 
 import BOL.Characteristic;
 import BOL.Interfaces.ICharacteristic;
 import BOL.Interfaces.IProduct;
-import BOLO.Review;
 import DAL.Interfaces.ICharacteristicReviewDAO;
 import DAL.Interfaces.ICharacteristicsDAO;
 import DAL.Interfaces.IProductDAO;
@@ -16,10 +11,7 @@ import DAL.Interfaces.IUserDAO;
 import DEL.CharacteristicReview;
 import DEL.User;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -77,12 +69,7 @@ public class ReviewDAO implements IReviewDAO {
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
-    
-    /***
-     * Gets the DEL reviews
-     * @return  List<DAL.DEL.Review>
-     * @throws Exception 
-     */    
+
     private List<DEL.Review> getAllRawReviews() 
     {
         ArrayList<DEL.Review> reviews = new ArrayList<DEL.Review>();        
@@ -90,11 +77,7 @@ public class ReviewDAO implements IReviewDAO {
         reviews = (ArrayList<DEL.Review>) session.createQuery("from Review").list();        
         return reviews;
     }    
-    
-    /***
-     * Saves a BOLO.Review as best it can( converts to DEL.Review)
-     * @param theReview
-     */
+
     public void SaveReview(BOLO.Review theReview) throws Exception
     {
         Session session = sessionFactory.getCurrentSession();
@@ -138,18 +121,9 @@ public class ReviewDAO implements IReviewDAO {
           del_review.getCharacteristicReviews().add(dCharacteristicReview);
           
         }
-        
-            
-        
-                
-        
-       
-    }
 
-    /***
-     * Gets all reviews as Business objects
-     * @return 
-     */
+    }
+    
     public List<DEL.Review> getAllReviews()
     {        
         return getAllRawReviews();
@@ -177,7 +151,6 @@ public class ReviewDAO implements IReviewDAO {
     
     return user_reviews;
     
-  }
-    
+  }    
 
 }

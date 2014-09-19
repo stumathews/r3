@@ -1,4 +1,3 @@
-
 package BSL.Interfaces;
 
 import BOLO.Token;

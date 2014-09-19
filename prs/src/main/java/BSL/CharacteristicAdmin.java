@@ -4,69 +4,65 @@ package BSL;
 import BOL.Interfaces.ICharacteristic;
 import BOL.Interfaces.IServiceAuthoriser;
 import BSL.Interfaces.ICharacteristicAdmin;
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Business Service layer for Characteristics
- * @author Stuart Mathews <stuart@stuartmathews.com>
- */
 @Service
 public class CharacteristicAdmin implements ICharacteristicAdmin 
 {    
-    private IServiceAuthoriser serviceAuthorisor;
-    private ICharacteristic characteristicBOL;    
-
     @Autowired
-    public void setCharacteristicBOL(ICharacteristic characteristicBOL) 
-    {
-        this.characteristicBOL = characteristicBOL;
-    }     
-    
+    public IServiceAuthoriser serviceAuthorisor; 
     @Autowired
-    public void setAuth(IServiceAuthoriser auth) {
-        this.serviceAuthorisor = auth;
-    }
+    public ICharacteristic characteristicBOL;
     
     @Transactional
     public void addCharacteristic( String token, String name, String description ) throws Exception
     {        
-        serviceAuthorisor.authorise(token);            
-        characteristicBOL.addCharacteristic(name, description);        
+        getAccess().authorise(token);
+        getLogic().addCharacteristic(name, description);        
     }
-
+   
     @Transactional
     public void addProductCharacteristic(String token, String productID, String title, String description) throws Exception
     {       
-        serviceAuthorisor.authorise(token);            
-        characteristicBOL.addProductCharacteristic(productID, title, description);               
-    }
-    
-    
-    /**
-     * Gets all the characteristics for the product
-     * @param token
-     * @param productID
-     * @return a List of Characteristics
-     * @throws Exception 
-     */
+        getAccess().authorise(token);
+        getLogic().addProductCharacteristic(productID, title, description);                       
+    }  
+        
     @Transactional
     public List<BOLO.ProductCharacteristic> getProductCharacteristics(String token, String productID) throws Exception
-    {
-        List<BOLO.ProductCharacteristic> results = new ArrayList<BOLO.ProductCharacteristic>();
-        serviceAuthorisor.authorise(token);
-        results = characteristicBOL.getProductCharacteristics(productID);       
-        return results;
+    {        
+        getAccess().authorise(token);
+        return getLogic().getProductCharacteristics(productID);
     }
     
     @Transactional
     public List<BOLO.ProductCharacteristic> getAllCharacteristics(String token) throws Exception
     {         
-        serviceAuthorisor.authorise(token);
-        return characteristicBOL.getAllCharacteristics();  
+        getAccess().authorise(token);
+        return getLogic().getAllCharacteristics();
+    }
+    
+    public void setCharacteristicBOL(ICharacteristic characteristicBOL) 
+    {
+        this.characteristicBOL = characteristicBOL;
+    }     
+    
+    public void setAuth(IServiceAuthoriser auth) 
+    {
+        this.serviceAuthorisor = auth;
+    }
+    
+    public ICharacteristic getLogic()
+    {
+      return characteristicBOL;
+    }
+    
+    public IServiceAuthoriser getAccess() 
+    {
+      return serviceAuthorisor;
     }
     
 }

@@ -1,13 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package BOL;
+
 import BOL.Interfaces.IAuthentication;
 import BOL.Interfaces.ICommonUtil;
 import BOL.Interfaces.IUserSessionManager;
+import BOLO.Interfaces.IUserSessionInfo;
 import BOLO.UserSessionInfo;
 import BSL.Interfaces.IUserAdmin;
 import DAL.Interfaces.IUserDAO;
@@ -25,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 public class UserSessionManager implements IUserSessionManager, Serializable
 {
-    private UserSessionInfo userSessionInfo; // this is a scoped proxy session object. There is a unique one instantiated for each session   
+    private IUserSessionInfo userSessionInfo; // this is a scoped proxy session object. There is a unique one instantiated for each session   
     private IUserAdmin userAdmin;
     private IAuthentication authenticationBOL; 
     private IUserDAO userDAO;    
@@ -36,11 +32,8 @@ public class UserSessionManager implements IUserSessionManager, Serializable
         this.commonUtil = commonUtil;
     }
 
-    
-    
-
     @Autowired
-    public void setUserSessionInfo(UserSessionInfo userSessionInfo) 
+    public void setUserSessionInfo(IUserSessionInfo userSessionInfo) 
     {
        this.userSessionInfo = userSessionInfo;
     }
@@ -67,10 +60,9 @@ public class UserSessionManager implements IUserSessionManager, Serializable
      * @throws Exception 
      */ 
     @Transactional
-    public BOLO.UserSessionInfo GetCurrentUserSession() throws Exception 
+    public BOLO.Interfaces.IUserSessionInfo GetCurrentUserSession() throws Exception 
     {
-        if( userSessionInfo.getSessionToken() == null)
-        {
+        
             userSessionInfo = new UserSessionInfo();            
             try
             {
@@ -109,7 +101,7 @@ public class UserSessionManager implements IUserSessionManager, Serializable
                 commonUtil.justLogException("Error creating user session", error);
                 throw new Exception("Creating user session ",error);
             }
-        }       
+              
         
         return userSessionInfo;
     }   

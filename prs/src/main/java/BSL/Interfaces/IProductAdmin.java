@@ -1,7 +1,5 @@
-
 package BSL.Interfaces;
 
-import DEL.Product;
 import java.util.ArrayList;
 
 /**
@@ -14,4 +12,5 @@ public interface IProductAdmin
     public ArrayList<BOLO.Product> getAllProducts(String token) throws Exception;
     public void addProduct(String token, BOLO.Product prod) throws Exception;    
     public BOLO.Product getProductByID(String token, String productID) throws Exception;
+    public BOLO.Product MakeProductFormFromId(String token,String productID) throws Exception;
 }

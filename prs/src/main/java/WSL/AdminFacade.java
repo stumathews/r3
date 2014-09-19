@@ -19,12 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Manages interactions with Administrative web service facilities in the product
  * @author Stuart Mathews <stuart@stuartmathews.com>
  */
-@SOAPBinding( parameterStyle=ParameterStyle.WRAPPED,
-        style=SOAPBinding.Style.RPC,
-        use=SOAPBinding.Use.LITERAL)//Optional 
-@WebService(serviceName = "AdminFacade",
-        portName = "AdminFacadePort",
-        targetNamespace = "http://www.stuartmathews.com/AdminFacade")  
+@SOAPBinding( parameterStyle=ParameterStyle.WRAPPED, style=SOAPBinding.Style.RPC, use=SOAPBinding.Use.LITERAL)//Optional 
+@WebService(serviceName = "AdminFacade",portName = "AdminFacadePort",targetNamespace = "http://www.stuartmathews.com/AdminFacade")  
 public class AdminFacade implements IAdminFacade
 {
     @Autowired

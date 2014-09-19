@@ -46,7 +46,7 @@
                     <th>description</th>                  
                              
                       <ul>                        
-                        <form:checkboxes itemLabel="title" path="items" items="${characteristics.getItems()}"/>
+                        <form:checkboxes itemLabel="title" path="items" items="${characteristics.getItems()}"/>                        
                       </ul>
                               
                     </table>                   

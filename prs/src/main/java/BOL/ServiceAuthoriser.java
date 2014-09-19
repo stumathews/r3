@@ -1,4 +1,3 @@
-
 package BOL;
 
 import BOL.Interfaces.ICommonUtil;
@@ -22,7 +21,7 @@ public class ServiceAuthoriser implements IServiceAuthoriser
     private ITokenDAO tokenDAO;
     private IToken tokenBOL;
     private IUserAdmin userAdmin;
-    private BOLO.R3GlobalConfig r3config;
+    private BOLO.R3GlobalConfig r3config; // this should not be a concrete class
     private ICommonUtil commonUtil;
 
     @Autowired
@@ -50,10 +49,6 @@ public class ServiceAuthoriser implements IServiceAuthoriser
         this.tokenDAO = tokenDAO;
     }
     
-    /***
-    * Verify that the login token is correct
-    * @param tokenString from the client
-    */
     public void authorise(String tokenString) throws Exception
     {       	
         // Try and get token from the database, proving that this user has authenticated.                        
@@ -79,6 +74,5 @@ public class ServiceAuthoriser implements IServiceAuthoriser
 
           }  
         }
-
     }
 }

@@ -1,10 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package BOLO.Validators;
 import BOLO.Recommendation;
-import BOLO.Review;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.binding.message.MessageBuilder;
 import org.springframework.binding.message.MessageContext;

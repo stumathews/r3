@@ -33,8 +33,8 @@
           <div class="container">            
            
             <!-- Add product form -->
-            <c:url value="/Product/create" var="AddProductURL"/>
-            <form:form modelAttribute="NewProduct" action="${AddProductURL}" method="post">
+            <c:url value="/Product/Create" var="AddProductURL"/>
+            <form:form modelAttribute="product" action="${AddProductURL}" method="post">
                 <fieldset>
                     <legend>Add product</legend>
                     <p>Please enter the details for your new product</p>

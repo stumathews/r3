@@ -4,7 +4,6 @@ import BSL.Interfaces.IUserAdmin;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
-import javax.xml.ws.WebServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -12,16 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Manages the interaction with the user web service facilities
  * @author Stuart Mathews <stuart@stuartmathews.com>
  */
-@SOAPBinding( parameterStyle=SOAPBinding.ParameterStyle.WRAPPED,
-        style=SOAPBinding.Style.RPC,
-        use=SOAPBinding.Use.LITERAL)//Optional 
-@WebService(serviceName = "UserFacade",
-        portName = "UserFacadePort",
-        targetNamespace = "http://www.stuartmathews.com/UserFacade")  
+@SOAPBinding( parameterStyle=SOAPBinding.ParameterStyle.WRAPPED,style=SOAPBinding.Style.RPC, use=SOAPBinding.Use.LITERAL)//Optional 
+@WebService(serviceName = "UserFacade", portName = "UserFacadePort",targetNamespace = "http://www.stuartmathews.com/UserFacade")  
 public class UserFacade
 {
-        @Autowired
-        private IUserAdmin userAdmin;        
+    @Autowired
+    private IUserAdmin userAdmin;   
+    
 	/**
 	 * Creates a new user
 	 * @param token

@@ -1,65 +1,56 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package BSL;
 
-
 import BOL.Interfaces.IServiceAuthoriser;
-import BOLO.Review;
 import BSL.Interfaces.IReviewAdmin;
-import DAL.Interfaces.IReviewDAO;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 
-public class ReviewAdmin implements IReviewAdmin {
-
-    private BOL.Interfaces.IServiceAuthoriser serviceAuthorisor; // Authorisation provider
-    private IReviewDAO reviewDAO;
-    private BOL.Review ReviewLogic;
+public class ReviewAdmin implements IReviewAdmin 
+{
+    @Autowired
+    public BOL.Interfaces.IServiceAuthoriser serviceAuthorisor; // Authorisation provider
     
     @Autowired
-    public void setReviewLogic(BOL.Review ReviewLogic) {
-        this.ReviewLogic = ReviewLogic;
-    }
-
-    @Autowired
-    public void setReviewDAO(IReviewDAO reviewDAO) {
-        this.reviewDAO = reviewDAO;
-    }
-    
-    @Autowired
-    public void setAuth(IServiceAuthoriser auth) {
-        this.serviceAuthorisor = auth;
-    }
+    public BOL.Review ReviewLogic;
     
     @Transactional
     public void SaveReview(String token, BOLO.Review theReview) throws Exception 
     {
-        serviceAuthorisor.authorise(token);
-        ReviewLogic.SaveReview(theReview);
+        getAccess().authorise(token);
+        getLogic().SaveReview(theReview);
     }
     
     @Transactional
     public List<BOLO.Review> getAllReviews(String token) throws Exception
     {
-        serviceAuthorisor.authorise(token);
-        return ReviewLogic.getAllReviews();
+        getAccess().authorise(token);
+        return getLogic().getAllReviews();
     }    
 
     @Transactional
     public List<BOLO.Review> getProductReviews(String token, String productID) throws Exception 
     {
-       serviceAuthorisor.authorise(token); 
-       return ReviewLogic.getProductReviews(productID);
+       getAccess().authorise(token); 
+       return getLogic().getProductReviews(productID);
     }
 
     @Transactional
     public List<BOLO.Review> getUserReviews(String username, String tokenString) throws Exception 
     {      
-      serviceAuthorisor.authorise(tokenString);
-      return ReviewLogic.getUserReviews(username);
+      getAccess().authorise(tokenString);
+      return getLogic().getUserReviews(username);
+    }
+    
+    
+     
+    private IServiceAuthoriser getAccess()
+    {
+      return this.serviceAuthorisor;
+    }
+    private BOL.Review getLogic()
+    {
+      return this.ReviewLogic;
     }
 }

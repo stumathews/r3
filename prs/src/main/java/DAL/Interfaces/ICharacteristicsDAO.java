@@ -1,10 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package DAL.Interfaces;
 
-import BOLO.ProductCharacteristic;
 import DEL.Characteristic;
 import DEL.Product;
 import java.util.List;
@@ -21,7 +16,6 @@ public interface ICharacteristicsDAO
     public List<DEL.Characteristic> getProductCharacteristics(String productID) throws Exception;
     public List<BOLO.ProductCharacteristic> getAllCharacteristics() throws Exception;
     public BOLO.ProductCharacteristic Convert( DEL.Characteristic characteristic, DEL.Product product) throws Exception;
-
     public Characteristic getCharacteristic(Long characteristic_id) throws Exception;
     
 }

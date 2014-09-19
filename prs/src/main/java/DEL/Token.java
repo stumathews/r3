@@ -1,15 +1,6 @@
-/**
- * Entity to represent a login token
- */
 package DEL;
 
-
-import java.sql.Timestamp;
 import java.util.Date;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-
 
 /***
  * A token represents a user authentication
@@ -61,7 +52,7 @@ public class Token
 	 * @return the issued_date_time
 	 */
 	
-	@Temporal(TemporalType.TIMESTAMP)
+
 	public Date getIssued_time() {
 		return issued_time;
 	}

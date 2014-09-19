@@ -105,29 +105,7 @@ public class ProductController
         return productAdmin.getProductByID(token, productID);
     }
     
-    
-
-    /**
-     * We store images on ImageShack, not locally. Lets not thrash imageshack's servers unless we're live. Use past summbited, cached dummy URL
-     * @param product form command aka form backing object
-     * @return url of pre cached image on imageshack's server
-     */
-    private String CacheImageURL(BOLO.Product product) 
-    {        
-        String url = "http://lorempixel.com/149/207";
-        
-//        if (!DEBUG) 
-//        {
-//            if( !product.getPicture().isEmpty())
-//            {
-//                url = ImageShackHosting.upload(product.getPicture().getBytes());
-//            }
-//        }
-        
-        return url;
-    }
-
-   
+      
     /**
     * Show the add product view/form 
     * @param form the modelAttribute to populate the form
@@ -137,7 +115,8 @@ public class ProductController
     @RequestMapping( value="/ShowAdd", method = RequestMethod.GET)
     public String addProductView( BOLO.Product form, ModelMap model )
     {
-        model.addAttribute("NewProduct", form);
+        model.addAttribute("product", form);
+        
 
         return "Products/AddProduct";
     }
@@ -172,9 +151,13 @@ public class ProductController
     @RequestMapping( value="/ShowEdit/{productID}", method = RequestMethod.GET)
     public String editProductByIDView( @PathVariable("productID") String productID, ModelMap model) throws Exception
     {    
-       BOLO.Product newProduct = productLogic.MakeProductFormFromId(productID);
-        
-        return addProductView(newProduct, model);
+      String token = userSessionManager.GetCurrentUserSession()
+                                         .getSessionToken()
+                                         .getTokenString();
+      
+      BOLO.Product newProduct = productAdmin.MakeProductFormFromId(token, productID);
+
+      return addProductView(newProduct, model);
     }
     
     /***
@@ -209,27 +192,16 @@ public class ProductController
     * @return view of all products
     * @throws Exception 
     */       
-    @RequestMapping(value ="/create", method = RequestMethod.POST)
-    public String addProductToDB(ModelMap model, @Valid @ModelAttribute("NewProduct") BOLO.Product product, BindingResult result) throws Exception
+    @RequestMapping(value ="/Create", method = RequestMethod.POST)
+    public String addProductToDB(ModelMap model, @Valid @ModelAttribute("product") BOLO.Product product, BindingResult result) throws Exception
     {	
-
         if( result.hasErrors())
-        {
-            //return addProductView(product, model);            
-            return "Products/AddProduct";
-        }                
-               
-        String url = CacheImageURL(product);        
-
+          return "Products/AddProduct";
         
-        
-        String token = userSessionManager.GetCurrentUserSession()
-                                         .getSessionToken()
-                                         .getTokenString();
+        String token = userSessionManager.GetCurrentUserSession().getSessionToken().getTokenString();
         productAdmin.addProduct( token , product);	
 
         return "redirect:/Product/ShowProductList";
-
     }
  
     /**
@@ -245,8 +217,13 @@ public class ProductController
                                                 @PathVariable("productID") String productID,
                                                 ModelMap map ) throws Exception
     {
-        BOLO.Product product = productLogic.MakeProductFormFromId(productID);
-        map.addAttribute("product", product);
+      
+      String token = userSessionManager.GetCurrentUserSession()
+                                         .getSessionToken()
+                                         .getTokenString();
+      
+        BOLO.Product product = productAdmin.getProductByID(token, productID);
+         map.addAttribute("product", product);
         
         return "Products/addProductCharacteristic";
     }

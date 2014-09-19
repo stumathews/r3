@@ -1,60 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app id="WebApp_ID" version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
-    <display-name>Project Reccomendation Services</display-name>
-    <!-- Filters -->
-    <!-- spring security -->
+<web-app id="R3" version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <display-name>R3</display-name>
     <filter>
         <filter-name>springSecurityFilterChain</filter-name>
         <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
     </filter>
-    <!-- Filter mappings -->
     <filter-mapping>
         <filter-name>springSecurityFilterChain</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-    <!-- Place constraints on a single user's ability to log in-->
-    <!--
-    <listener>
-        <listener-class>
-        org.springframework.security.web.session.HttpSessionEventPublisher
-        </listener-class>
-    </listener> -->
-    <!-- Listeners -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
     <listener>
-        <listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
-    </listener>
-    <listener>
         <listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
     </listener>
-    <!-- Servlets -->
-    <servlet>
-        <servlet-name>AdminFacade</servlet-name>
-        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSSpringServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet>
-        <servlet-name>UserFacade</servlet-name>
-        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSSpringServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
+    <listener>
+        <listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
+    </listener>
     <servlet>
         <servlet-name>mvc-dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>mvc-dispatcher</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
     <servlet>
-        <servlet-name>ProductFacade</servlet-name>
-        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSSpringServlet</servlet-class>
+        <servlet-name>ReviewFacade</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet>
         <servlet-name>CharacteristicFacade</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>UserFacade</servlet-name>
         <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
@@ -64,50 +43,47 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet>
-        <servlet-name>ReviewFacade</servlet-name>
+        <servlet-name>ProductFacade</servlet-name>
         <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
-    <!-- Servlet mappings -->
-    <servlet-mapping>
+    <servlet>
         <servlet-name>AdminFacade</servlet-name>
-        <url-pattern>/AdminFacade</url-pattern>
-    </servlet-mapping>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
     <servlet-mapping>
-        <servlet-name>UserFacade</servlet-name>
-        <url-pattern>/UserFacade</url-pattern>
+        <servlet-name>mvc-dispatcher</servlet-name>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
+    <!-- Servlet mappings -->
+    <!-- misc -->
     <servlet-mapping>
-        <servlet-name>ProductFacade</servlet-name>
-        <url-pattern>/ProductFacade</url-pattern>
+        <servlet-name>ReviewFacade</servlet-name>
+        <url-pattern>/ReviewFacade</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CharacteristicFacade</servlet-name>
         <url-pattern>/CharacteristicFacade</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>UserFacade</servlet-name>
+        <url-pattern>/UserFacade</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>RecommendationFacade</servlet-name>
         <url-pattern>/RecommendationFacade</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ReviewFacade</servlet-name>
-        <url-pattern>/ReviewFacade</url-pattern>
+        <servlet-name>ProductFacade</servlet-name>
+        <url-pattern>/ProductFacade</url-pattern>
     </servlet-mapping>
-    <!-- misc -->
+    <servlet-mapping>
+        <servlet-name>AdminFacade</servlet-name>
+        <url-pattern>/AdminFacade</url-pattern>
+    </servlet-mapping>
     <session-config>
         <!-- Session timeout is 60 minutes -->
         <session-timeout>60</session-timeout>
     </session-config>
-    <resource-ref>
-        <description>Database Connection</description>
-        <res-ref-name>jdbc/test</res-ref-name>
-        <res-type>javax.sql.DataSource</res-type>
-        <res-auth>Container</res-auth>
-    </resource-ref>
-    <!--
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/mvc-dispatcher-servlet.xml</param-value>
-    </context-param>
-    -->
 </web-app>

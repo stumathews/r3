@@ -33,7 +33,7 @@ public class Common
     */
     public static String GetGenAdminAuthToken() throws Exception 
     {                
-        return loginAdmin.authenticate("administrator", "apps3cur3");
+        return loginAdmin.authenticate("administrator", "apps3cur3"); 
     }
     /**
      * Gets a token object back while authenticating

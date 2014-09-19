@@ -1,13 +1,9 @@
 package BOLO;
 
-
 import java.io.Serializable;
+import BOLO.Interfaces.*;
 
-/**
- * Tracks information about the current user session.
- * @author Stuart
- */
-public class UserSessionInfo  implements Serializable
+public class UserSessionInfo implements IUserSessionInfo, Serializable
 {
     private BOLO.User loggedInUser;
     private BOLO.Token sessionToken;  

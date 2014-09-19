@@ -1,4 +1,3 @@
-
 package BSL.Interfaces;
 
 import DEL.User;

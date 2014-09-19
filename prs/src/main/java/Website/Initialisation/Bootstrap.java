@@ -1,12 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package Website.Initialisation;
 
-import WSL.Interfaces.IAdminFacade;
 import BSL.Interfaces.ICharacteristicAdmin;
 import BSL.Interfaces.ILoginAdmin;
 import BSL.Interfaces.IProductAdmin;
@@ -51,7 +44,8 @@ public class Bootstrap
         { 
            // This is being called twice for some reason...
             // do some boot straping like injecting sample products characteristics etc.
-            String token = Common.GetGenAdminAuthToken();            
+            String token = Common.GetGenAdminAuthToken();   
+            
             Website.Initialisation.ProductInitialiser prodiniter = new Website.Initialisation.ProductInitialiser(productAdmin);
             prodiniter.CreateProducts(token, 5);
             

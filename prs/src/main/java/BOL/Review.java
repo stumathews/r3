@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package BOL;
 
 import BOL.Interfaces.ICharacteristic;
@@ -14,9 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import Utility.SwapableCollection;
-import java.util.AbstractList;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Review business logic
@@ -24,7 +17,6 @@ import java.util.Set;
  */
 public class Review implements IReview 
 {
-
     private IReviewDAO reviewDAO;
     private ICharacteristic characteristicBOL;
     private IUserDAO userDAO;
@@ -149,11 +141,6 @@ public class Review implements IReview
         return del_review;                
     }
 
-    /***
-     * Gets the list of reviews that this user has
-     * @param username of the user to get reviews for
-     * @return a list of reviews that the user had done
-     */
     public List<BOLO.Review> getUserReviews(String username)  throws Exception
     {
       try
@@ -227,7 +214,8 @@ public class Review implements IReview
     return bReview;
   }
 
-  private CharacteristicReview convertToBOLO(DEL.CharacteristicReview dCharacteristicReview) {
+  private CharacteristicReview convertToBOLO(DEL.CharacteristicReview dCharacteristicReview) 
+  {
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
     

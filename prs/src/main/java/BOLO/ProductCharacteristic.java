@@ -1,12 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package BOLO;
 
-import DEL.Product;
 import java.io.Serializable;
-import javax.xml.bind.annotation.XmlElement;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**

@@ -1,30 +1,24 @@
 /* This is a webflow controller which manages the user review creation process
-
 */
 package Webflow.Controllers;
 
 import BOLO.CharacteristicReview;
-import BOLO.ProductCharacteristic;
-import BOLO.Wrappers.CharacteristicList;
-import BOLO.Wrappers.CharacteristicReviewList;
-import BOLO.Wrappers.GenericList;
 import BSL.Interfaces.ICharacteristicAdmin;
 import BSL.Interfaces.IProductAdmin;
 import BSL.Interfaces.IReviewAdmin;
 import BSL.Interfaces.IUserAdmin;
+import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.DataBinder;
+import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.webflow.action.FormAction;
-import org.springframework.webflow.execution.Action;
 import org.springframework.webflow.execution.Event;
 import org.springframework.webflow.execution.RequestContext;
 
@@ -64,10 +58,11 @@ public class WebflowReviewController extends FormAction {
         review.setCharacteristicReviews(new ArrayList<CharacteristicReview>()); // to prevent nulls
         
         BOLO.User reviewer = userAdmin.getUser(token,username); 
-        BOLO.ProductCharacteristic selectedCharacteristic = new BOLO.ProductCharacteristic();
-        BOLO.Product product = new BOLO.Product();
-        BOLO.Wrappers.CharacteristicList characteristics = new BOLO.Wrappers.CharacteristicList();
-        BOLO.CharacteristicReview currentCharacteristicReview = new CharacteristicReview();
+        
+        BOLO.ProductCharacteristic selectedCharacteristic =        new BOLO.ProductCharacteristic();
+        BOLO.Product product =                                     new BOLO.Product();
+        BOLO.Wrappers.CharacteristicList characteristics =         new BOLO.Wrappers.CharacteristicList();
+        BOLO.CharacteristicReview currentCharacteristicReview =    new CharacteristicReview();
         BOLO.Wrappers.CharacteristicList selectedCharacteristics = new BOLO.Wrappers.CharacteristicList();
         
         review.setReviewer(reviewer);
@@ -80,6 +75,7 @@ public class WebflowReviewController extends FormAction {
         req.getFlowScope().put("selectedCharacteristics", selectedCharacteristics);
         
         // Lets pull out the product Id of the product that this reviw will be based on
+        // injected into request via url /add-review?productId=${product.getIdentifier()}
         String productIdentifier = req.getRequestParameters().get("productId");        
         // get the stored product object which is in flow scope session
         product = (BOLO.Product) req.getFlowScope().get("product",BOLO.Product.class);
@@ -234,9 +230,11 @@ public class WebflowReviewController extends FormAction {
         else
             return new Event(this,"fail");
     }
-
-
+    
+ 
 }
+
+ 
 
 
 

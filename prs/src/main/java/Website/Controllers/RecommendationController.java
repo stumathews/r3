@@ -1,8 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Website.Controllers;
+
 import BOL.Interfaces.IUserSessionManager;
 import BSL.Interfaces.IRecommendationAdmin;
 import java.util.List;

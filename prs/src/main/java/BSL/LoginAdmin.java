@@ -3,13 +3,11 @@
  */
 package BSL;
 
-
 import BOL.Interfaces.IAuthentication;
 import BOLO.Token;
 import BSL.Interfaces.ILoginAdmin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-
 
 /**
  * Provides authentication facilities. This uses authenticates logic which is normally 
@@ -17,32 +15,23 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Stuart Mathews <stuart@stuartmathews.com>
  */
 public class LoginAdmin implements ILoginAdmin
-{    
-    private IAuthentication authenticationBOL;  
-    
+{   
     @Autowired
-    public void setAuthentication(IAuthentication authentication) 
-    {
-        this.authenticationBOL = authentication;
-    }
-    
-    /***
-    * Authenticate credentials against database
-    * @param username the username
-    * @param password the password
-    * @return a token that can be used in subsequent web service calls
-    * @throws Exception when credentials are invalid
-    */
+    public IAuthentication authentication;  
+        
     @Transactional
     public String authenticate( String username, String password) throws Exception
-    {		
-        // No need to check permissions to access this service. 
-        // Everyone should be able to at least has to try to authenticate  without authorisation
-        return authenticationBOL.authenticate(username, password);        
+    {	        
+        return getLogic().authenticate(username, password);        
     }
 
     public Token authenticateGetToken(String username, String password) throws Exception 
     {
-        return authenticationBOL.authenticateGetToken(username, password);
+        return getLogic().authenticateGetToken(username, password);
+    }
+    
+    private IAuthentication getLogic()
+    {
+      return authentication;
     }
 }
