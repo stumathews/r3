@@ -4,6 +4,7 @@ package BSL;
 import BOL.Interfaces.ICharacteristic;
 import BOL.Interfaces.IServiceAuthoriser;
 import BSL.Interfaces.ICharacteristicAdmin;
+import DEL.Characteristic;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,5 +65,18 @@ public class CharacteristicAdmin implements ICharacteristicAdmin
     {
       return serviceAuthorisor;
     }
+
+  @Transactional
+  public DEL.Characteristic getCharacteristicByID(Long ID) throws Exception 
+  {
+    return getLogic().getCharacteristicById(ID);
+  }
+  @Transactional
+  public List<DEL.Characteristic> getProductDELCharacteristics(String token, String identifier) throws Exception 
+  {
+    getAccess().authorise(token);
+    return getLogic().getProductDELCharacteristics(token,identifier);
+  }
+
     
 }

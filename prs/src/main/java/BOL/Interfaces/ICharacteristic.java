@@ -1,5 +1,6 @@
 package BOL.Interfaces;
 
+import DEL.Characteristic;
 import java.util.List;
 
 /**
@@ -14,6 +15,9 @@ public interface ICharacteristic
     public List<BOLO.ProductCharacteristic> getAllCharacteristics() throws Exception;
     public List<BOLO.ProductCharacteristic> Convert(List<DEL.Characteristic> characteristics) throws Exception;
     public List<DEL.CharacteristicReview> ConvertToDels(List<BOLO.CharacteristicReview> characteristicReviews) throws Exception;
+    public Characteristic getCharacteristicById(Long ID) throws Exception;
+
+  public List<Characteristic> getProductDELCharacteristics(String token, String identifier) throws Exception;
 
 
 }

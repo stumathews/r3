@@ -35,20 +35,16 @@
             </c:when>
             <c:otherwise>
                 <!-- Select characterteristics that you'd like to review. Show all the product's characteristics.          -->
-            <p>Select a characteristic of <a href="${ViewProductURL}">${product.getTitle()}</a> that you want to review.</p>
+            <p>Select a characteristic of <a href="${ViewProductURL}">${product.getTitle()}</a> that you want to review.</p>           
             <!-- Get the products characteristics -->
           
                 <!-- Ask user to select the characteristics to base review on -->
                 <form:form modelAttribute="selectedCharacteristics">
                     <table class="table table-hover">
-                    <th></th>
-                    <th>Title</th>
-                    <th>description</th>                  
-                             
-                      <ul>                        
-                        <form:checkboxes itemLabel="title" path="items" items="${characteristics.getItems()}"/>                        
-                      </ul>
-                              
+                      <th></th>
+                      <th>Title</th>
+                      <th>description</th>
+                      <form:radiobuttons items="${characteristics.items}" path="items" itemLabel="name" itemValue="Id"/>                      
                     </table>                   
                     <input type="hidden" name="_flowExecutionKey" value="${flowExecutionKey}" />
                     <input type="hidden" name="_eventId" value="submit" />

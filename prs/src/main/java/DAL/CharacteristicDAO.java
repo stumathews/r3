@@ -64,6 +64,7 @@ public class CharacteristicDAO implements ICharacteristicsDAO
             new_char.setName(title);
             new_char.setUseful_value(0);
             new_char.setProduct(product);
+            session.save(new_char);
             
             product = (DEL.Product) session.get(DEL.Product.class, product.getId());
             

@@ -18,4 +18,5 @@ public interface ICharacteristicsDAO
     public BOLO.ProductCharacteristic Convert( DEL.Characteristic characteristic, DEL.Product product) throws Exception;
     public Characteristic getCharacteristic(Long characteristic_id) throws Exception;
     
+    
 }

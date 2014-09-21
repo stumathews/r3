@@ -6,6 +6,7 @@ import BOL.Interfaces.IProduct;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -75,7 +76,7 @@ public class Product implements IProduct
       delProduct.setWhoMadeIt(prod.getWhoMadeIt());        
       delProduct.setReviews(new HashSet<DEL.Review>());
       delProduct.setCharacteristics(new HashSet<DEL.Characteristic>());
-      delProduct.setImageURL("");       
+      delProduct.setImageURL("");        
 
     productDAO.addProduct(delProduct);
   }
@@ -88,6 +89,19 @@ public class Product implements IProduct
       results.add( productDAO.Convert(del_prod));
     }
     return results;
+  }
+
+  private Set<DEL.Characteristic> getCharacteristics(BOLO.Product prod) 
+  {
+    Set<DEL.Characteristic> all = new HashSet<DEL.Characteristic>();
+    for( BOLO.ProductCharacteristic productCharacteristic : prod.getCharacteristics())
+    {
+      DEL.Characteristic c = new DEL.Characteristic();
+      c.setDescription(productCharacteristic.getDescription());
+      c.setName(productCharacteristic.getTitle());
+      all.add(c);
+    }
+    return all;
   }
     
 }

@@ -65,7 +65,9 @@
         <property name="viewResolvers" ref="viewResolver" />
     </bean>
  
-    <webflow:flow-builder-services id="flowBuilderServices" view-factory-creator="viewFactoryCreator" />
+    <webflow:flow-builder-services id="flowBuilderServices" 
+                                   view-factory-creator="viewFactoryCreator" 
+                                   conversion-service="conversionService" />
    
     <webflow:flow-registry id="flowRegistry"
       base-path="/WEB-INF/flows"
@@ -86,5 +88,7 @@
         <property name="flowRegistry" ref="flowRegistry" />
         <property name="order" value="0" />
     </bean>
+    
+    <bean id="characAdmin" class="BSL.CharacteristicAdmin" lazy-init="true"/>
     
 </beans>

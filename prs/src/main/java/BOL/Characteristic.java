@@ -145,4 +145,18 @@ public class Characteristic implements ICharacteristic
       }
       return dels;
     }
+
+  public DEL.Characteristic getCharacteristicById(Long ID) throws Exception 
+  {
+    return characteristicDAO.getCharacteristic(ID);
+  }
+
+  public List<DEL.Characteristic> getProductDELCharacteristics(String token, String productID) throws Exception 
+  {
+    DEL.Product del_product  = productDAO.getProductByID(productID);    
+    List<DEL.Characteristic> list = new ArrayList<DEL.Characteristic>();
+    for( DEL.Characteristic ch : del_product.getCharacteristics())
+      list.add(ch);
+    return  list;
+  }
 }

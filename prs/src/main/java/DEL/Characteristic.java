@@ -1,5 +1,6 @@
 package DEL;
 
+import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Set;
  */
 
 
-public class Characteristic 
+public class Characteristic implements Serializable
 {    
     private Long id;
     private String name;
@@ -75,5 +76,24 @@ public class Characteristic
     public void setId(Long id) {
         this.id = id;
     }   
+    
+    @Override
+    public int hashCode(){      
+    int hash = 7;
+    hash = 31 * hash + (this.name != null ? this.name.hashCode() : 0);
+    hash = 31 * hash + (this.description != null ? this.description.hashCode() : 0);
+    return hash;
+    }
+    
+    @Override 
+    public boolean equals( Object obj){
+      if( obj == null){
+        return false;
+      }
+      if(!(obj instanceof DEL.Characteristic)){
+        return false;
+      }
+      return this.id == ((DEL.Characteristic)obj).getId();
+    }
     
 }

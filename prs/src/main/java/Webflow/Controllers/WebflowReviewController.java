@@ -7,17 +7,12 @@ import BSL.Interfaces.ICharacteristicAdmin;
 import BSL.Interfaces.IProductAdmin;
 import BSL.Interfaces.IReviewAdmin;
 import BSL.Interfaces.IUserAdmin;
-import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.ServletRequestDataBinder;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.webflow.action.FormAction;
 import org.springframework.webflow.execution.Event;
 import org.springframework.webflow.execution.RequestContext;
@@ -25,7 +20,8 @@ import org.springframework.webflow.execution.RequestContext;
 
 
 @Service("webflowReviewController") 
-public class WebflowReviewController extends FormAction {
+public class WebflowReviewController extends FormAction 
+{
     
     @Autowired
     private IProductAdmin productAdmin;
@@ -38,12 +34,7 @@ public class WebflowReviewController extends FormAction {
     @Autowired
     private BOL.Interfaces.IUserSessionManager userSessionManager; // each logged in user as their own userSessionManager...
 
-        
-    /**
-     * Sets up the session for this flow. 
-     * @param req the request parameters
-     * @throws Exception of there is a problem
-     */
+    
     public void prepareReviewFlow(RequestContext req) throws Exception 
     {        
         Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
@@ -86,14 +77,6 @@ public class WebflowReviewController extends FormAction {
                              
     }
     
-    /**
-     * Saves the provided review.
-     * @param req the request parameters
-     * @param review the review to be saved
-     * @param theProduct the product that this review is for
-     * @param selectedCharacteristic the selected characteristic
-     * @throws Exception if any problems arise.
-     */
     public void saveCharacteristicReview(RequestContext req, BOLO.Review review, BOLO.Product theProduct, BOLO.ProductCharacteristic selectedCharacteristic, BOLO.CharacteristicReview selectedCharacteristicReview) throws Exception
     {      
         // lets add this characteristic to the review of this product   
@@ -120,13 +103,7 @@ public class WebflowReviewController extends FormAction {
     }
     
     
-    /**
-     * Gets the list of characteristics for this product. 
-     * It stores them in the flow scope variable, characteristics
-     * @param req the request parameters
-     * @param theProduct the product for which the characteristics need to be fetched
-     * @returns nothing other than putting found characteristics into the sessions
-     */
+    
     public void getProductCharacteristics(RequestContext req, BOLO.Product theProduct) throws Exception
     {
         String token = userSessionManager.GetCurrentUserSession()
@@ -141,7 +118,8 @@ public class WebflowReviewController extends FormAction {
         ArrayList<BOLO.ProductCharacteristic> actual_chars = new ArrayList<BOLO.ProductCharacteristic>();
         // Go and get the actual characteristics for this product form the database
         db_prod_chars = characteristicAdmin.getProductCharacteristics(token, theProduct.getIdentifier());
-        
+        List<DEL.Characteristic> db_prod_chars2   = new ArrayList<DEL.Characteristic>();
+        db_prod_chars2 = characteristicAdmin.getProductDELCharacteristics(token, theProduct.getIdentifier());
         // put the actual items into actual_chars
         for( BOLO.ProductCharacteristic prod_char : db_prod_chars )
         {
@@ -150,7 +128,7 @@ public class WebflowReviewController extends FormAction {
         
         // Add them to the flow scope
         
-        characteristics.setItems(actual_chars);       
+        characteristics.setItems(db_prod_chars2);       
         theProduct.setCharacteristics(db_prod_chars);
         
         req.getFlowScope().put("characteristics",characteristics);
@@ -200,35 +178,22 @@ public class WebflowReviewController extends FormAction {
         ArrayList<BOLO.Product> result = productAdmin.getAllProducts(token);
         req.getFlowScope().put("products", result);
     }
-       
-    /**
-     * Executed by default if no method is specified the type WebflowReviewController
-     * @param req the request parameters
-     * @return "ok"
-     * @throws Exception if a problem arises
-     */
-//    @Override
-//    public Event execute(RequestContext req) throws Exception {
-//          //String name = req.getRequestParameters().get("inputName");
-//
-//          return new Event(this, "ok");
-//    }
-    
+ 
     public Event validateCharactersticSelection(RequestContext req, BOLO.Wrappers.CharacteristicList selectedCharacteristics)
     { 
       if( selectedCharacteristics == null || selectedCharacteristics.getItems() == null)
         return new Event(this, "fail");
      
-        if( !selectedCharacteristics.getItems().isEmpty())
-        { 
-            BOLO.Wrappers.CharacteristicList chars = (BOLO.Wrappers.CharacteristicList) req.getFlowScope().get("characteristics");            
-            
-             //req.getFlowScope().put("selectedCharacteristic", selectedCharacteristics);                
-            
-            return new Event(this,"ok");
-        }
-        else
-            return new Event(this,"fail");
+      for( DEL.Characteristic characteristic : selectedCharacteristics.getItems())
+      {
+        BOLO.ProductCharacteristic select = (BOLO.ProductCharacteristic) req.getFlowScope().get("selectedCharacteristic");
+        select.setDescription(characteristic.getDescription());
+        select.setId(characteristic.getId());
+        select.setTitle(characteristic.getName());
+        req.getFlowScope().put("selectedCharacteristic", select);
+        return new Event(this,"ok");
+      }
+        return new Event(this,"fail");
     }
     
  

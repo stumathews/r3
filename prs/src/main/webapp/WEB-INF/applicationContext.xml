@@ -43,6 +43,7 @@
         <property name="sessionFactory" ref="mySessionFactory"/>    
     </bean>
     
+    <!--
     <bean id="myDataSource" 
          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
@@ -50,13 +51,26 @@
         <property name="username" value="root" />
         <property name="password" value="" />
     </bean>
+   -->
+    
+    
+    <bean id="myDataSource" 
+         class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	<property name="driverClassName" value="org.hsqldb.jdbcDriver" />
+	<property name="url" value="jdbc:hsqldb:mem:r3" />        
+	<property name="username" value="sa" />
+	<property name="password" value="" />
+    </bean>
+    
+    
+   <!--<jee:jndi-lookup id="myDataSource" jndi-name="java:comp/env/jdbc/test"/>-->
    
     <bean id="mySessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
      <property name="dataSource" ref="myDataSource"/>
      <property name="hibernateProperties">
        <props>
-         <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-         <!-- <prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop> -->
+         <!-- <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop> -->
+         <prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
          <prop key="hibernate.show_sql">true</prop>
          <prop key="hibernate.c3p0.min_size">5</prop>
          <prop key="hibernate.c3p0.max_size">20</prop>
@@ -122,7 +136,7 @@
     <bean id="productDAO" class="DAL.ProductDAO"/>
     <bean id="userDAO" class="DAL.UserDAO"/>   
     <bean id="tokenDAO" class="DAL.TokenDAO"/>    
-     <bean id="characteristicDAO" class="DAL.CharacteristicDAO"/>   
+    <bean id="characteristicDAO" class="DAL.CharacteristicDAO"/>    
        
     <bean id="r3config" class="BOLO.R3GlobalConfig">
       <property name="validateToken" value="false"/>

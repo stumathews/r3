@@ -1,6 +1,9 @@
 package Website.Initialisation;
 
+import BOLO.ProductCharacteristic;
 import BSL.Interfaces.IProductAdmin;
+import java.util.AbstractList;
+import java.util.ArrayList;
 
 public class ProductInitialiser 
 {
@@ -17,7 +20,12 @@ public class ProductInitialiser
             BOLO.Product product = new BOLO.Product();
                 product.setTitle("Product Title #" + i);
                 product.setWhatIsIt("What is it place holder #"+i);
-                product.setWhoMadeIt("Who made it place holder #"+i);     
+                product.setWhoMadeIt("Who made it place holder #"+i);
+                BOLO.ProductCharacteristic productCharacteristic = new ProductCharacteristic();
+                productCharacteristic.setTitle("blah" + i);
+                ArrayList<BOLO.ProductCharacteristic> chars = new ArrayList<ProductCharacteristic>();
+                chars.add(productCharacteristic);
+                product.setCharacteristics(chars);
             
             productAdmin.addProduct(token, product);
             

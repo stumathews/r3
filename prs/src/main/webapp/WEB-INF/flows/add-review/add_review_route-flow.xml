@@ -32,12 +32,14 @@
         <transition on="yes" to="SelectCharacteristics"  />
     </action-state>  
      
-    <view-state id="SelectCharacteristics" view="Reviews/SelectCharacteristics" model="selectedCharacteristics">  
-          
-        <transition on="submit" to="createCharacteristicReview"/>       
-        <on-exit>
-            <evaluate expression="webflowReviewController.validateCharactersticSelection(flowRequestContext, selectedCharacteristics)"/>
-        </on-exit>        
+    <view-state id="SelectCharacteristics" view="Reviews/SelectCharacteristics" model="selectedCharacteristics">   
+       <binder>        
+         <binding property="items" converter="myCharacteristicConverter"/> 
+      </binder>      
+      <transition on="submit" to="createCharacteristicReview"/>
+      <on-exit>
+          <evaluate expression="webflowReviewController.validateCharactersticSelection(flowRequestContext, selectedCharacteristics)"/>
+      </on-exit>
     </view-state>
      
     <!-- Show the create review form and on submission, save it. Also note that there

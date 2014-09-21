@@ -1,4 +1,5 @@
 package BSL.Interfaces;
+import DEL.Characteristic;
 import java.util.List;
 
 /**
@@ -17,4 +18,8 @@ public interface ICharacteristicAdmin
     public List<BOLO.ProductCharacteristic> getProductCharacteristics(String GetGenAuthToken,
                                                           String productID) throws Exception;
     public List<BOLO.ProductCharacteristic> getAllCharacteristics(String token) throws Exception;
+
+  public DEL.Characteristic getCharacteristicByID(Long ID) throws Exception;
+
+  public List<Characteristic> getProductDELCharacteristics(String token, String identifier) throws Exception;
 }

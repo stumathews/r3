@@ -1,12 +1,13 @@
 package DEL;
 
+import java.io.Serializable;
 import java.util.Set;
 
 /***
  * A User is...
  * @author Stuart Mathews <stumathews@gmail.com>
  */
-public class User
+public class User implements Serializable
 {
     private Long id;
     private String username;
@@ -71,12 +72,31 @@ public class User
 	}
 	
 	
-	public String getPassword() {
+	public String getPassword() { 
 		return password;
 	}
 	
 	public void setPassword(String password) {
 		this.password = password;
 	}
+    
+    @Override
+    public int hashCode(){      
+    int hash = 7;
+    hash = 31 * hash + (this.username != null ? this.username.hashCode() : 0);
+    hash = 31 * hash + (this.password != null ? this.password.hashCode() : 0);
+    return hash;
+    }
+    
+    @Override 
+    public boolean equals( Object obj){
+      if( obj == null){
+        return false;
+      }
+      if(!(obj instanceof DEL.User)){
+        return false;
+      }
+      return this.id == ((DEL.User)obj).getId();
+    }
 	
 }
