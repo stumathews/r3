@@ -157,6 +157,8 @@
   </div><!--/row-->
 
   <hr>
+  
+  ${model}
 
   <footer>
     <p>© R3 2013</p>
