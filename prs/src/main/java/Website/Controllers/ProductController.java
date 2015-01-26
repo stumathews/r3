@@ -7,7 +7,10 @@ import BSL.Interfaces.ILoginAdmin;
 import BSL.Interfaces.IProductAdmin;
 import BSL.Interfaces.IReviewAdmin;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,21 +21,28 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 /**
  * Controller that manages /products routes
  * @author Stuart Mathews <stuart@stuartmathews.com>
  */ 
 @Controller
+@SessionAttributes("SessionToken")
 @RequestMapping( value="/Product" )
 public class ProductController 
 { 
 	       
     private static final boolean DEBUG = false;
-    private BSL.Interfaces.IProductAdmin productAdmin;    
+    @Autowired
+    private BSL.Interfaces.IProductAdmin productAdmin; 
+    @Autowired
     private BSL.Interfaces.ILoginAdmin loginAdmin;
+    @Autowired
     private BSL.Interfaces.ICharacteristicAdmin characteristicAdmin;
-    private BSL.Interfaces.IReviewAdmin reviewAdmin;    
+    @Autowired
+    private BSL.Interfaces.IReviewAdmin reviewAdmin;
+    @Autowired
     private BOL.Interfaces.IUserSessionManager userSessionManager; // each logged in user as their own userSessionManager...
 
     @Autowired
@@ -64,6 +74,40 @@ public class ProductController
         this.productAdmin = productAdmin;
     }
    
+    /* Model data: */
+    
+    @ModelAttribute("SessionToken")
+    public String getSessionToken() throws Exception
+    {
+      String sessionToken = userSessionManager.GetCurrentUserSession().getSessionToken().getTokenString();
+      return sessionToken;
+    }
+    
+    @ModelAttribute("products")
+    public List<BOLO.Product> getProducts(@ModelAttribute("SessionToken") String token) throws Exception
+    {
+        ArrayList< BOLO.Product > products = productAdmin.getAllProducts( token );
+        return products;
+    }
+    
+    private void printModel(ModelMap model)
+    {
+      System.out.println("MODEL:");
+      for( Object modelKey : model.keySet()){
+        Object modelValue = model.get(modelKey);
+        System.out.println(modelKey + " : " + modelValue);
+      }
+    }
+    
+    private void printRequest(HttpServletRequest request)
+    {
+      Enumeration reqEnum = request.getAttributeNames();
+      while(reqEnum.hasMoreElements()){
+        String s = (String) reqEnum.nextElement();   
+        System.out.println(s + " : " + request.getAttribute(s));
+      }
+    }
+    
     /**
     * Gets all products in DB and adds bean to view which, show all the products.
     * @param model
@@ -71,19 +115,10 @@ public class ProductController
     * @throws Exception 
     */
     @RequestMapping(value ="/ShowProductList",method = RequestMethod.GET)
-    public String showProductsView(ModelMap model) throws Exception
+    public String showProductsView(ModelMap model, @ModelAttribute("SessionToken") String token) throws Exception
     {      
-                
-        String token = userSessionManager.GetCurrentUserSession()
-                                         .getSessionToken()
-                                         .getTokenString();
-        
-        // Get all products in the database
-        ArrayList< BOLO.Product > products = productAdmin.getAllProducts( token );
-        
-        // add products to model view        
-        model.addAttribute("products", products);
-        
+        ArrayList< BOLO.Product > products = productAdmin.getAllProducts( token );       
+        printModel(model);        
         return "Products/ShowProducts"; 
     }
     
@@ -97,11 +132,9 @@ public class ProductController
     @RequestMapping(value="/Show/{productID}/json", method = RequestMethod.GET)
     @ResponseBody
     public BOLO.Product getProductRaw( @PathVariable("productID") String productID, 
-                               ModelMap model) throws Exception
-    {
-      String token = userSessionManager.GetCurrentUserSession()
-                                         .getSessionToken()
-                                         .getTokenString();
+                                        ModelMap model,
+                                        @ModelAttribute("SessionToken") String token) throws Exception
+    {      
         return productAdmin.getProductByID(token, productID);
     }
     
@@ -117,7 +150,7 @@ public class ProductController
     {
         model.addAttribute("product", form);
         
-
+        printModel(model);
         return "Products/AddProduct";
     }
     
@@ -130,11 +163,10 @@ public class ProductController
     */
     @RequestMapping( value="/Delete/{productID}", method = RequestMethod.GET)
     public String deleteProductByIDView( @PathVariable("productID") String productID, 
-                                         ModelMap model) throws Exception
+                                         ModelMap model,
+                                         @ModelAttribute("SessionToken") String token) throws Exception
     {
-        String token = userSessionManager.GetCurrentUserSession()
-                                         .getSessionToken()
-                                         .getTokenString();
+       
         
         productAdmin.deleteProductByID( token, productID );
 
@@ -149,12 +181,11 @@ public class ProductController
     * @throws Exception 
     */
     @RequestMapping( value="/ShowEdit/{productID}", method = RequestMethod.GET)
-    public String editProductByIDView( @PathVariable("productID") String productID, ModelMap model) throws Exception
+    public String editProductByIDView( @PathVariable("productID") String productID, 
+                                      ModelMap model,
+                                      @ModelAttribute("SessionToken") String token) throws Exception
     {    
-      String token = userSessionManager.GetCurrentUserSession()
-                                         .getSessionToken()
-                                         .getTokenString();
-      
+     
       BOLO.Product newProduct = productAdmin.MakeProductFormFromId(token, productID);
 
       return addProductView(newProduct, model);
@@ -169,12 +200,10 @@ public class ProductController
      */
     @RequestMapping( value="/Show/{productID}", method = RequestMethod.GET)
     public String viewProduct( @PathVariable("productID") String productID, 
-                               ModelMap model) throws Exception
+                               ModelMap model,
+                               @ModelAttribute("SessionToken") String token) throws Exception
     {    
-        //FIXME: We should remove reliance on the DEL here and replace it with BOLO objects
-        String token = userSessionManager.GetCurrentUserSession()
-                                         .getSessionToken()
-                                         .getTokenString();
+        
         BOLO.Product prod = productAdmin.getProductByID(token, productID);        
         List<BOLO.ProductCharacteristic> productCharacteristics = characteristicAdmin.getProductCharacteristics(token, productID);
         List<BOLO.Review> reviews = reviewAdmin.getProductReviews( token, productID );        
@@ -193,12 +222,15 @@ public class ProductController
     * @throws Exception 
     */       
     @RequestMapping(value ="/Create", method = RequestMethod.POST)
-    public String addProductToDB(ModelMap model, @Valid @ModelAttribute("product") BOLO.Product product, BindingResult result) throws Exception
+    public String addProductToDB(ModelMap model, 
+            @Valid @ModelAttribute("product") BOLO.Product product, 
+            BindingResult result,
+            @ModelAttribute("SessionToken") String token) throws Exception
     {	
         if( result.hasErrors())
           return "Products/AddProduct";
         
-        String token = userSessionManager.GetCurrentUserSession().getSessionToken().getTokenString();
+        
         productAdmin.addProduct( token , product);	
 
         return "redirect:/Product/ShowProductList";
@@ -215,12 +247,11 @@ public class ProductController
     @RequestMapping( value="/add/characteristic/{productID}", method = RequestMethod.GET)
     public String addProductCharacteristicView( @ModelAttribute("FormProductCharacteristic") BOLO.ProductCharacteristic newChar,
                                                 @PathVariable("productID") String productID,
-                                                ModelMap map ) throws Exception
+                                                ModelMap map,
+                                                @ModelAttribute("SessionToken") String token) throws Exception
     {
       
-      String token = userSessionManager.GetCurrentUserSession()
-                                         .getSessionToken()
-                                         .getTokenString();
+     
       
         BOLO.Product product = productAdmin.getProductByID(token, productID);
          map.addAttribute("product", product);
@@ -240,15 +271,14 @@ public class ProductController
     public String addProductCharacteristicToDB( @Valid @ModelAttribute("FormProductCharacteristic") BOLO.ProductCharacteristic newChar, 
                                                 BindingResult result,
                                                 @PathVariable("productID") String productID,
-                                                ModelMap map ) throws Exception
+                                                ModelMap map,
+                                                @ModelAttribute("SessionToken") String token) throws Exception
     {
         if( result.hasErrors())
         {
-            return addProductCharacteristicView(newChar,productID,map);
+            return addProductCharacteristicView(newChar,productID,map,token);
         }
-        String token = userSessionManager.GetCurrentUserSession()
-                                         .getSessionToken()
-                                         .getTokenString();
+        
         
             characteristicAdmin.addProductCharacteristic(token,
                                                         productID, 

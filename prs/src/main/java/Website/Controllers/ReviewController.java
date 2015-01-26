@@ -94,9 +94,7 @@ public class ReviewController
     @RequestMapping(value = "ShowAllReviews", method = RequestMethod.GET)
     public String ShowAllReviews(ModelMap model) throws Exception
     {
-      String token = userSessionManager.GetCurrentUserSession()
-                                         .getSessionToken()
-                                         .getTokenString();
+      String token = userSessionManager.GetCurrentUserSession().getSessionToken().getTokenString();
         List<BOLO.Review> reviews = new ArrayList<BOLO.Review>();
         reviews = reviewAdmin.getAllReviews(token);
         model.addAttribute("reviews",reviews);

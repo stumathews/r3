@@ -68,8 +68,8 @@ public class ServiceAuthoriser implements IServiceAuthoriser
           boolean isInvalidToken = !tokenBOL.isValid(bolo_token);          
           if(isInvalidToken)
           {
-              //SecurityContextHolder.clearContext(); // logs out the current user.
-              //userAdmin.cleanOldUserTokens(token);
+              SecurityContextHolder.clearContext(); // logs out the current user.
+              userAdmin.cleanOldUserTokens(tokenString);
               throw new OutdatedTokenException("Token is outdated. Please re-authenticate.");
 
           }  

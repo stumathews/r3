@@ -75,11 +75,11 @@ public class Authentication implements IAuthentication
       // Right, if details are still invalid, look for the user's password in the DB
       if( !valid )
       {			
-          // Get get the user by checking if a user with specific password exists in db:
-          if( userDAO.getUser( username, password ) != null)
-                  return true;
-          else
-                  return false;			
+        // Get get the user by checking if a user with specific password exists in db:
+        if( userDAO.getUser( username, password ) != null)
+          return true;
+        else
+          return false;			
       }
 
       return valid;
