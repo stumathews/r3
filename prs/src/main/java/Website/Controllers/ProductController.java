@@ -33,18 +33,19 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 public class ProductController 
 { 
 	       
-    private static final boolean DEBUG = false;
+    public static final boolean DEBUG = false;
     @Autowired
-    private BSL.Interfaces.IProductAdmin productAdmin; 
+    public BSL.Interfaces.IProductAdmin productAdmin; 
     @Autowired
-    private BSL.Interfaces.ILoginAdmin loginAdmin;
+    public BSL.Interfaces.ILoginAdmin loginAdmin;
     @Autowired
-    private BSL.Interfaces.ICharacteristicAdmin characteristicAdmin;
+    public BSL.Interfaces.ICharacteristicAdmin characteristicAdmin;
     @Autowired
-    private BSL.Interfaces.IReviewAdmin reviewAdmin;
+    public BSL.Interfaces.IReviewAdmin reviewAdmin;
     @Autowired
-    private BOL.Interfaces.IUserSessionManager userSessionManager; // each logged in user as their own userSessionManager...
+    public BOL.Interfaces.IUserSessionManager userSessionManager; // each logged in user as their own userSessionManager...
 
+    /*
     @Autowired
     public void setUserSessionManager(IUserSessionManager userSessionManager) {
         this.userSessionManager = userSessionManager;
@@ -72,7 +73,7 @@ public class ProductController
     @Autowired
     public void setProductAdmin(IProductAdmin productAdmin) {
         this.productAdmin = productAdmin;
-    }
+    }*/
    
     /* Model data: */
     
