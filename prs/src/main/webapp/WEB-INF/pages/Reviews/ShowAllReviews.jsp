@@ -25,8 +25,6 @@
         </div><!--/span-->       
         <div class="span9">
           
-        
-            
             <!-- Iterate through reviews and show them in a table -->
             <table class="table table-hover">
             <th>#</th>

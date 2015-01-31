@@ -50,6 +50,7 @@
     <bean id="themeResolver"  class="org.springframework.web.servlet.theme.FixedThemeResolver">
         <property name="defaultThemeName" value="default" />
     </bean>	
+    <!--
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix">
                <value>/WEB-INF/pages/</value>
@@ -57,6 +58,16 @@
        <property name="suffix">
                <value>.jsp</value>
        </property>
+    </bean>
+    -->
+    
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.mustache.MustacheViewResolver">
+      <property name="prefix" value="/WEB-INF/pages/"/>
+       <property name="suffix" value=".jsp"/>
+      <!-- <property name="cache" value="${TEMPLATE_CACHE_ENABLED}"/> -->
+      <property name="templateFactory">
+          <bean class="org.springframework.web.servlet.view.mustache.java.MustacheJTemplateFactory" />
+      </property>
     </bean>
           
     <!-- This creates an XmlFlowRegistryFactory bean -->
