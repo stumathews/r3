@@ -49,14 +49,14 @@
             <div class="row-fluid">   
               <!-- User Reviews -->
               User Reviews:<hr/>
-            <dl class="dl-horizontal">
-                <div id="reviews">
+            <div id="reviews">
+            <dl class="dl-horizontal">                
                     <!-- Choose between traditional page data for load lazy loading ajax -->
                     <c:choose>
                         <c:when test="${useAjax == true}">
-                            <div id="ajax-loader" class="pagination-centered">
+                            <!-- <span id="ajax-loader" class="pagination-centered">
                                 <img src="${themeURLBase}/images/ajax-loader.gif"/>
-                             </div> 
+                             </span> -->
                         </c:when>
                         <c:otherwise>
                             <c:forEach items="${reviews}" var="review" varStatus="count">
@@ -71,9 +71,9 @@
                           </c:forEach>
                         </c:otherwise>                        
                     </c:choose>
-                    
+                 </dl>   
                 </div>
-            </dl>
+            
             </div>           
           </div>
           
