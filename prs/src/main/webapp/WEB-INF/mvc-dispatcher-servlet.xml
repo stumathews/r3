@@ -51,7 +51,7 @@
         <property name="defaultThemeName" value="default" />
     </bean>	
     <!--
-    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <bean id="templateResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix">
                <value>/WEB-INF/pages/</value>
        </property>		 
@@ -61,21 +61,28 @@
     </bean>
     -->
     
-    <bean id="viewResolver" class="org.springframework.web.servlet.view.mustache.MustacheViewResolver">
-      <property name="prefix" value="/WEB-INF/pages/"/>
-       <property name="suffix" value=".jsp"/>
-      <!-- <property name="cache" value="${TEMPLATE_CACHE_ENABLED}"/> -->
-      <property name="templateFactory">
-          <bean class="org.springframework.web.servlet.view.mustache.java.MustacheJTemplateFactory" />
-      </property>
-    </bean>
-          
-    <!-- This creates an XmlFlowRegistryFactory bean -->
+     <bean id="templateResolver"
+        class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
+    <property name="prefix" value="/WEB-INF/pages/" />
+    <property name="suffix" value=".jsp" />
+    <property name="templateMode" value="HTML5" />
+  </bean>
+    
+  <bean id="templateEngine"
+        class="org.thymeleaf.spring3.SpringTemplateEngine">
+    <property name="templateResolver" ref="templateResolver" />
+  </bean>
+   
+  <bean class="org.thymeleaf.spring3.view.ThymeleafViewResolver">
+    <property name="templateEngine" ref="templateEngine" />
+  </bean>
+       
+   <!--   
     <bean id="viewFactoryCreator"
         class="org.springframework.webflow.mvc.builder.MvcViewFactoryCreator">
-        <property name="viewResolvers" ref="viewResolver" />
+        <property name="templateResolvers" ref="templateResolver" />
     </bean>
- 
+
     <webflow:flow-builder-services id="flowBuilderServices" 
                                    view-factory-creator="viewFactoryCreator" 
                                    conversion-service="conversionService" />
@@ -89,8 +96,9 @@
     <webflow:flow-executor id="flowExecutor"
         flow-registry="flowRegistry">
     </webflow:flow-executor>
+    
  
-    <!-- Enables FlowHandler URL mapping -->
+    <
     <bean class="org.springframework.webflow.mvc.servlet.FlowHandlerAdapter">
         <property name="flowExecutor" ref="flowExecutor" />
     </bean>
@@ -99,6 +107,8 @@
         <property name="flowRegistry" ref="flowRegistry" />
         <property name="order" value="0" />
     </bean>
+    
+    -->
     
     <bean id="characAdmin" class="BSL.CharacteristicAdmin" lazy-init="true"/>
     
