@@ -61,22 +61,20 @@
     </bean>
     -->
     
-     <bean id="templateResolver"
-        class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
+     <bean id="templateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
     <property name="prefix" value="/WEB-INF/pages/" />
     <property name="suffix" value=".jsp" />
     <property name="templateMode" value="HTML5" />
   </bean>
     
-  <bean id="templateEngine"
-        class="org.thymeleaf.spring3.SpringTemplateEngine">
+  <bean id="templateEngine"  class="org.thymeleaf.spring3.SpringTemplateEngine">
     <property name="templateResolver" ref="templateResolver" />
   </bean>
    
   <bean class="org.thymeleaf.spring3.view.ThymeleafViewResolver">
     <property name="templateEngine" ref="templateEngine" />
   </bean>
-       
+  
    <!--   
     <bean id="viewFactoryCreator"
         class="org.springframework.webflow.mvc.builder.MvcViewFactoryCreator">

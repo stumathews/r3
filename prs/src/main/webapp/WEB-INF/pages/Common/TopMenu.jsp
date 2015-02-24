@@ -1,7 +1,4 @@
-<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-<div class="navbar navbar-inverse navbar-fixed-top">
+<div class="navbar navbar-inverse navbar-fixed-top" th:fragment="TopMenu">
     <div class="navbar-inner">
     <div class="container-fluid">
         <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -12,17 +9,14 @@
         <a class="brand" href="#">R3</a>
         <div class="nav-collapse collapse">       
             <p class="navbar-text pull-right">
-            <c:url value="/j_spring_security_logout" var="logoutURL"></c:url>             
-            <c:url value="/User/${user.getUsername()}" var="UserPageLink"/>
-            Hi <a href="${UserPageLink}" class="navbar-link"> ${user.getUsername()}</a>
-            <a href="${logoutURL}" class="navbar-link"> logout</a>
+            Hi <a href="" class="navbar-link">Username</a>
+            <a href="/j_spring_security_logout" class="navbar-link"> logout</a>
             </p>       
             
             <ul class="nav">
-                    <c:url value="/" var="url" />  
-                    <li><a href="${url}">Home</a></li>
-                    <li><a href="${url}About">About</a></li>
-                    <li><a href="${url}Welcome">Welcome</a></li>
+                    <li><a href="${url}" th:href="@{/}">Home</a></li>
+                    <li><a href="${url}About" th:href="@{/About}">About</a></li>
+                    <li><a href="${url}Welcome" th:href="@{/Welcome}">Welcome</a></li>
             </ul>
       
         </div><!--/.nav-collapse -->

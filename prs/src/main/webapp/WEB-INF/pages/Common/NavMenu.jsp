@@ -1,18 +1,14 @@
-<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-<div class="well sidebar-nav">
+<div class="well sidebar-nav" th:fragment="NavMenu">
     <ul class="nav nav-list">
-        <c:url value="/" var="url" />
         <li class="nav-header">Products</li>
-            <li><a href="${url}Product/ShowProductList">Show all products</a></li>
+            <li><a href="/Product/ShowProductList" th:href="@{/Product/ShowProductList}">Show all products</a></li>
         <li class="nav-header">Users</li>
-            <li><a href="${url}User/ShowUserList">Show all users</a></li>
+            <li><a href="/User/ShowUserList" th:href="@{/User/ShowUserList}">Show all users</a></li>
         <li class="nav-header">Recommendations</li>
-            <li><a href="${url}Recommendation/ShowRecommendations">Show all recommendations</a></li>
+            <li><a href="/Recommendation/ShowRecommendations" th:href="@{/Recommendation/ShowRecommendations}">Show all recommendations</a></li>
         <li class="nav-header">Reviews</li>
-            <li><a href="${url}Review/ShowAllReviews">Show all reviews</a></li>
+            <li><a href="/Review/ShowAllReviews" th:href="@{/Review/ShowAllReviews}">Show all reviews</a></li>
         <li class="nav-header">Characteristics</li>
-       <li><a href="${url}Characteristic/ShowCharacteristics">Show all characteristics</a></li>        
+       <li><a href="/Characteristic/ShowCharacteristics" th:href="@{/Characteristic/ShowCharacteristics}">Show all characteristics</a></li>        
     </ul>
-</div><!--/.well -->
+</div>

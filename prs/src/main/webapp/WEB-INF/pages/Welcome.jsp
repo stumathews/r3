@@ -1,33 +1,32 @@
-<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring3-3.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<c:url value="/themes" var="themeURLBase"/>	
-	<!-- <link rel="stylesheet" href="${themeURLBase}/<spring:theme code='stylesheet'/>" type="text/css" /> -->
-        <link rel="stylesheet" href="${themeURLBase}/bootstrap/css/bootstrap.min.css" media="screen">
-        <link rel="stylesheet" href="${themeURLBase}/bootstrap/css/bootstrap-responsive.css">
-        <style>
-      body {
-        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-      }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
+      <link rel="stylesheet" href="../../themes/bootstrap/css/bootstrap.min.css" th:href="@{/themes/bootstrap/css/bootstrap.min.css}" media="screen"  />
+      <link rel="stylesheet" href="../../themes/bootstrap/css/bootstrap-responsive.css" th:href ="@{/themes/bootstrap/css/bootstrap-responsive.css}"/>
+      <style>
+        body {
+          padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+        }
+      </style>
+      <title>Welcome</title>
 </head>
 <body>
 
-    <jsp:include page="/WEB-INF/pages/Common/TopMenu.jsp" />
+    <div th:replace="Common/TopMenu :: TopMenu"></div>
 
     <div class="container-fluid">
       <div class="row-fluid">
         <div class="span3">
-          <jsp:include page="/WEB-INF/pages/Common/NavMenu.jsp"/> 
+          <div th:replace="Common/NavMenu :: NavMenu"></div> 
         </div><!--/span-->
         <div class="span9">
           <div class="container">
             <h1>Welcome</h1>
-            <p>This is Recommendations, Reputations and Reviews. Here you will be able to find things about people, products and companies</br>
-                We'd encourage you you start by making a search for a product that might be interested in.<br/>
+            <p>This is Recommendations, Reputations and Reviews. Here you will be able to find things about people, products and companies
+                We'd encourage you you start by making a search for a product that might be interested in.
                 This will naturally expose you to the width and depth of the information at your disposal.
             </p>          
             <c:url value="/" var="home"></c:url>
@@ -41,7 +40,7 @@
         </div><!--/span-->
       </div><!--/row-->
 
-      <hr>
+      <hr/>
 
       <footer>
         <p>© R3 2013</p>
