@@ -10,7 +10,7 @@
         <div class="nav-collapse collapse">       
             <p class="navbar-text pull-right">
             Hi <a href="" class="navbar-link">Username</a>
-            <a href="/j_spring_security_logout" class="navbar-link"> logout</a>
+            <a href="/j_spring_security_logout" th:href="@{/j_spring_security_logout}" class="navbar-link"> logout</a>
             </p>       
             
             <ul class="nav">

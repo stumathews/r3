@@ -35,31 +35,27 @@
 		<th>Action</th> 
                 
                 <!-- Populate the table with product details -->
-		<c:forEach items="${products}" var="product" varStatus="counter">
-                    <c:url var="DeleteURL" value="/Product/Delete/${product.getIdentifier()}"/>
-                    <c:url var="EditURL" value="/Product/ShowEdit/${product.getIdentifier()}"/>
-                    <c:url var="ViewProductURL" value="/Product/Show/${product.getIdentifier()}"/>
-                    <tr>
-                        <td class="span1">
-                            <a href="${ViewProductURL}"><img src="${themeURLBase}/images/product_image.gif" class="img-polaroid"/></a>
+       
+                    <tr th:each="product : ${products}">
+                        <td class="span1" th:text="${product.title}">
+                            <a href="#" th:href="@{/Product/Show/${product.identifier}}"><img src="@{../../themes/images/product_image.gif}" th:src="@{/themes/images/product_image.gif}" class="img-polaroid"/></a>
                             <br/>
-                            characteristics: ${product.getCharacteristics()}
+                            characteristics: ${product.Characteristics}
                         </td>
                         <td>
-                            <a href="${ViewProductURL}"><c:out value="${product.getTitle()}"></c:out></a>
+                            <a href="#" th:href="@{/Product/Show/${product.identifier}}"><c:out value="${product.title}"></c:out></a>
                         </td>
-                        <td><c:out value="${product.getWhatIsIt()}"></c:out></td>
-                        <td><c:out value="${product.getWhoMadeIt()}"></c:out></td>                       
+                        <td th:text="${product.whatIsIt}"></td>
+                        <td th:text="${product.whoMadeIt}"></td>                       
                         
                         <td>
                             <ul class="inline">
-                            <li><a href="${DeleteURL}">Delete</a> </li>   
-                            <li><a href="${EditURL}">Edit</a> </li> 
+                            <li><a href="#" th:href="@{'/Product/Delete/'+${product.identifier}}">Delete</a> </li>   
+                            <li><a href="#" th:href="@{'/Product/ShowEdit/'+${product.identifier}}">Edit</a> </li> 
                             </ul>                                                                  
 
                         </td>				
                     </tr>
-		</c:forEach>
 		
 	</table>
 	<c:url value="/Product/ShowAdd" var="AddProductsURL" />
