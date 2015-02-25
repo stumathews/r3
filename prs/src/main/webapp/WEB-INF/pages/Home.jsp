@@ -11,11 +11,9 @@
           padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
         }
       </style>
-      <title>Home</title>
+      <title th:text="#{Home.title}">Home</title>
 </head>
 <body>
-
-    <!-- <div th:replace="Common/TopMenu :: TopMenu"></div> -->
     <div th:replace="Common/TopMenu :: TopMenu"></div>
 
     <div class="container-fluid">
@@ -109,7 +107,7 @@
       <hr/>
 
       <footer>
-        <p th:text="${testdata}">© R3 2013</p>
+        <p>© R3 2013</p>
       </footer>
 
     </div><!--/.fluid-container-->

@@ -50,6 +50,10 @@
     <bean id="themeResolver"  class="org.springframework.web.servlet.theme.FixedThemeResolver">
         <property name="defaultThemeName" value="default" />
     </bean>	
+    
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+    <property name="basename" value="Messages" />
+    </bean>
     <!--
     <bean id="templateResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix">
@@ -74,6 +78,8 @@
   <bean class="org.thymeleaf.spring3.view.ThymeleafViewResolver">
     <property name="templateEngine" ref="templateEngine" />
   </bean>
+  
+  
   
    <!--   
     <bean id="viewFactoryCreator"
