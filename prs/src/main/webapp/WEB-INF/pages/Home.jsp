@@ -23,7 +23,7 @@
         </div><!--/span-->
         <div class="span9">
           
-            <h1>Home</h1>            
+            <h1 th:text="#{home}">Home</h1>            
             <img class="centred"  src="../../themes/images/components.png" th:src="@{/themes/images/components.png}"/>            
             <div>
                 <h3>Overview</h3>

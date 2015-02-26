@@ -15,7 +15,7 @@
 </head>
 <body>
 
-    <div th:replace="Common/TopMenu :: TopMenu"></div>>
+    <div th:replace="Common/TopMenu :: TopMenu"></div>
 
     <div class="container-fluid">
       <div class="row-fluid">
