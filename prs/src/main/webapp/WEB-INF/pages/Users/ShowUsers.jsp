@@ -23,32 +23,31 @@
             <div th:replace="Common/NavMenu :: NavMenu"></div>
         </div><!--/span-->
         <div class="span9">
-          
-            
-            <!-- Table of users -->
-            <table class="table table-hover">
-		<th>Number</th>
-		<th>User name</th>
-		<th>Action</th>
-	
-                <!-- Create the table of users -->
-		<c:forEach items="${users}" var="user" varStatus="counter">			
-                    <tr>
-                        <td><c:out value="${counter.count}"></c:out></td>
-                        <c:url value="/User/${user.getUsername()}" var="viewUserURL" />
-                        <td><a href="${viewUserURL}"><c:out value="${user.getUsername()}"></c:out></a></td>
-                        <c:url value="/User/Delete/${user.getUsername()}" var="deleteURL"/>
-                        <td><a href="${deleteURL}"> Delete </a></td>
-                    </tr>
-		</c:forEach>
-            </table>
-            <c:url value="/User/ShowAddUser" var="createUserURL"/>
-            <a class="btn btn-primary" href="${createUserURL}">Create new user</a>
-         
-        </div><!--/span-->
-      </div><!--/row-->
-
-      <hr/>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+            <th>Number</th>
+            <th>User name</th>
+            <th>Action</th>
+           </tr>
+        </thead>	
+        <tr th:each="user : ${users}">
+            <td>
+              <div th:text="${userStat.count}">Index</div>
+            </td>            
+            <td>
+              <a th:href="@{/Users/${user.Username}}" href="/Users/username" th:text="${user.Username}">
+                Username
+              </a>
+            </td>
+            <td>
+              <a href="/User/Delete/username" th:href="@{/User/Delete/${user.Username}}">Delete</a>
+            </td>
+        </tr>		
+        </table>
+        <a class="btn btn-primary" href="/User/ShowAddUser" th:href="@{/User/ShowAddUser}">Create new user</a>         
+        </div>
+      </div>
 
       <footer>
         <p>© R3 2013</p>

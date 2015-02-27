@@ -14,37 +14,28 @@
       <title>Add User</title>
 </head>
 <body>
-
-    <div th:replace="Common/TopMenu :: TopMenu"></div>
-
+    <div th:replace="Common/TopMenu :: TopMenu"/>
     <div class="container-fluid">
-      <div class="row-fluid">
-          
-        <!-- Column to hold navigation menu -->
+      <div class="row-fluid">        
         <div class="span3">
-          <div th:replace="Common/NavMenu :: NavMenu"></div>
+          <div th:replace="Common/NavMenu :: NavMenu"/>
         </div>
-        
-        <!-- column to hold main page content -->
         <div class="span9">
-          <div class="container">
-            
-        <!-- Allow the user to input user details -->
-	<c:url value="/User/create" var="loginUrl"/>
-	
-	<form:form modelAttribute="user" action="${loginUrl}" method="post">
-            <fieldset> 
-                <legend>Add user</legend>
-		<form:label for="username" path="username">User name</form:label>
-		<form:input type="text" path="username"/><form:errors path="username" cssClass="text-error"></form:errors>  
-                    <span class="help-block">What will the users name be?</span>
-		<form:label for="password" path="password" >Password</form:label>
-		<form:input type="password" path="password"/><form:errors path="password" cssClass="text-error"></form:errors>  
-                    <span class="help-block">Put in their password here.</span>
-                    <input type="submit" name="submit" type="submit" value="OK" class="btn">
-            </fieldset>  
-	</form:form>
-                
+        <div class="container">
+          <form th:object="${user}" action="/User/create" th:action="@{/User/create}" method="post">
+                  <fieldset> 
+                      <legend>Add user</legend>
+                      
+                      <label>User name</label>
+                      <input type="text" name="username" id="username" th:value="*{username}" th:errorclass="text-error"/>                      
+                      <span class="help-block">What will the users name be?</span>
+                      
+                      <label>Password</label>
+                      <input type="password" name="password" id="password" th:value="*{password}" th:errorclass="text-error"/>                        
+                      <span class="help-block">Put in their password here.</span>
+                      <input type="submit" value="OK" class="btn"/>
+                  </fieldset>  
+          </form>                
         </div>
         </div><!--/span-->
       </div><!--/row-->
