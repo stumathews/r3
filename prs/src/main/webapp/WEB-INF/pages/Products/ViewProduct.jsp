@@ -24,10 +24,10 @@
     </div>
     
     <!-- Small space between nav menu and main page content -->
-   <c:url var="EditURL" value="/Product/ShowEdit/${product.getIdentifier()}"/>
-   <c:url value="/Product/add/characteristic/${product.getIdentifier()}" var="AddProductCharacteristicURL"/> 
-   <c:url value="/add-review?productId=${product.getIdentifier()}" var="AddReviewURL"/>        
-   <c:url value="/add-recommendation?productId=${product.getIdentifier()}" var="AddRecommendationURL"/>
+   <c:url var="/Product/ShowEdit/${product.getIdentifier()}" value="/Product/ShowEdit/${product.getIdentifier()}"/>
+   <c:url value="/Product/add/characteristic/${product.getIdentifier()}" var="/Product/add/characteristic/${product.getIdentifier()}"/> 
+   <c:url value="/add-review?productId=${product.getIdentifier()}" var="/add-review?productId=${product.getIdentifier()}"/>        
+   <c:url value="/add-recommendation?productId=${product.getIdentifier()}" var="/add-recommendation?productId=${product.getIdentifier()}"/>
    
    
     <!-- Column for main page content -->
@@ -36,123 +36,48 @@
             <div style="padding-left:10px;">
             <!-- Column for produt picture -->
             <div class="span2">              
-                <img class="img-polaroid" src="${themeURLBase}/images/product_image.gif"/>                
+                <img class="img-polaroid" th:src="@{/themes/images/product_image.gif}" src="$../..themes/images/product_image.gif"/>                
             </div>
             <!-- Column next to picture for basic product details -->            
             <div class="span9">
                 <div class="row-fluid">                    
                     <dl class="dl-horizontal">
-                        <dt>Title: </dt><dd>${product.getTitle()}<dd/>
-                        <dt>Who made it: </dt><dd>${product.getWhoMadeIt()}<dd/>
-                        <dt>What it is: </dt><dd>${product.getWhatIsIt()}<dd/>   
+                        <dt>Title: </dt><dd th:text="${product.title}">title</dd>
+                        <dt>Who made it: </dt>
+                        <dd th:text="${product.getWhoMadeIt()}">who</dd>
+                        <dt>What it is: </dt>
+                        <dd th:text="${product.getWhatIsIt()}">what</dd>
                     </dl>
                     </div>                
                 <div class="row-fluid">                       
                     <ul class="inline"> 
-                        <li><a href="${EditURL}">Edit</a><br/></li>
-                        <li><a href="${AddProductCharacteristicURL}" class="btn btn-primary">Add detail</a></li>
-                        <li><a href="${AddReviewURL}" class="btn btn-primary">Review this</a></li>
-                        <li><a href="${AddRecommendationURL}" class="btn btn-primary">Recommend this</a></li>
+                        <li><a href="/Product/ShowEdit/1" th:href="@{'/Product/ShowEdit/'+${product.getIdentifier()}}" >Edit</a><br/></li>
+                        <li><a href="/Product/add/characteristic/1" th:href="@{'/Product/add/characteristic/'+${product.getIdentifier()}}" class="btn btn-primary">Add detail</a></li>
+                        <li><a href="/add-review?productId=1" th:href="@{'/add-review?productId='+${product.getIdentifier()}}" class="btn btn-primary">Review this</a></li>
+                        <li><a href="/add-recommendation?productId=1" th:href="@{'/add-recommendation?productId='+${product.getIdentifier()}}" class="btn btn-primary">Recommend this</a></li>
                     </ul>                     
-                </div>
-                
+                </div>                
             </div>
-           </div>         
-        
+           </div> 
         </div>    
         <br/> <!-- next row -->
         
         <div class="row">    
            <div style="padding-left:10px;">
             <div class="span12">      
-                <c:choose>
-                    <c:when test="${empty productCharacteristics}">
-                        <p>There are currently no product aspects, <a href="${AddProductCharacteristicURL}">add one</a> so others can review it.</p>
-                    </c:when>
-                    <c:otherwise>
-                        <strong>Characteristics:</strong>
-                        <p>These are the characteristics that make up this product.<br>You can review each of them separately or make a full review, choosing multiple to base your review on.</p>   
-                        <ul class="nav nav-tabs" id="characteristicTabs">
-                            <!-- Loop through all the characteristics. Later well need to loop through only the most valuable ones -->
-                            <c:forEach items="${productCharacteristics}" var="currentCharacteristic" varStatus="counter">
-                                <c:set var="name" value="${currentCharacteristic.getTitle()}" />
-                                <li><a href="#${fn:replace(name,' ','_')}" data-toggle="tab" >${name} <span class="badge">${counter.index + 3}</span></a></li>                        
-                            </c:forEach>
-                                <li><a href="${AddProductCharacteristicURL}">+ add</a></li>
-                        </ul>
-                    <!-- We put the aspects' description here for users to see :-) -->
-                        <div class="span1"></div>
-                        <div class="span11">
-                            <div class="tab-content">                        
-                                <c:forEach items="${productCharacteristics}" var="currentCharacteristic">
-                                                                       
-                                        <c:set var="description" value="${currentCharacteristic.getDescription()}"/>
-                                        <c:set var="name" value="${currentCharacteristic.getTitle()}" />                                             
-                                        <!-- <div class="tab-pane active" id="{name}">...</div> -->
-                                        <div class="tab-pane" id="${fn:replace(name,' ','_')}"> 
-                                            <p>
-                                                <strong>Description: </strong>${description}
-                                            </p>
-                                            <br/>
-                                             <!-- Look for reviews for this characteristic -->
-                                            <c:forEach items="${reviews}" var="review" >                                        
-                                                <c:forEach items="${review.getCharacteristicReviews()}" var="characteristicReview"> 
-                                                    <c:choose>                                                        
-                                                        <c:when test="${characteristicReview.getCharacteristic().getTitle() == currentCharacteristic.getTitle()}">                                                             
-                                                                <!-- print this review -->
-                                                             <div class="row-fluid">
-                                                                <div class="span2">                                            
-                                                                    <img src="${themeURLBase}/images/user_image.gif"/>
-                                                                    <div><strong>${review.getReviewer().getUsername()}</strong></div>                                            
-                                                                </div>
-                                                                <div class="span9">                                                    
-                                                                    
-                                                                    <p>${characteristicReview.getReview_text()}</p>                                            
-                                                                    <!-- Show pictures detailing the characteristic of the product -->
-                                                                    <br/><br/><br/>
-                                                                    <p><strong>User images:</strong> Images detailing this aspect</p>
-
-                                                                    <c:forEach begin="1" end="3">
-                                                                        <!--<img class="img-polaroid" src="http://img825.imageshack.us/img825/4719/filedm.jpg"/>-->
-                                                                        <img src="${themeURLBase}/images/charac_pic.gif" alt="..." class="img-thumbnail">
-                                                                    </c:forEach>   
-                                                                    <br/><br/>
-                                                                    <a href="#">Change this review</a><br><br/>
-                                                                    <a id="thumbs-up-btn" class="btn btn-success" href="#">
-                                                                        <i class="icon-thumbs-up icon-white icon-align-left">                    
-                                                                        </i> I agree with this review
-                                                                    </a>  
-                                                                    
-                                                                </div>  
-                                                            </div>
-                                                            <br/><br/>           
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                             
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </c:forEach> 
-                                            </c:forEach>
-
-                                        </div>                            
-                                </c:forEach>
-
-                            </div> <!-- tab-content -->
-                        </div> <!-- span11 --> 
-                    </c:otherwise>
-                </c:choose>
-                    
-                <!-- Construct the characteristics for the product -->
+              <strong>Characteristics:</strong>
+              <p>These are the characteristics that make up this product.<br/>You can review each of them separately or make a full review, choosing multiple to base your review on.</p>                           
+              <div class="span1"></div>
+              <div class="span11">
+                  <div class="tab-content">                      
+                      Tab Content
+                  </div> <!-- tab-content -->
+              </div> 
             </div>
-            </div>  <!-- span12 -->               
-        </div>
-        <div class="row"> 
-            <div class="span8">
-              
-            </div>
-        </div>
-    </div><!--/span-->
-  </div><!--/row-->
+            </div>              
+        </div>        
+    </div>
+  </div>
 
   <hr/>
   

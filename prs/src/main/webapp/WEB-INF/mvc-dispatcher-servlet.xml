@@ -81,7 +81,7 @@
   
   
   
-   <!--   
+  <!--
     <bean id="viewFactoryCreator"
         class="org.springframework.webflow.mvc.builder.MvcViewFactoryCreator">
         <property name="templateResolvers" ref="templateResolver" />
@@ -101,8 +101,6 @@
         flow-registry="flowRegistry">
     </webflow:flow-executor>
     
- 
-    <
     <bean class="org.springframework.webflow.mvc.servlet.FlowHandlerAdapter">
         <property name="flowExecutor" ref="flowExecutor" />
     </bean>
@@ -111,8 +109,8 @@
         <property name="flowRegistry" ref="flowRegistry" />
         <property name="order" value="0" />
     </bean>
-    
     -->
+    
     
     <bean id="characAdmin" class="BSL.CharacteristicAdmin" lazy-init="true"/>
     

@@ -38,7 +38,7 @@
                 </a>
             </td>
             <td>
-                <a href="/Product/Show/1" th:href="@{/Product/Show/${product.identifier}}" th:text="${product.title}"></a>
+                <a href="/Product/Show/1" th:href="@{'/Product/Show/'+${product.identifier}}" th:text="${product.title}"></a>
             </td>
             <td th:text="${product.whatIsIt}"></td>
             <td th:text="${product.whoMadeIt}"></td>                       
@@ -52,7 +52,7 @@
           </tr>		
         </table>
 	
-        <a class="btn btn-primary" href="${AddProductsURL}">Add new product</a>
+        <a class="btn btn-primary" href="/Product/ShowAdd" th:href="@{/Product/ShowAdd}">Add new product</a>
         </div><!--/span-->
       </div><!--/row-->
       
