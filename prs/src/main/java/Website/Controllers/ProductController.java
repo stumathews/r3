@@ -1,16 +1,9 @@
 package Website.Controllers;
  
-import BOL.Interfaces.IProduct;
-import BOL.Interfaces.IUserSessionManager;
-import BSL.Interfaces.ICharacteristicAdmin;
-import BSL.Interfaces.ILoginAdmin;
-import BSL.Interfaces.IProductAdmin;
-import BSL.Interfaces.IReviewAdmin;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

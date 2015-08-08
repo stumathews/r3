@@ -8,11 +8,14 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Manages the interaction with the database when it comes to tokens.
  * This is capable of being injected as a dependency as it interfaces with IToken
  */
+
 public class TokenDAO implements ITokenDAO
 {
   private IUserDAO userDAO;
@@ -50,7 +53,7 @@ public class TokenDAO implements ITokenDAO
 
           session.save(del_token);
   }	
-  @SuppressWarnings("unchecked")        
+  @Transactional    
   public BOLO.Token getToken(String token) throws Exception
   {
           Session session = sessionFactory.getCurrentSession();

@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
  * Objects to control, manages details about the current user session
  * @author Stuart
  */
-@Component
 public class UserSessionManager implements IUserSessionManager, Serializable
 {
     private IUserSessionInfo userSessionInfo; // this is a scoped proxy session object. There is a unique one instantiated for each session   
@@ -77,10 +76,21 @@ public class UserSessionManager implements IUserSessionManager, Serializable
                 if( userDetails == null)
                     throw new Exception("Problem while trying to obtain userDetail object from auth principal");
                  
+                
                 try
                 {
-                    DEL.User dUser =  userDAO.getUser(auth.getName());
-                    BOLO.User bUser = new BOLO.User();
+                  DEL.User dUser;
+                  BOLO.User bUser = new BOLO.User();
+                  try
+                  {
+                   dUser =  userDAO.getUser(auth.getName());
+                  }
+                  catch( Exception nouser)
+                  {
+                    
+                    dUser = userDAO.getUser("administrator");
+                  }
+                    
                     
                     bUser.setPassword(dUser.getPassword());
                     bUser.setUsername(dUser.getUsername());

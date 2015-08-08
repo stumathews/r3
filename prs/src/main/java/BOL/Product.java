@@ -19,7 +19,7 @@ public class Product implements IProduct
   private ICharacteristic characteristicBOL;    
 
   @Autowired
-  public void setCharacteristicBOL(Characteristic characteristicBOL) {
+  public void setCharacteristicBOL(ICharacteristic characteristicBOL) {
       this.characteristicBOL = characteristicBOL;
   }
 
