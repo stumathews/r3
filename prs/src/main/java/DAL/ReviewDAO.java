@@ -17,7 +17,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
 public class ReviewDAO implements IReviewDAO {
 
     private SessionFactory sessionFactory;

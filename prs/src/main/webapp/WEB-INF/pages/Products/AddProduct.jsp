@@ -1,4 +1,4 @@
-<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring3-3.dtd">
+  <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-2.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
@@ -24,7 +24,7 @@
         </div>        
         <div class="span9">            
           <div class="container"> 
-            <form th:object="${product}" action="/Product/Create" th:action="@{/Product/Create}" method="post">
+            <form th:object="${product}" th:action="@{/Product/Create}" action="/Product/Create" method="post">
                 <fieldset>
                     <legend>Add product</legend>
                     <p>Please enter the details for your new product</p>

@@ -22,7 +22,7 @@ import org.springframework.security.config.annotation.web.servlet.configuration.
  * @author Stuart
  */
 @Configuration
-@EnableWebSecurity
+@EnableWebMvcSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
   @Autowired
@@ -31,8 +31,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
   @Override 
   protected void configure(HttpSecurity http) throws Exception
   {
-    http.authorizeRequests().anyRequest().authenticated().and().formLogin().and().httpBasic();
-  
+          http.authorizeRequests()
+              .anyRequest()
+              .authenticated()
+              .and()
+              .formLogin()
+              .and()
+              .logout()
+              .permitAll();
+              
   }
   
   @Override

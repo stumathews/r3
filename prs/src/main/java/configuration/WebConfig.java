@@ -39,7 +39,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate3.HibernateExceptionTranslator;
 import org.springframework.orm.hibernate3.HibernateTransactionManager;
 import org.springframework.orm.hibernate3.LocalSessionFactoryBean;
-import org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean;
+import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.ui.context.support.ResourceBundleThemeSource;
@@ -50,9 +50,9 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 import org.springframework.web.servlet.theme.FixedThemeResolver;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.spring3.SpringTemplateEngine;
-import org.thymeleaf.spring3.view.ThymeleafViewResolver;
+import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
+import org.thymeleaf.spring4.SpringTemplateEngine;
+import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import org.thymeleaf.templateresolver.TemplateResolver;
 
@@ -62,6 +62,7 @@ import org.thymeleaf.templateresolver.TemplateResolver;
  */
 @Configuration
 @EnableWebMvc
+@EnableWebMvcSecurity
 @EnableTransactionManagement
 @ComponentScan( basePackages = {"Website.Controllers","configuration","BOL","DAL", "Webflow.Controllers","BSL.Interfaces", "BOLO.Validators", "Website.Initialisation","configuration"})//, "BOL", "Webflow.Controllers", "BOLO.Validators", "Website.Initialisation","configuration""} )//Website.Controllers, BOL, Webflow.Controllers, BOLO.Validators, Website.Initialisation,configuration")
 public class WebConfig extends WebMvcConfigurerAdapter {
@@ -71,6 +72,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
   {
     configurer.enable();
   }
+  
+  /* ::Theymleaf::*/
   
   @Bean
   public ViewResolver viewResolver(SpringTemplateEngine templateEngine){
@@ -84,6 +87,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
   public SpringTemplateEngine templateEngine(TemplateResolver templateResolver)
   {   
     SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+    templateEngine.addDialect(new SpringSecurityDialect());
     templateEngine.setTemplateResolver(templateResolver);
     return templateEngine;  
   }
@@ -186,6 +190,9 @@ public class WebConfig extends WebMvcConfigurerAdapter {
   {
     return new BOL.CommonUtil();
   }
+  
+  /* Data access Objects */
+  
   @Bean
   public IRecommendationDAO recommendationDAO ()
   {
@@ -221,6 +228,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
   {
     return new DAL.CharacteristicDAO();
   }
+  
   @Bean
   public BOLO.R3GlobalConfig r3config()
   {

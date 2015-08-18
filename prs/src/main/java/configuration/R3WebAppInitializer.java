@@ -6,12 +6,14 @@
 
 package configuration;
 
+import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**
  *
  * @author Stuart
  */
+@EnableWebMvcSecurity
 public class R3WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
   @Override
   protected String[] getServletMappings(){

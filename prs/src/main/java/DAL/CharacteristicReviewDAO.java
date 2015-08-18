@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+
 public class CharacteristicReviewDAO implements ICharacteristicReviewDAO
 {
     private SessionFactory sessionFactory;

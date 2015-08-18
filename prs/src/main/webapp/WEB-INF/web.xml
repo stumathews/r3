@@ -146,4 +146,4 @@
         <!-- Session timeout is 60 minutes -->
         <session-timeout>60</session-timeout>
     </session-config>
-    </web-app>
+</web-app>
