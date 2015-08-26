@@ -13,30 +13,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Bootstrap
-{    
-     
-    @Autowired
-    private ILoginAdmin loginAdmin;
-    
+{     
     @Autowired
     private IProductAdmin productAdmin;
     
-    @Autowired
-    private ICharacteristicAdmin characteristicAdmin; 
-    
-    @Autowired
-    private BSL.Interfaces.IRecommendationAdmin recommendationAdmin;
-    
-    @Autowired
-    private BSL.Interfaces.IReviewAdmin reviewAdmin;
-    
-    @Autowired
-    private IUserAdmin userAdmin;
-    
-    @Autowired
-    private WSL.Interfaces.IAdminFacade adminFacade;
-    
-
     @PostConstruct
     public void onAppStartup()
     {

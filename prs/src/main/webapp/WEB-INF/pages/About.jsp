@@ -24,30 +24,9 @@
         </div><!--/span-->
         
         <div class="span9">
-          <div class="container">
-            <h1>About</h1>
-            <p>Recommendations, reputations and reviews is an independent set of technologies that aim to help the people find relevant information
-                about the things they concerned about.
-                Finally, people can define free-form characteristics about products, people and companies so as to really define what is important to people.
-                Inevitably, other's might find these aspects also useful.</p>
-            <ol>
-                <li>Make it easier to find things that you want, according to your criteria</li>
-                <li>Study the aspects and characteristic of products so you can make an informed buying decision</li>
-                <li>Review other's opinions on the characteristics of products that matter most to you</li>
-                <li>See how people react to the reputation of people, products and companies</li>
-            </ol>
-            <p>We hope you like using R3 and it helps you. You can contact us at:</p>
-            <br/>
-            <br/>
-            <address>
-                Recommendations, Reputations and reviews.
-                23 Montague Road, First floor, rear flat
-                P: (075) 95254673
-            </address>                
-            <address>
-                Stuart Mathews
-            </address>
-        </div>
+          <h1 th:text="#{about}">About</h1>           
+            
+            Content Goes Here
         </div><!--/span-->
       </div><!--/row-->
 

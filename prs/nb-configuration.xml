@@ -21,7 +21,7 @@ Any value defined here will override the pom.xml file value but is only applicab
 -->
         <org-netbeans-modules-maven-jaxws.dont_5f_ask_5f_for_5f_nonjsr109_5f_config>true</org-netbeans-modules-maven-jaxws.dont_5f_ask_5f_for_5f_nonjsr109_5f_config>
         <netbeans.hint.j2eeVersion>1.7-web</netbeans.hint.j2eeVersion>
-        <netbeans.hint.license>default</netbeans.hint.license>
+        <netbeans.hint.license>bsd</netbeans.hint.license>
         <org-netbeans-modules-maven-j2ee.netbeans_2e_hint_2e_deploy_2e_server>Tomcat</org-netbeans-modules-maven-j2ee.netbeans_2e_hint_2e_deploy_2e_server>
         <org-netbeans-modules-css-prep.sass_2e_compiler_2e_options/>
         <org-netbeans-modules-css-prep.less_2e_mappings>/less:/css</org-netbeans-modules-css-prep.less_2e_mappings>
@@ -31,14 +31,6 @@ Any value defined here will override the pom.xml file value but is only applicab
         <org-netbeans-modules-css-prep.less_2e_compiler_2e_options/>
         <org-netbeans-modules-web-clientproject-api.js_2e_libs_2e_folder>themes/bootstrap/js</org-netbeans-modules-web-clientproject-api.js_2e_libs_2e_folder>
         <netbeans.compile.on.save>all</netbeans.compile.on.save>
+        <org-netbeans-modules-maven-j2ee.netbeans_2e_deploy_2e_on_2e_save>false</org-netbeans-modules-maven-j2ee.netbeans_2e_deploy_2e_on_2e_save>
     </properties>
-    <spring-data xmlns="http://www.netbeans.org/ns/spring-data/1">
-        <config-files>
-            <config-file>src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml</config-file>
-            <config-file>src/main/webapp/WEB-INF/applicationContext.xml</config-file>
-            <config-file>src/main/webapp/WEB-INF/properties.xml</config-file>
-            <config-file>src/main/webapp/WEB-INF/spring-security.xml</config-file>
-        </config-files>
-        <config-file-groups/>
-    </spring-data>
 </project-shared-configuration>

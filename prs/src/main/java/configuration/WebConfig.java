@@ -8,7 +8,6 @@ package configuration;
 
 import BOL.Interfaces.IUserSessionManager;
 import BOL.UserSessionManager;
-import BOL.security.UserAuthService;
 import BOLO.sessions.ISessionUserDetails;
 import BSL.Interfaces.ICharacteristicAdmin;
 import BSL.Interfaces.ILoginAdmin;
@@ -19,14 +18,9 @@ import BSL.Interfaces.IUserAdmin;
 import BSL.UserAdmin;
 import DAL.Interfaces.IRecommendationDAO;
 import DAL.RecommendationDAO;
-import WSL.CharacteristicFacade;
-import WSL.Interfaces.IAdminFacade;
-import WSL.UserFacade;
 import java.util.Properties;
 import javax.sql.DataSource;
 import org.hibernate.SessionFactory;
-import org.hibernate.annotations.Proxy;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -39,8 +33,8 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate3.HibernateExceptionTranslator;
 import org.springframework.orm.hibernate3.HibernateTransactionManager;
 import org.springframework.orm.hibernate3.LocalSessionFactoryBean;
+import org.springframework.remoting.jaxws.SimpleJaxWsServiceExporter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.ui.context.support.ResourceBundleThemeSource;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -234,15 +228,9 @@ public class WebConfig extends WebMvcConfigurerAdapter {
   {
     BOLO.R3GlobalConfig global = new BOLO.R3GlobalConfig();
     
-    return global;
-    
+    return global;    
   }
-  @Bean
-  public BSL.Interfaces.ICharacteristicAdmin characAdmin()
-  {
-    return new BSL.CharacteristicAdmin();
-  }
-  
+   
   @Bean
   @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
   public BOLO.Interfaces.IUserSessionInfo userSessionInfo()
@@ -324,37 +312,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
   public BeanPostProcessor persistenceTranslation(){    
     return new PersistenceExceptionTranslationPostProcessor();
   }
-  @Bean 
-  public UserDetailsService myUserAuthService()
-  {
-    BOL.security.UserAuthService myUserAuthService = new UserAuthService();
-    myUserAuthService.setUserDAO(userDAO());
-    return myUserAuthService;
-  }
-  
-  @Bean
-  public IAdminFacade adminFacade()
-  {
-    return new WSL.AdminFacade();
-  }
-  
-  @Bean 
-  public UserFacade userFacade()
-  {
-    return new UserFacade();
-  }
-  
-  @Bean 
-  public CharacteristicFacade  characteristicFacade()
-  {
-    return new CharacteristicFacade();
-  }
-  
-  @Bean 
-  public WSL.ProductFacade productFacade()
-  {
-    return new WSL.ProductFacade();
-  }
   
   @Bean
   public ExceptionHandlerExceptionResolver exceptionHandlerExceptionResolver()
@@ -392,6 +349,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
     resourceBundleMessageSource.setBasename("Messages");
     return resourceBundleMessageSource;
+  }
+  
+  @Bean
+  public SimpleJaxWsServiceExporter jaxWsServiceExporter(){
+    return new SimpleJaxWsServiceExporter();
   }
     
 }

@@ -23,20 +23,9 @@
           <div th:replace="Common/NavMenu :: NavMenu"></div> 
         </div><!--/span-->
         <div class="span9">
-          <div class="container">
-            <h1>Welcome</h1>
-            <p>This is Recommendations, Reputations and Reviews. Here you will be able to find things about people, products and companies
-                We'd encourage you you start by making a search for a product that might be interested in.
-                This will naturally expose you to the width and depth of the information at your disposal.
-            </p>          
-            <c:url value="/" var="home"></c:url>
-            <a class="btn btn-primary" href="${home}">
-                <i class="icon-ok-sign icon-white icon-align-left">                    
-                </i>Begin your journey
-            </a>
-      
+          <h1 th:text="#{welcome}">Welcome</h1>           
             
-        </div>
+            Content Goes Here
         </div><!--/span-->
       </div><!--/row-->
 
