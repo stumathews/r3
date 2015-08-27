@@ -20,16 +20,7 @@
         <key column="user_id"/>
         <one-to-many class="Token" /> 
       </set>
-      
-      <set name="reviews" inverse="true">
-          <key column="user_id"/>
-          <one-to-many class="Review"/>
-      </set>
-      
-      <set name="recommendations" inverse="true">
-          <key column="user_id"/>
-          <one-to-many class="Recommendation"/>
-      </set>
+           
       
   </class>
 </hibernate-mapping>

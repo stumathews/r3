@@ -14,9 +14,7 @@
             </p>       
             
             <ul class="nav">
-                    <li><a href="${url}" th:href="@{/}">Home</a></li>
-                    <li><a href="${url}About" th:href="@{/About}">About</a></li>
-                    <li><a href="${url}Welcome" th:href="@{/Welcome}">Welcome</a></li>
+                    <li><a href="${url}" th:href="@{/}">Home</a></li>                    
             </ul>
       
         </div><!--/.nav-collapse -->

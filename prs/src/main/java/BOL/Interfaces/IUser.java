@@ -11,7 +11,6 @@ public interface IUser
 {
     public BOLO.User createUser(String username, String password) throws Exception;
     public void deleteUser(String username) throws Exception;
-    public ArrayList<User> getAllUsers() throws Exception;
-    public boolean cleanOldUserTokens(String token) throws Exception;
+    public ArrayList<User> getAllUsers() throws Exception;    
     public BOLO.User getUser(String username) throws Exception;
 }

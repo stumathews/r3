@@ -1,23 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package configuration;
 
-import BOL.Interfaces.IUserSessionManager;
-import BOL.UserSessionManager;
-import BOLO.sessions.ISessionUserDetails;
-import BSL.Interfaces.ICharacteristicAdmin;
-import BSL.Interfaces.ILoginAdmin;
-import BSL.Interfaces.IProductAdmin;
-import BSL.Interfaces.IRecommendationAdmin;
-import BSL.Interfaces.IReviewAdmin;
-import BSL.Interfaces.IUserAdmin;
-import BSL.UserAdmin;
-import DAL.Interfaces.IRecommendationDAO;
-import DAL.RecommendationDAO;
 import java.util.Properties;
 import javax.sql.DataSource;
 import org.hibernate.SessionFactory;
@@ -25,8 +7,6 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -96,132 +76,20 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     return templateResolver;    
   }
   
-  @Bean 
-  public IUserSessionManager userSessionManager()
-  {
-    BOL.UserSessionManager userSessionManager = new UserSessionManager();
-    return userSessionManager;
-  }
-  
-  @Bean 
-  public IRecommendationAdmin recommendationAdmin()
-  {
-    return new BSL.RecommendationAdmin();
-  }
-        
-  @Bean
-  public IReviewAdmin reviewAdmin()
-  {
-    return new BSL.ReviewAdmin();
-  }
-  @Bean 
-  public IUserAdmin userAdmin()
-  { 
-    return new UserAdmin();
-  }
-  @Bean
-  public ILoginAdmin loginAdmin()
-  {
-    return new BSL.LoginAdmin();
-  }
-  @Bean
-  public ICharacteristicAdmin characteristicAdmin()
-  {
-    return new BSL.CharacteristicAdmin();
-  }
-  @Bean
-  public IProductAdmin productAdmin()
-  {
-    return new BSL.ProductAdmin();
-  }
-  @Bean
-  public ISessionUserDetails sessionUserDetails()
-  {
-    return new BOLO.sessions.SessionUserDetails();
-  }
-  @Bean
-  public BOL.Interfaces.ICharacteristic characteristicBOL()
-  {
-    return new BOL.Characteristic();
-  }
-  @Bean
-  public BOL.Interfaces.IAuthentication authenticationBOL()
-  {
-    return new BOL.Authentication();
-  }
-  @Bean BOL.Interfaces.IRecommendation recommendationBOL()
-  {
-    return new BOL.Recommendation();
-  }
-  @Bean
-  public BOL.Interfaces.IProduct productLogic()
-  {
-    return new BOL.Product();
-  }
-  @Bean
-  public BOL.Interfaces.IReview ReviewLogic()
-  {
-    return new BOL.Review();
-  }
-  @Bean
-  public BOL.Interfaces.IToken tokenBOL()
-  {
-    return new BOL.Token();
-  }
+ 
   @Bean
   public BOL.Interfaces.IUser userBOL()
   {
     return new BOL.User();
   }
-  
-  @Bean
-  public BOL.Interfaces.IServiceAuthoriser serviceAuthoriser ()
-  {
-    return new BOL.ServiceAuthoriser();
-  }
-  @Bean
-  public BOL.Interfaces.ICommonUtil commonUtil()
-  {
-    return new BOL.CommonUtil();
-  }
-  
-  /* Data access Objects */
-  
-  @Bean
-  public IRecommendationDAO recommendationDAO ()
-  {
-    return new RecommendationDAO();
-  }
-  @Bean
-  public DAL.Interfaces.IReviewDAO reviewDAO()
-  {
-    return new DAL.ReviewDAO();
-  }
-  @Bean
-  public DAL.Interfaces.ICharacteristicReviewDAO characteristicReviewDAO()
-  {
-    return new DAL.CharacteristicReviewDAO();
-  }
-  @Bean
-  public DAL.Interfaces.IProductDAO productDAO()
-  {
-    return new DAL.ProductDAO();
-  }
+    
   @Bean
   public DAL.Interfaces.IUserDAO userDAO()
   {
     return new DAL.UserDAO();
   }
-  @Bean
-  public DAL.Interfaces.ITokenDAO tokenDAO()
-  {
-    return new DAL.TokenDAO();
-  }
-  @Bean
-  public DAL.Interfaces.ICharacteristicsDAO characteristicDAO()
-  {
-    return new DAL.CharacteristicDAO();
-  }
+  
+  
   
   @Bean
   public BOLO.R3GlobalConfig r3config()
@@ -229,13 +97,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     BOLO.R3GlobalConfig global = new BOLO.R3GlobalConfig();
     
     return global;    
-  }
-   
-  @Bean
-  @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-  public BOLO.Interfaces.IUserSessionInfo userSessionInfo()
-  {
-    return new BOLO.UserSessionInfo();
   }
   
    @Bean   
@@ -290,14 +151,10 @@ public class WebConfig extends WebMvcConfigurerAdapter {
    properties.put("hibernate.c3p0.max_statements", "50");
    properties.put("hibernate.c3p0.idle_test_period", "3000");
    properties.put("hibernate.hbm2ddl.auto", "create");
-   sessionFactory.setMappingResources( new String[] {"DEL/Characteristic.hbm.xml",
-     "DEL/CharacteristicArea.hbm.xml",
-     "DEL/CharacteristicReview.hbm.xml",
-     "DEL/Product.hbm.xml",
-     "DEL/Recommendation.hbm.xml",
-     "DEL/Review.hbm.xml",
+   sessionFactory.setMappingResources( new String[] {
      "DEL/Token.hbm.xml",
-     "DEL/User.hbm.xml"});
+     "DEL/User.hbm.xml"
+   });
    sessionFactory.setHibernateProperties(properties);   
    
    return sessionFactory;

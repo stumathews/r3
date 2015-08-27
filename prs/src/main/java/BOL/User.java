@@ -1,7 +1,6 @@
 package BOL;
 
 import BOL.Interfaces.IUser;
-import DAL.Interfaces.ITokenDAO;
 import DAL.Interfaces.IUserDAO;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class User implements IUser
 {
     private  IUserDAO userDAO;
-    private  ITokenDAO tokenDAO;
-
-    @Autowired
-    public void setTokenDAO(ITokenDAO tokenDAO)
-    {
-        this.tokenDAO = tokenDAO;
-    }
-    
+            
     @Autowired
     public void setUserDAO(IUserDAO userDAO)
     {
@@ -35,19 +27,6 @@ public class User implements IUser
             return userDAO.getUser(username, password);
     }
     
-    public boolean cleanOldUserTokens(String token) throws Exception
-    {
-        try 
-        {
-            tokenDAO.cleanOldUserTokens(token);
-            return true;
-        } 
-        catch (Exception e) 
-        {
-            return false;
-        }
-    }
-
     public void deleteUser(String username) throws Exception 
     {
         try 
