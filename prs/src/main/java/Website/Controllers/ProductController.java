@@ -29,47 +29,19 @@ public class ProductController
     public static final boolean DEBUG = false;
     @Autowired
     public BSL.Interfaces.IProductAdmin productAdmin; 
+    
     @Autowired
     public BSL.Interfaces.ILoginAdmin loginAdmin;
+    
     @Autowired
     public BSL.Interfaces.ICharacteristicAdmin characteristicAdmin;
+    
     @Autowired
     public BSL.Interfaces.IReviewAdmin reviewAdmin;
+    
     @Autowired
     public BOL.Interfaces.IUserSessionManager userSessionManager; // each logged in user as their own userSessionManager...
 
-    /*
-    @Autowired
-    public void setUserSessionManager(IUserSessionManager userSessionManager) {
-        this.userSessionManager = userSessionManager;
-    }
-    
-    @Autowired
-    public void setReviewAdmin(IReviewAdmin reviewAdmin) {
-        this.reviewAdmin = reviewAdmin;
-    }
-    private BOL.Interfaces.IProduct productLogic;
-
-    @Autowired
-    public void setProductLogic(IProduct productLogic) {
-        this.productLogic = productLogic;
-    }    
-
-    @Autowired
-    public void setCharacteristicAdmin(ICharacteristicAdmin characteristicAdmin) {
-        this.characteristicAdmin = characteristicAdmin;
-    }    
-    @Autowired
-    public void setLoginAdmin(ILoginAdmin loginAdmin) {
-        this.loginAdmin = loginAdmin;
-    }
-    @Autowired
-    public void setProductAdmin(IProductAdmin productAdmin) {
-        this.productAdmin = productAdmin;
-    }*/
-   
-    /* Model data: */
-    
     @ModelAttribute("SessionToken")
     public String getSessionToken() throws Exception
     {
