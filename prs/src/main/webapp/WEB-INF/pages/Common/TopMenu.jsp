@@ -6,7 +6,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         </button>
-        <a class="brand" href="#">R3</a>
+        <a class="brand" href="#" th:text="#{Appname}">AppName</a>
         <div class="nav-collapse collapse">       
             <p class="navbar-text pull-right">
             Hi <a href="" class="navbar-link">Username</a>

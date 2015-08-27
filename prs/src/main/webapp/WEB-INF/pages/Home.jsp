@@ -34,7 +34,7 @@
       <hr/>
 
       <footer>
-        <p>© R3 2013</p>
+        <p th:text="#{Appname}">© R3 2013</p>
       </footer>
 
     </div><!--/.fluid-container-->
