@@ -23,28 +23,18 @@
             <div th:replace="Common/NavMenu :: NavMenu"></div>          
         </div><!--/span-->
         <div class="span9">
-          <div class="container">      
-                <!-- this is so that the interceptors know to use this as login details -->
-                
-                <!-- Also, as we wont be actually needing the 
-                login details(they are dealt with by the interceptors),
-                we wont be using a spring form:form with modelAttribute.
-                -->
+          <div class="container">
                 <h1>R3</h1>
-                <form action="j_spring_security_check" method="post">
-                <p>Please specify your user credentials to login to R3</p>
-                    <legend>Login</legend>                     
-                        <label for="username" path="username">Username</label>
-                        <input type="text" path="username" name="j_username" />  
-                            <span class="help-block">What is your user name?</span>
-                        <label for="password" path="password">Password</label>
-                        <input type="password" path="password" name="j_password" />
-                            <span class="help-block">Specify your password</span>                        
-                        <input type="submit" value="login" class="btn btn-primary" /><br/>                             
-                </form> 
-            
-      
-            
+                <form name='f' th:action='@{/login}' method='POST'>
+                <table>
+                    <tr><td>User:</td><td>
+                    <input type='text' name='username' value='' /></td></tr>
+                    <tr><td>Password:</td>
+                    <td><input type='password' name='password'/></td></tr>
+                    <tr><td colspan='2'>
+                    <input name="submit" type="submit" value="Login"/></td></tr>
+                </table>
+                </form>
         </div>
         </div><!--/span-->
       </div><!--/row-->
