@@ -15,12 +15,7 @@
       
       <property name="username" column="username" type="string"/>
       <property name="password" column="password" type="string" />
-      
-      <set name="tokens">
-        <key column="user_id"/>
-        <one-to-many class="Token" /> 
-      </set>
-           
+             
       
   </class>
 </hibernate-mapping>
