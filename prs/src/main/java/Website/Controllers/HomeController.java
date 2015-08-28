@@ -23,12 +23,6 @@ public class HomeController
     @RequestMapping(method = GET)
     public String home(ModelMap model) throws Exception
     {   
-        return "Home";
-    }
-    
-    @ModelAttribute("testdata")
-    public String GetTestData()
-    {
-      return "yoyo";
+        return "Home"; // send "home" back to the DispatchServlet who'll ask a view resolver to get a View for it.
     }
 }

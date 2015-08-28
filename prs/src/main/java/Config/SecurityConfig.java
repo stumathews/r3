@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package configuration;
+package Config;
 
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;

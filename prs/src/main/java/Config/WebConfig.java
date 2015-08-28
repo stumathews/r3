@@ -1,4 +1,4 @@
-package configuration;
+package Config;
 
 import java.util.Properties;
 import javax.sql.DataSource;
@@ -31,24 +31,32 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import org.thymeleaf.templateresolver.TemplateResolver;
 
 /**
- *
+ * Spring MVC Configuration
  * @author Stuart
  */
 @Configuration
 @EnableWebMvc
 @EnableWebMvcSecurity
 @EnableTransactionManagement
-@ComponentScan( basePackages = {"Website.Controllers","configuration","BOL","DAL", "Webflow.Controllers","BSL.Interfaces", "BOLO.Validators", "Website.Initialisation","configuration"})//, "BOL", "Webflow.Controllers", "BOLO.Validators", "Website.Initialisation","configuration""} )//Website.Controllers, BOL, Webflow.Controllers, BOLO.Validators, Website.Initialisation,configuration")
+@ComponentScan( basePackages = {"Website.Controllers","BOL","DAL", "Webflow.Controllers","BSL.Interfaces", "BOLO.Validators", "Website.Initialisation","Config"})
 public class WebConfig extends WebMvcConfigurerAdapter {
   
+  /***
+   * Configure static content handling
+   * forward requests for static resources to the servlet container’s default servlet 
+   * @param configurer 
+   */
   @Override
   public void configureDefaultServletHandling( DefaultServletHandlerConfigurer configurer)
   {
     configurer.enable();
   }
   
-  /* ::Theymleaf::*/
-  
+  /***
+   * Configure Theymleaf view resolver
+   * @param templateEngine
+   * @return 
+   */
   @Bean
   public ViewResolver viewResolver(SpringTemplateEngine templateEngine){
     
