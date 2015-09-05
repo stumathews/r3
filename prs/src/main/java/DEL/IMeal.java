@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015, stuartm
+ * Copyright (c) 2015, Stuart
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -23,25 +23,29 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package Website.Controllers;
 
-import org.junit.Test;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+package DEL;
 
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-
-public class HomeControllerTest {
- 
-    @Test
-    public void testHomePage() throws Exception {
-      /* 
-      HomeController controller = new HomeController();
-        MockMvc mockMvc = standaloneSetup(controller).build();        
-        mockMvc.perform(MockMvcRequestBuilders.get("/"))
-                .andExpect(view().name("Home"));
-        */
-    }
-    
+/**
+ * A Meal
+ * @author Stuart
+ */
+public interface IMeal
+{
+  
+  public long getId();
+  public void setId(long id);   
+  
+  public String getTitle();
+  public void setTitle(String title);
+  
+  public int getCarbs();
+  public void setCarbs(int carbs);
+  
+  public int getProteins();
+  public void setProteins(int proteins);
+  
+  public int getFats();
+  public void setFats(int fats);
+  
 }

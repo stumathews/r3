@@ -6,10 +6,16 @@
 
 package Config;
 
+import DAL.Interfaces.MealRepository;
+import java.util.ArrayList;
 import java.util.Properties;
 import javax.sql.DataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
+import org.springframework.cache.support.CompositeCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
@@ -28,7 +34,12 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
  * @author Stuart
  */
 @Configuration
-@ComponentScan( basePackages = {"Website.Controllers, BOL, Webflow.Controllers, BOLO.Validators, Website.Initialisation, Config"},
+@EnableCaching
+@ComponentScan( basePackageClasses = {
+                  DAL.MealRepository.class, 
+                  DAL.UserDAO.class, 
+                  BSL.MealService.class,
+                  BOL.User.class,} ,
         excludeFilters = {
             @Filter(type=FilterType.ANNOTATION, value=EnableWebMvc.class)
         })
@@ -106,9 +117,10 @@ public class RootConfig {
    properties.put("hibernate.c3p0.timeout", "300");
    properties.put("hibernate.c3p0.max_statements", "50");
    properties.put("hibernate.c3p0.idle_test_period", "3000");
-   properties.put("hibernate.hbm2ddl.auto", "create");
+   properties.put("hibernate.hbm2ddl.auto", "create");   
    sessionFactory.setMappingResources( new String[] {
-     "DEL/User.hbm.xml"
+     "DEL/User.hbm.xml",
+     "DEL/Meal.hbm.xml"
    });
    sessionFactory.setHibernateProperties(properties);   
    
@@ -124,4 +136,26 @@ public class RootConfig {
   public BeanPostProcessor persistenceTranslation(){    
     return new PersistenceExceptionTranslationPostProcessor();
   }
+   @Bean
+  public BSL.Interfaces.IMealService mealService()
+  {
+    return new BSL.MealService();
+  }
+  
+  @Bean 
+  public MealRepository mealRepository()
+  {
+    return new DAL.MealRepository();
+  }
+  
+  @Bean 
+  public CacheManager cacheManager()
+  {
+    CompositeCacheManager cacheManager = new CompositeCacheManager();
+    ArrayList<CacheManager> managers = new ArrayList<CacheManager>();
+    managers.add(new ConcurrentMapCacheManager("mealCache"));
+    cacheManager.setCacheManagers(managers);
+    return cacheManager;    
+  }
+  
 }

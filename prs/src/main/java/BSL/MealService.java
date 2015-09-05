@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015, stuartm
+ * Copyright (c) 2015, Stuart
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -23,25 +23,42 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package Website.Controllers;
 
-import org.junit.Test;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+package BSL;
 
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+import DEL.IMeal;
+import java.util.Set;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-public class HomeControllerTest {
- 
-    @Test
-    public void testHomePage() throws Exception {
-      /* 
-      HomeController controller = new HomeController();
-        MockMvc mockMvc = standaloneSetup(controller).build();        
-        mockMvc.perform(MockMvcRequestBuilders.get("/"))
-                .andExpect(view().name("Home"));
-        */
-    }
-    
+/**
+ *
+ * @author Stuart
+ */
+@Component
+public class MealService implements BSL.Interfaces.IMealService
+{
+  @Autowired
+  private DAL.Interfaces.MealRepository mealRepository;
+  
+  public Set<IMeal> getMeals()
+  {
+      return mealRepository.GetMeals();
+  }
+
+  public void addMeal(IMeal meal)
+  {
+    mealRepository.add(meal);
+  }
+
+  public void deleteMeal(IMeal meal)
+  {
+    mealRepository.delete(meal);
+  }
+
+  public IMeal getMeal(long id)
+  {
+   return mealRepository.GetMeal(id);
+  }
+  
 }

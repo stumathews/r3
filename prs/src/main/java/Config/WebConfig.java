@@ -1,19 +1,10 @@
 package Config;
 
-import java.util.Properties;
-import javax.sql.DataSource;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate3.HibernateExceptionTranslator;
-import org.springframework.orm.hibernate3.HibernateTransactionManager;
-import org.springframework.orm.hibernate3.LocalSessionFactoryBean;
-import org.springframework.remoting.jaxws.SimpleJaxWsServiceExporter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.ui.context.support.ResourceBundleThemeSource;
@@ -35,10 +26,16 @@ import org.thymeleaf.templateresolver.TemplateResolver;
  * @author Stuart
  */
 @Configuration
+@Import(RootConfig.class)
 @EnableWebMvc
 @EnableWebMvcSecurity
 @EnableTransactionManagement
-@ComponentScan( basePackages = {"Website.Controllers","BOL","DAL", "Webflow.Controllers","BSL.Interfaces", "BOLO.Validators", "Website.Initialisation","Config"})
+@ComponentScan(basePackageClasses = {
+                Website.Controllers.MealController.class,                 
+                Website.Controllers.NavigationController.class,
+                DAL.MealRepository.class,
+                BSL.MealService.class
+})
 public class WebConfig extends WebMvcConfigurerAdapter {
   
   /***
@@ -79,7 +76,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
   {    
     TemplateResolver templateResolver = new ServletContextTemplateResolver();
     templateResolver.setPrefix("/WEB-INF/pages/");
-    templateResolver.setSuffix(".jsp");
+    templateResolver.setSuffix(".html");
     templateResolver.setTemplateMode("HTML5");
     return templateResolver;    
   }  
@@ -101,7 +98,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
   public ResourceBundleThemeSource themeSource()
   {
     ResourceBundleThemeSource resourceBundleThemeSource = new ResourceBundleThemeSource();
-    resourceBundleThemeSource.setBasenamePrefix("there-");
+    resourceBundleThemeSource.setBasenamePrefix("theme-");
     return resourceBundleThemeSource;
   }
   
@@ -119,5 +116,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
     resourceBundleMessageSource.setBasename("Messages");
     return resourceBundleMessageSource;
-  }    
+  }   
+  
 }

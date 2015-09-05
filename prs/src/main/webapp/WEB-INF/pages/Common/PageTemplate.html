@@ -4,8 +4,9 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
-      <link rel="stylesheet" href="../../themes/bootstrap/css/bootstrap.min.css" th:href="@{/themes/bootstrap/css/bootstrap.min.css}" media="screen"  />
-      <link rel="stylesheet" href="../../themes/bootstrap/css/bootstrap-responsive.css" th:href ="@{/themes/bootstrap/css/bootstrap-responsive.css}"/>
+      <link rel="stylesheet" href="../../../themes/bootstrap/css/bootstrap.min.css" th:href="@{/themes/bootstrap/css/bootstrap.min.css}" media="screen"  />
+      <link rel="stylesheet" href="../../../themes/bootstrap/css/bootstrap-responsive.css" th:href ="@{/themes/bootstrap/css/bootstrap-responsive.css}"/>
+      
       <style>
         body {
           padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -25,12 +26,6 @@
         <div class="span9">
           <!-- CONTENT GOES HERE -->
           
-           <form:form modelAttribute="NewRecommendation" action="${CreateRecommendationPostURL}" method="post">
-            <form:label for="thing" path="thing">Text</form:label>
-            <form:input type="text" path="thing" />
-            <span class="help-block">Information</span>  
-            </form:form>
-          
         </div><!--/span-->
       </div><!--/row-->
 
@@ -45,8 +40,8 @@
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="${themeURLBase}/jquery.js"></script>
-    <script src="${themeURLBase}/bootstrap/js/bootstrap.min.js"></script>
+    <script th:src="@{/themes/jquery.js}"/>
+    <script th:src="@{/themes/bootstrap/js/bootstrap.min.js}"/>
 
   
 

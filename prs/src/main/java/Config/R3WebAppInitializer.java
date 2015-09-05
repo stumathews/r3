@@ -6,6 +6,7 @@
 
 package Config;
 
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 

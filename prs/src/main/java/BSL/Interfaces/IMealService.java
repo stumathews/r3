@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015, stuartm
+ * Copyright (c) 2015, Stuart
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -23,25 +23,24 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package Website.Controllers;
 
-import org.junit.Test;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+package BSL.Interfaces;
 
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+import DEL.IMeal;
+import java.util.Set;
 
-public class HomeControllerTest {
- 
-    @Test
-    public void testHomePage() throws Exception {
-      /* 
-      HomeController controller = new HomeController();
-        MockMvc mockMvc = standaloneSetup(controller).build();        
-        mockMvc.perform(MockMvcRequestBuilders.get("/"))
-                .andExpect(view().name("Home"));
-        */
-    }
-    
+/**
+ * Service for dealing with meals
+ * @author Stuart
+ */
+
+public interface IMealService
+{
+  public Set<IMeal> getMeals();
+
+  public void addMeal(IMeal meal);
+
+  public void deleteMeal(IMeal meal);
+
+  public IMeal getMeal(long id);
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015, stuartm
+ * Copyright (c) 2015, Stuart
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -23,25 +23,23 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package Website.Controllers;
 
-import org.junit.Test;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+package DAL.Interfaces;
 
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+import DEL.IMeal;
+import java.util.Set;
 
-public class HomeControllerTest {
- 
-    @Test
-    public void testHomePage() throws Exception {
-      /* 
-      HomeController controller = new HomeController();
-        MockMvc mockMvc = standaloneSetup(controller).build();        
-        mockMvc.perform(MockMvcRequestBuilders.get("/"))
-                .andExpect(view().name("Home"));
-        */
-    }
-    
+/**
+ *
+ * @author Stuart
+ */
+public interface MealRepository
+{
+  Set<IMeal> GetMeals();
+
+  public IMeal add(IMeal meal);
+
+  public void delete(IMeal meal);
+
+  public IMeal GetMeal(long id);
 }
