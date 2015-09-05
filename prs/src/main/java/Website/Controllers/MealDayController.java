@@ -23,75 +23,71 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-
 package Website.Controllers;
 
+import BSL.Interfaces.IMealDayService;
+import BSL.Interfaces.IMealService;
 import DEL.Interfaces.IMeal;
+import DEL.Interfaces.IMealDay;
 import DEL.Meal;
-import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * Deals with meals
+ *
  * @author Stuart
  */
-@Controller()
-@RequestMapping({"/"})
-public class MealController
+@Controller
+@RequestMapping(value = "/today")
+public class MealDayController 
 {
-  @Autowired
-  private BSL.Interfaces.IMealService mealService;
+    @Autowired
+    private IMealDayService mealDayService;
     
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    String login()
+    @Autowired
+    private IMealService mealService;
+    
+    @RequestMapping( method = RequestMethod.GET)
+    String today(Model model)
     {
-        return "login";
+        Date date = TodaysDate();
+        List<String> test = new ArrayList<String>();
+        
+        model.addAttribute("meal", new Meal());
+        model.addAttribute("allMeals", mealService.getMeals());
+        
+        List<IMeal> todaysMeals = new ArrayList<IMeal>();
+        for( IMealDay mealday :  mealDayService.getDayMeals(TodaysDate()))
+        {
+            todaysMeals.add(mealday.getMeal());
+        }
+        model.addAttribute("todaysMeals", todaysMeals);
+        return "meals/today";
+    }
+
+    private Date TodaysDate() 
+    {
+        Calendar c = new GregorianCalendar();
+        c.set(Calendar.HOUR_OF_DAY, 0); //anything 0 - 23
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        Date date = c.getTime(); //the midnight, that's the first second of the day.
+        return date;
     }
     
-  @RequestMapping(method = RequestMethod.GET)
-  String all(Model model)    
-  {
-    model.addAttribute("meals", mealService.getMeals());
-      return "meals/all";    
-  }
-  
-  @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-  String view(@PathVariable long id, Model model)
-  {
-    model.addAttribute("meal", mealService.getMeal(id));
-    return "meals/view";
-  }
-  
-  @RequestMapping(value = "add", method = RequestMethod.GET)
-  String add(Model model)
-  {
-    model.addAttribute(new Meal());
-    return "meals/add";
-  }
-  @RequestMapping(value = "create", method = RequestMethod.POST)
-  String create(
-          @Valid Meal meal,
-          Errors errors)
-  {
-    if(errors.hasErrors())
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    String todayAdd(Meal meal )
     {
-      return "/meals/add";
+        Meal m = (Meal) mealService.getMeal(meal.getId());
+        mealDayService.addMealDay(TodaysDate(),m);
+        return "redirect:/today";
     }
-    mealService.addMeal(meal);
-    return "redirect:/";
-  }
-  
-  @RequestMapping( value = "/delete/{id}", method = RequestMethod.GET)
-  String delete( @PathVariable long id)
-  {
-    IMeal meal = mealService.getMeal(id);
-    mealService.deleteMeal(meal);
-    return "redirect:/";
-  }  
 }

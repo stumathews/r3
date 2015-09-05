@@ -26,7 +26,7 @@
 
 package BSL;
 
-import DEL.IMeal;
+import DEL.Interfaces.IMeal;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -39,7 +39,7 @@ import org.springframework.stereotype.Component;
 public class MealService implements BSL.Interfaces.IMealService
 {
   @Autowired
-  private DAL.Interfaces.MealRepository mealRepository;
+  private DAL.Interfaces.IMealRepository mealRepository;
   
   public Set<IMeal> getMeals()
   {

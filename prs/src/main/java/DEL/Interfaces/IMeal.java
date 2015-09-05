@@ -24,22 +24,28 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package DAL.Interfaces;
-
-import DEL.IMeal;
-import java.util.Set;
+package DEL.Interfaces;
 
 /**
- *
+ * A Meal
  * @author Stuart
  */
-public interface MealRepository
+public interface IMeal
 {
-  Set<IMeal> GetMeals();
-
-  public IMeal add(IMeal meal);
-
-  public void delete(IMeal meal);
-
-  public IMeal GetMeal(long id);
+  
+  public long getId();
+  public void setId(long id);   
+  
+  public String getTitle();
+  public void setTitle(String title);
+  
+  public int getCarbs();
+  public void setCarbs(int carbs);
+  
+  public int getProteins();
+  public void setProteins(int proteins);
+  
+  public int getFats();
+  public void setFats(int fats);
+  
 }

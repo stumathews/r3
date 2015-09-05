@@ -23,24 +23,19 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-
 package BSL.Interfaces;
 
+import DEL.Interfaces.IMealDay;
 import DEL.Interfaces.IMeal;
+import java.util.Date;
 import java.util.Set;
 
 /**
- * Service for dealing with meals
+ * Meal Day service interface
  * @author Stuart
  */
-
-public interface IMealService
+public interface IMealDayService 
 {
-  public Set<IMeal> getMeals();
-
-  public void addMeal(IMeal meal);
-
-  public void deleteMeal(IMeal meal);
-
-  public IMeal getMeal(long id);
+    public IMealDay addMealDay( Date date, IMeal meal);
+    public Set<IMealDay> getDayMeals(Date date);
 }

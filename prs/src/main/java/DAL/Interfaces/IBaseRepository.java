@@ -23,29 +23,18 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package DAL.Interfaces;
 
-package DEL;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * A Meal
+ *
  * @author Stuart
  */
-public interface IMeal
+public interface IBaseRepository 
 {
-  
-  public long getId();
-  public void setId(long id);   
-  
-  public String getTitle();
-  public void setTitle(String title);
-  
-  public int getCarbs();
-  public void setCarbs(int carbs);
-  
-  public int getProteins();
-  public void setProteins(int proteins);
-  
-  public int getFats();
-  public void setFats(int fats);
-  
+    public Session getCurrentSession();
 }
+    

@@ -33,8 +33,11 @@ import org.thymeleaf.templateresolver.TemplateResolver;
 @ComponentScan(basePackageClasses = {
                 Website.Controllers.MealController.class,                 
                 Website.Controllers.NavigationController.class,
+                Website.Controllers.MealDayController.class,
                 DAL.MealRepository.class,
-                BSL.MealService.class
+                DAL.MealDayRepository.class,
+                BSL.MealService.class,
+                BSL.MealDayService.class
 })
 public class WebConfig extends WebMvcConfigurerAdapter {
   

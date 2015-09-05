@@ -26,7 +26,7 @@
 
 package DAL;
 
-import DEL.IMeal;
+import DEL.Interfaces.IMeal;
 import DEL.Meal;
 import java.util.HashSet;
 import java.util.List;
@@ -44,7 +44,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Stuart
  */
 @Component
-public class MealRepository implements DAL.Interfaces.MealRepository 
+public class MealRepository implements DAL.Interfaces.IMealRepository 
 {
   @Autowired
   private SessionFactory sessionFactory;
@@ -55,7 +55,7 @@ public class MealRepository implements DAL.Interfaces.MealRepository
   public Set<IMeal> GetMeals()
   {    
     HashSet<IMeal> meals = new HashSet<IMeal>();
-    for( IMeal meal : (List<Meal>) sessionFactory.getCurrentSession().createQuery("from Meal").list())
+    for( IMeal meal : (List<IMeal>) sessionFactory.getCurrentSession().createQuery("from Meal").list())
     {
       meals.add(meal);
     }
@@ -78,9 +78,9 @@ public class MealRepository implements DAL.Interfaces.MealRepository
 
   @Transactional
   @Cacheable(value = MEAL_CACHE)
-  public Meal GetMeal(long Id)
+  public IMeal GetMeal(long Id)
   {
-    return (Meal) sessionFactory.getCurrentSession().get(Meal.class, Id);   
+    return (IMeal) sessionFactory.getCurrentSession().get(Meal.class, Id);   
   }
   
   

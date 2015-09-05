@@ -25,7 +25,50 @@
         </div><!--/span-->       
         <div class="span9">
             
-            <h1 th:text="#{todays_meals}">Todays Meals</h1>
+        <h1 th:text="#{todays_meals}">Todays Meals</h1>
+        
+        <p>These are todays meals so far</p>
+        
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                 <th>Title</th>
+                 <th>Carbs</th>
+                 <th>Proteins</th>
+                 <th>Fats</th>
+              </tr>
+            </thead>
+            <tr th:each="meal : ${todaysMeals}">
+              <td><a href="/id" th:href="@{'/'+${meal.id}}" th:text="${meal.title}"></a></td>
+              <td th:text="${meal.carbs}"></td>
+              <td th:text="${meal.proteins}"></td>
+              <td th:text="${meal.fats}"></td>
+            </tr>
+            <tr>
+                <td>
+                      
+                </td>
+            </tr>
+            </table>
+        
+            <form method="POST" th:object="${meal}" th:action="@{/today/add}">  
+                <table>  
+                    <tbody><tr>  
+                    <td>  
+                        <select th:field="*{id}">
+                            <option th:each="meal : ${allMeals}" id="id" name="id" th:value="${meal.id}" th:text="${meal.title}">Meal Title</option>
+                        </select>
+                    </td>  
+                    </tr>  
+                    <tr>  
+                        <td>  
+                            <input type="submit" value="Submit"/>  
+                        </td>  
+                    </tr>  
+                </tbody>
+                </table>    
+            </form> 
+          
           
         </div><!--/span-->
       </div><!--/row-->

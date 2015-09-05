@@ -24,23 +24,22 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package BSL.Interfaces;
+package DAL.Interfaces;
 
 import DEL.Interfaces.IMeal;
 import java.util.Set;
 
 /**
- * Service for dealing with meals
+ *
  * @author Stuart
  */
-
-public interface IMealService
+public interface IMealRepository
 {
-  public Set<IMeal> getMeals();
+  Set<IMeal> GetMeals();
 
-  public void addMeal(IMeal meal);
+  public IMeal add(IMeal meal);
 
-  public void deleteMeal(IMeal meal);
+  public void delete(IMeal meal);
 
-  public IMeal getMeal(long id);
+  public IMeal GetMeal(long id);
 }
