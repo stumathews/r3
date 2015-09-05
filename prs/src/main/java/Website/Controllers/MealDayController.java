@@ -57,20 +57,22 @@ public class MealDayController
     
     @RequestMapping( method = RequestMethod.GET)
     String today(Model model)
-    {
-        Date date = TodaysDate();
-        List<String> test = new ArrayList<String>();
-        
+    {       
+            
         model.addAttribute("meal", new Meal());
         model.addAttribute("allMeals", mealService.getMeals());
-        
+        model.addAttribute("todaysMeals", getDayMeals());
+        return "meals/today";
+    }
+
+    private List<IMeal> getDayMeals() 
+    {
         List<IMeal> todaysMeals = new ArrayList<IMeal>();
         for( IMealDay mealday :  mealDayService.getDayMeals(TodaysDate()))
         {
             todaysMeals.add(mealday.getMeal());
         }
-        model.addAttribute("todaysMeals", todaysMeals);
-        return "meals/today";
+        return todaysMeals;
     }
 
     private Date TodaysDate() 
