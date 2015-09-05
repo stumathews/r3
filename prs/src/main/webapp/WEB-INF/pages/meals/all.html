@@ -58,10 +58,21 @@
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="${themeURLBase}/jquery.js"></script>
-    <script src="${themeURLBase}/bootstrap/js/bootstrap.min.js"></script>
+     <script th:src="@{/themes/jquery.js}"/>
+     <script th:src="@{/themes/bootstrap/js/bootstrap.min.js}"/>
 
-  
+<!--
+    <script>
+         $(function() {
+            $("#logout").on("click",function(e) {
+              e.preventDefault(); // cancel the link itself
+              $.post(this.href,function(data) {
+                //$("#someContainer").html(data);
+              });
+            });
+});
+    </script>
+-->
 
 </body>
 

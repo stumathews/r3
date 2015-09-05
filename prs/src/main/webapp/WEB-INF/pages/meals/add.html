@@ -26,7 +26,8 @@
         <div class="span9">
           
           <!-- CONTENT GOES HERE -->
-          
+          <h1>Add meal</h1>
+          <p>Add details about your meal</p>
           <form method="POST" th:object="${meal}" th:action="@{/create}">
             <div class="error" th:if="${#fields.hasErrors('*')}">
               <ul>
@@ -46,7 +47,7 @@
             <label th:class="${#fields.hasErrors('fats')}? 'error'" th:text="#{Fats}">Fats</label>
             <input type="text" th:field="*{fats}"/><br/>
             
-            <input type='submit' value='Add' th:value="#{Add}"/>
+            <input class="btn btn-primary" type='submit' value='Add' th:value="#{Add}"/>
             
           </form>
           

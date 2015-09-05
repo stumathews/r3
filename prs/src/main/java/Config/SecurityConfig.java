@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
  *
@@ -28,21 +29,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
   @Override 
   protected void configure(HttpSecurity http) throws Exception
   {
-          http.authorizeRequests()
-              .anyRequest()
-              .authenticated()
-              .and()
-              .formLogin()
-              .and()
-              .logout()
-              .permitAll();
-              
+    http.authorizeRequests().antMatchers("/add","/create","/delete")
+                            .authenticated()
+                            .and()
+                            .formLogin().loginPage("/login")
+                            .and()
+                            .rememberMe()
+                                .tokenValiditySeconds(2419200)
+                                .key("mealKey")
+                            .and()
+                            .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                            .logoutSuccessUrl("/login");              
   }
   
   @Override
   protected void configure( AuthenticationManagerBuilder auth) throws Exception
   {
-    auth.inMemoryAuthentication().withUser("admin").password("apps3cur3").roles("USER");
-            
+    auth.inMemoryAuthentication().withUser("admin").password("apps3cur3").roles("USER");            
   }
 }

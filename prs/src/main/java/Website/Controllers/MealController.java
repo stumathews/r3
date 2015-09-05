@@ -47,7 +47,13 @@ public class MealController
 {
   @Autowired
   private BSL.Interfaces.IMealService mealService;
-  
+    
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    String login()
+    {
+        return "login";
+    }
+    
   @RequestMapping(method = RequestMethod.GET)
   String all(Model model)    
   {
@@ -87,5 +93,11 @@ public class MealController
     IMeal meal = mealService.getMeal(id);
     mealService.deleteMeal(meal);
     return "redirect:/";
+  }
+  
+  @RequestMapping( value = "/today", method = RequestMethod.GET)
+  String today(Model model)
+  {
+      return "meals/today";
   }
 }

@@ -9,8 +9,9 @@
         <a class="brand" href="#" th:text="#{Appname}">AppName</a>
         <div class="nav-collapse collapse">       
             <p class="navbar-text pull-right">
-            Hi <a href="" class="navbar-link">Username</a>
-            <a href="/j_spring_security_logout" th:href="@{/logout}" class="navbar-link"> logout</a>
+            <span sec:authorize='isAuthenticated()'> Hi <span sec:authentication='name'>someone</span>
+                <a id="logout" href="/j_spring_security_logout" th:href="@{/logout}" class="navbar-link"> logout</a>
+             </span>
             </p>       
             
             <ul class="nav">

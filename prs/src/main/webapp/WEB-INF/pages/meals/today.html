@@ -12,7 +12,7 @@
           padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
         }
       </style>
-      <title>title</title>
+      <title th:text="#{todays_meals}">title</title>
 </head>
 <body>
 
@@ -24,7 +24,8 @@
           <div th:replace="Common/NavMenu :: NavMenu"></div>
         </div><!--/span-->       
         <div class="span9">
-          <!-- CONTENT GOES HERE -->
+            
+            <h1 th:text="#{todays_meals}">Todays Meals</h1>
           
         </div><!--/span-->
       </div><!--/row-->
