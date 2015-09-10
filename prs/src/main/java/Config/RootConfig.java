@@ -6,6 +6,7 @@
 
 package Config;
 
+import BSL.Interfaces.ISettingsService;
 import DAL.Interfaces.IMealDayRepository;
 import DAL.Interfaces.IMealRepository;
 import java.util.ArrayList;
@@ -40,9 +41,11 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
                   DAL.UserDAO.class, 
                   BSL.MealService.class,               
                   BSL.MealDayService.class,
+                  BSL.SettingsService.class,
                   BOL.User.class,
                   DAL.MealRepository.class,
-                  DAL.MealDayRepository.class} ,
+                  DAL.MealDayRepository.class,
+                  DAL.SettingsRepository.class} ,
         excludeFilters = {
             @Filter(type=FilterType.ANNOTATION, value=EnableWebMvc.class)
         })
@@ -124,7 +127,8 @@ public class RootConfig {
    sessionFactory.setMappingResources( new String[] {
      "DEL/User.hbm.xml",
      "DEL/Meal.hbm.xml",
-     "DEL/MealDay.hbm.xml"
+     "DEL/MealDay.hbm.xml",
+     "DEL/Settings.hbm.xml"
    });
    sessionFactory.setHibernateProperties(properties);   
    
@@ -173,6 +177,18 @@ public class RootConfig {
   public IMealDayRepository mealDayRepository()
   {
     return new DAL.MealDayRepository();
+  }
+  
+  @Bean
+  public ISettingsService settingsService()
+  {
+      return new BSL.SettingsService();
+  }
+  
+  @Bean 
+  public DAL.Interfaces.ISettingsRepository settingsRepository()
+  {
+      return new DAL.SettingsRepository();
   }
   
 }

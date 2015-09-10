@@ -27,17 +27,21 @@ package Website.Controllers;
 
 import BSL.Interfaces.IMealDayService;
 import BSL.Interfaces.IMealService;
+import BSL.Interfaces.ISettingsService;
 import DEL.Interfaces.IMeal;
 import DEL.Interfaces.IMealDay;
 import DEL.Meal;
+import DEL.Settings;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -55,9 +59,26 @@ public class SettingsController
     @Autowired
     private IMealService mealService;
     
+    @Autowired
+    private ISettingsService settingsService;
+    
     @RequestMapping(method = RequestMethod.GET)
-    String settings(Model model)
+    String settings(@Valid DEL.Settings setting, Model model)
     {   
+        Settings settings = settingsService.getSettings();
+        model.addAttribute("settings", settings == null ? new Settings(): settings);
+        return "settings";
+    }
+    
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    String todayAdd(@Valid DEL.Settings setting, Errors errors)
+    {
+        if(errors.hasErrors())
+        {
+          return "/settings";
+        }
+        
+        settingsService.saveSettings(setting);
         
         return "settings";
     }

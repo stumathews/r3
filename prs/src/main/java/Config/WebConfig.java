@@ -37,8 +37,10 @@ import org.thymeleaf.templateresolver.TemplateResolver;
                 Website.Controllers.SettingsController.class,
                 DAL.MealRepository.class,
                 DAL.MealDayRepository.class,
+                DAL.SettingsRepository.class,
                 BSL.MealService.class,
-                BSL.MealDayService.class
+                BSL.MealDayService.class,
+                BSL.SettingsService.class
 })
 public class WebConfig extends WebMvcConfigurerAdapter {
   

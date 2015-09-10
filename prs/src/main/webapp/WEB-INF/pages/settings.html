@@ -34,6 +34,24 @@
           1 Protein Unit: 7g
           1 Fat Unit: 5g
           -->
+          <form method="POST" th:object="${settings}" th:action="@{/settings/save}"> 
+                <div class="error" th:if="${#fields.hasErrors('*')}">
+                    <ul>
+                      <li th:each="err : ${#fields.errors('*')}"
+                          th:text="${err}">Input is incorrect</li>
+                    </ul>
+                </div>
+                <label th:class="${#fields.hasErrors('carbUnit')}? 'error'" th:text="#{carbUnit}">Carb Units</label>
+                <input id="title" type="text" th:field="*{carbUnit}" /><br/>
+                
+                <label th:class="${#fields.hasErrors('proteinUnit')}? 'error'" th:text="#{proteinUnit}">Protein Units</label>
+                <input id="title" type="text" th:field="*{proteinUnit}" /><br/>
+                
+                <label th:class="${#fields.hasErrors('fatUnit')}? 'error'" th:text="#{fatUnit}">Fats Units</label>
+                <input id="title" type="text" th:field="*{fatUnit}" /><br/>
+         
+                <input class="btn btn-primary" type="submit" value="Save settings"/>  
+           </form> 
         </div><!--/span-->
       </div><!--/row-->
 
