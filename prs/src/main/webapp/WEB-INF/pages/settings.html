@@ -12,7 +12,7 @@
           padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
         }
       </style>
-      <title>title</title>
+      <title th:text="#{settings}">title</title>
 </head>
 <body>
 
@@ -25,7 +25,15 @@
         </div><!--/span-->       
         <div class="span9">
           <!-- CONTENT GOES HERE -->
-          
+          <h1 th:text="#{settings}"></h1>
+          <p>Configure your settings here</p>
+          <!--
+          Maintenance Regime Units: 25C, 20P, 15F 
+          Fat loss Regime Units: 20C, 17P, 12F
+          1 Carb Units : 15g
+          1 Protein Unit: 7g
+          1 Fat Unit: 5g
+          -->
         </div><!--/span-->
       </div><!--/row-->
 

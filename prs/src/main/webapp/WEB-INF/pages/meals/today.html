@@ -53,18 +53,26 @@
             </tr>
             </table>
         
-            <form method="POST" th:object="${meal}" th:action="@{/today/add}">  
+            <form method="POST" th:object="${meal}" th:action="@{/today/add}"> 
+                <div class="error" th:if="${#fields.hasErrors('*')}">
+                    <ul>
+                      <li th:each="err : ${#fields.errors('*')}"
+                          th:text="${err}">Input is incorrect</li>
+                    </ul>
+                </div>
                 <table>  
                     <tbody><tr>  
                     <td>  
                         <select th:field="*{id}">
                             <option th:each="meal : ${allMeals}" id="id" name="id" th:value="${meal.id}" th:text="${meal.title}">Meal Title</option>
                         </select>
-                    </td>  
-                    <td>  
-                        <input type="submit" value="Add meal"/>  
-                    </td>  
-                    </tr>  
+                    </td>                     
+                    </tr> 
+                    <tr>
+                        <td>  
+                            <input class="btn btn-primary" type="submit" value="Add meal"/>  
+                        </td> 
+                    </tr>
                     
                 </tbody>
                 </table>    

@@ -42,12 +42,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- *
+ * Settings Controllers manages settings pages
  * @author Stuart
  */
 @Controller
-@RequestMapping(value = "/today")
-public class MealDayController 
+@RequestMapping(value = "/settings")
+public class SettingsController 
 {
     @Autowired
     private IMealDayService mealDayService;
@@ -55,43 +55,11 @@ public class MealDayController
     @Autowired
     private IMealService mealService;
     
-    @RequestMapping( method = RequestMethod.GET)
-    String today(Model model)
+    @RequestMapping(method = RequestMethod.GET)
+    String settings(Model model)
     {   
-        model.addAttribute("meal", new Meal());
-        model.addAttribute("allMeals", mealService.getMeals());        
-        model.addAttribute("todaysMeals", getDayMeals());
-        model.addAttribute("carbscount",0);
-        model.addAttribute("proteinscount",0);
-        model.addAttribute("fatscount",0);
-        return "meals/today";
+        
+        return "settings";
     }
 
-    private List<IMeal> getDayMeals() 
-    {
-        List<IMeal> todaysMeals = new ArrayList<IMeal>();
-        for( IMealDay mealday :  mealDayService.getDayMeals(TodaysDate()))
-        {
-            todaysMeals.add(mealday.getMeal());
-        }
-        return todaysMeals;
-    }
-
-    private Date TodaysDate() 
-    {
-        Calendar c = new GregorianCalendar();
-        c.set(Calendar.HOUR_OF_DAY, 0); //anything 0 - 23
-        c.set(Calendar.MINUTE, 0);
-        c.set(Calendar.SECOND, 0);
-        Date date = c.getTime(); //the midnight, that's the first second of the day.
-        return date;
-    }
-    
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    String todayAdd(Meal meal)
-    {
-        Meal m = (Meal) mealService.getMeal(meal.getId());
-        mealDayService.addMealDay(TodaysDate(),m);
-        return "redirect:/today";
-    }
 }

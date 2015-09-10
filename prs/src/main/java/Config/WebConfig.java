@@ -34,6 +34,7 @@ import org.thymeleaf.templateresolver.TemplateResolver;
                 Website.Controllers.MealController.class,                 
                 Website.Controllers.NavigationController.class,
                 Website.Controllers.MealDayController.class,
+                Website.Controllers.SettingsController.class,
                 DAL.MealRepository.class,
                 DAL.MealDayRepository.class,
                 BSL.MealService.class,
