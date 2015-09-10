@@ -27,8 +27,9 @@
             
         <h1 th:text="#{todays_meals}">Todays Meals</h1>
         
+        <p th:text="${#calendars.format(#dates.createToday(),'dd/MMM/yyyy')}"></p>
         <p>These are todays meals so far</p>
-        
+               
         <table class="table table-hover">
             <thead>
               <tr>
@@ -40,14 +41,15 @@
             </thead>
             <tr th:each="meal : ${todaysMeals}">
               <td><a href="/id" th:href="@{'/'+${meal.id}}" th:text="${meal.title}"></a></td>
-              <td th:text="${meal.carbs}"></td>
+              <td th:text="${meal.carbs}" th:with="${carbscount} = ${carbscount} +1"></td>
               <td th:text="${meal.proteins}"></td>
               <td th:text="${meal.fats}"></td>
             </tr>
-            <tr>
-                <td>
-                      
-                </td>
+            <tr>                
+                <td>TOTALS:</td>
+                <td th:text="${#aggregates.sum(todaysMeals.![carbs])}">"></td>
+                <td th:text="${#aggregates.sum(todaysMeals.![proteins])}">"></td>
+                <td th:text="${#aggregates.sum(todaysMeals.![fats])}">"></td>                                
             </tr>
             </table>
         
@@ -59,12 +61,11 @@
                             <option th:each="meal : ${allMeals}" id="id" name="id" th:value="${meal.id}" th:text="${meal.title}">Meal Title</option>
                         </select>
                     </td>  
+                    <td>  
+                        <input type="submit" value="Add meal"/>  
+                    </td>  
                     </tr>  
-                    <tr>  
-                        <td>  
-                            <input type="submit" value="Submit"/>  
-                        </td>  
-                    </tr>  
+                    
                 </tbody>
                 </table>    
             </form> 

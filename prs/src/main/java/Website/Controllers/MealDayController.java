@@ -57,10 +57,13 @@ public class MealDayController
     
     @RequestMapping( method = RequestMethod.GET)
     String today(Model model)
-    {            
+    {   
         model.addAttribute("meal", new Meal());
-        model.addAttribute("allMeals", mealService.getMeals());
+        model.addAttribute("allMeals", mealService.getMeals());        
         model.addAttribute("todaysMeals", getDayMeals());
+        model.addAttribute("carbscount",0);
+        model.addAttribute("proteinscount",0);
+        model.addAttribute("fatscount",0);
         return "meals/today";
     }
 
