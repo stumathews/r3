@@ -23,21 +23,61 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package BSL.Interfaces;
-
-import DEL.Interfaces.IMealDay;
-import DEL.Interfaces.IMeal;
-import DEL.Meal;
-import java.util.Date;
-import java.util.Set;
+package DEL;
 
 /**
- * Meal Day service interface
+ * A settng that holds daily amounts of things
  * @author Stuart
  */
-public interface IMealDayService 
+public class DailyAmounts 
 {
-    public IMealDay addMealDay( IMeal meal);
-    public Set<IMealDay> getDayMeals();
-    public void removeMealDay(Meal meal);
+
+    public long id;
+    public int maxCarbUnitsPerDay;
+    public int maxProteinUnitsPerDay;
+    public int maxFatUnitsPerDay;
+    
+    public DailyAmounts(int maxCarbUnitsPerDay, int maxProteinUnitsPerDay, int maxFatUnitsPerDay) 
+    {
+        this.maxCarbUnitsPerDay = maxCarbUnitsPerDay;
+        this.maxProteinUnitsPerDay = maxProteinUnitsPerDay;
+        this.maxFatUnitsPerDay = maxFatUnitsPerDay;
+    }
+
+    public DailyAmounts() 
+    {
+    }
+    
+    
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+    
+    public int getMaxCarbUnitsPerDay() {
+        return maxCarbUnitsPerDay;
+    }
+
+    public void setMaxCarbUnitsPerDay(int maxCarbUnitsPerDay) {
+        this.maxCarbUnitsPerDay = maxCarbUnitsPerDay;
+    }
+
+    public int getMaxProteinUnitsPerDay() {
+        return maxProteinUnitsPerDay;
+    }
+
+    public void setMaxProteinUnitsPerDay(int maxProteinUnitsPerDay) {
+        this.maxProteinUnitsPerDay = maxProteinUnitsPerDay;
+    }
+
+    public int getMaxFatUnitsPerDay() {
+        return maxFatUnitsPerDay;
+    }
+
+    public void setMaxFatUnitsPerDay(int maxFatUnitsPerDay) {
+        this.maxFatUnitsPerDay = maxFatUnitsPerDay;
+    }    
 }

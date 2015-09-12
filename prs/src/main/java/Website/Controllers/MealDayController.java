@@ -28,6 +28,7 @@ package Website.Controllers;
 import BSL.Interfaces.IMealDayService;
 import BSL.Interfaces.IMealService;
 import BSL.Interfaces.ISettingsService;
+import DEL.DailyAmounts;
 import DEL.Interfaces.IMeal;
 import DEL.Interfaces.IMealDay;
 import DEL.MacroUnitProfile;
@@ -40,6 +41,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -63,42 +65,41 @@ public class MealDayController
     @RequestMapping( method = RequestMethod.GET)
     String today(Model model)
     {   
-        MacroUnitProfile defaultMacroUnitProfile = settingsService.getSettings();                
+        MacroUnitProfile defaultMacroUnitProfile = settingsService.getSettings();  
+        DailyAmounts resultDailyAmounts = settingsService.getDailyAmounts();
+        model.addAttribute("dailyamounts", resultDailyAmounts == null ? new DailyAmounts(20,17,12): resultDailyAmounts);
         model.addAttribute("settings", defaultMacroUnitProfile == null ? new MacroUnitProfile(0,15,7,5,"Default"): defaultMacroUnitProfile);
         model.addAttribute("meal", new Meal());
         model.addAttribute("allMeals", mealService.getMeals());        
         model.addAttribute("todaysMeals", getDayMeals());
-        model.addAttribute("carbscount",0);
-        model.addAttribute("proteinscount",0);
-        model.addAttribute("fatscount",0);
         return "meals/today";
     }
 
     private List<IMeal> getDayMeals() 
     {
         List<IMeal> todaysMeals = new ArrayList<IMeal>();
-        for( IMealDay mealday :  mealDayService.getDayMeals(TodaysDate()))
+        for( IMealDay mealday :  mealDayService.getDayMeals())
         {
             todaysMeals.add(mealday.getMeal());
         }
         return todaysMeals;
     }
 
-    private Date TodaysDate() 
-    {
-        Calendar c = new GregorianCalendar();
-        c.set(Calendar.HOUR_OF_DAY, 0); //anything 0 - 23
-        c.set(Calendar.MINUTE, 0);
-        c.set(Calendar.SECOND, 0);
-        Date date = c.getTime(); //the midnight, that's the first second of the day.
-        return date;
-    }
+    
     
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     String todayAdd(Meal meal)
     {
         Meal m = (Meal) mealService.getMeal(meal.getId());
-        mealDayService.addMealDay(TodaysDate(),m);
+        mealDayService.addMealDay(m);
+        return "redirect:/today";
+    }
+    
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    String deleteMeal(@PathVariable int id)
+    {
+        IMeal meal =  mealService.getMeal(id);
+        mealDayService.removeMealDay((Meal)meal);
         return "redirect:/today";
     }
 }

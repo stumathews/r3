@@ -27,7 +27,10 @@ package BSL;
 
 import DEL.Interfaces.IMealDay;
 import DEL.Interfaces.IMeal;
+import DEL.Meal;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -40,14 +43,29 @@ public class MealDayService implements BSL.Interfaces.IMealDayService
     @Autowired
     private DAL.Interfaces.IMealDayRepository mealDayRepository;
         
-    public IMealDay addMealDay(Date date, IMeal meal) 
-    {
-       return mealDayRepository.addMealDay( date, meal );
+    public IMealDay addMealDay( IMeal meal) 
+    {        
+       return mealDayRepository.addMealDay( TodaysDate() , meal );
     }
 
-    public Set<IMealDay> getDayMeals(Date date) 
+    public Set<IMealDay> getDayMeals() 
     {
-        return mealDayRepository.getDayMeals(date);                
+        return mealDayRepository.getDayMeals(TodaysDate() );                
+    }
+    
+    private Date TodaysDate() 
+    {
+        Calendar c = new GregorianCalendar();
+        c.set(Calendar.HOUR_OF_DAY, 0); //anything 0 - 23
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        Date date = c.getTime(); //the midnight, that's the first second of the day.
+        return date;
+    }
+
+    public void removeMealDay(Meal meal) 
+    {
+        mealDayRepository.remove(TodaysDate(), meal);
     }
     
 }

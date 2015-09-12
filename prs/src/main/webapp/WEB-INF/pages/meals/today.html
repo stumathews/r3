@@ -27,65 +27,71 @@
             
         <h1 th:text="#{todays_meals}">Todays Meals</h1>
         
-        <p th:text="${#calendars.format(#dates.createToday(),'dd/MMM/yyyy')}"></p>
-        <p>These are todays meals so far</p>
-               
-        <table class="table table-hover">
-            <thead>
-              <tr>
-                 <th>Title</th>
-                 <th>Carbs(g)</th>
-                 <th>Carb Units</th>
-                 <th>Proteins(g)</th>
-                 <th>Protein Units</th>
-                 <th>Fats(g)</th>
-                 <th>Fat units</th>
-              </tr>
-            </thead>
-            <tr th:each="meal : ${todaysMeals}">
-              <td><a href="/id" th:href="@{'/'+${meal.id}}" th:text="${meal.title}"></a></td>
-              <td th:text="${meal.carbs}"></td>
-              <td th:text="${meal.carbs} / ${settings.carbUnit}">carb units</td>
-              <td th:text="${meal.proteins}"></td>
-              <td th:text="${meal.proteins} / ${settings.proteinUnit}">protein units</td>
-              <td th:text="${meal.fats}"></td>
-              <td th:text="${meal.fats} / ${settings.fatUnit}">fat units</td>
-            </tr>
-            <tr>                
-                <td>TOTALS:</td>
-                <td th:text="${#aggregates.sum(todaysMeals.![carbs])}">Meal Carbs</td>
-                <td th:text="${#aggregates.sum(todaysMeals.![carbs])} != null ? ${#aggregates.sum(todaysMeals.![carbs])} / ${settings.carbUnit} : 0">">Meal carb units</td>
-                <td th:text="${#aggregates.sum(todaysMeals.![proteins])}">Meal Protiens</td>
-                <td th:text="${#aggregates.sum(todaysMeals.![proteins])} != null ? ${#aggregates.sum(todaysMeals.![proteins])} / ${settings.proteinUnit} : 0">Meal protien units</td>
-                <td th:text="${#aggregates.sum(todaysMeals.![fats])}">Meal fats</td>                                
-                <td th:text="${#aggregates.sum(todaysMeals.![fats])} != null ? ${#aggregates.sum(todaysMeals.![fats])} / ${settings.fatUnit} : 0">meal fats units</td>                                                
-            </tr>
-            </table>
-        
-            <form method="POST" th:object="${meal}" th:action="@{/today/add}"> 
-                <div class="error" th:if="${#fields.hasErrors('*')}">
-                    <ul>
-                      <li th:each="err : ${#fields.errors('*')}"
-                          th:text="${err}">Input is incorrect</li>
-                    </ul>
-                </div>
-                <table>  
-                    <tbody><tr>  
-                    <td>  
-                        <select th:field="*{id}">
-                            <option th:each="meal : ${allMeals}" id="id" name="id" th:value="${meal.id}" th:text="${meal.title}">Meal Title</option>
-                        </select>
-                    </td>                     
-                    </tr> 
-                    <tr>
+        <p th:text="${#calendars.format(#dates.createToday(),'dd MMM yyyy')}"></p>
+        <p th:text="${todaysMeals.isEmpty()} == true ? 'No meals today yet. Add a meal' : 'These are todays meals so far'">These are todays meals so far</p>
+        <div th:if='${todaysMeals.isEmpty()} == false'>
+            <table class="table table-hover">
+                <thead>
+                  <tr>                     
+                      <th>Title</th>                
+                     <th>Carb Units</th>                 
+                     <th>Protein Units</th>                
+                     <th>Fat units</th>
+                     <th>Actions</th>
+                  </tr>
+                </thead>
+                <tr th:each="meal : ${todaysMeals}">
+                  <td><a href="/id" th:href="@{'/'+${meal.id}}" th:text="${meal.title}"></a></td>              
+                  <td th:text="${meal.carbs} / ${settings.carbUnit}">carb units</td>
+                  <td th:text="${meal.proteins} / ${settings.proteinUnit}">protein units</td>              
+                  <td th:text="${meal.fats} / ${settings.fatUnit}">fat units</td>
+                   <td>
+                        <form method="POST" th:action="|@{/today/delete/}${meal.id}|">
+                            <input type="submit" class="btn btn-link"  value="remove"/>
+                        </form>
+                    </td>
+                </tr>
+                <tr style="border: black 2px double">                
+                    <td><strong>Total Units</strong></td>
+                    <td th:text="${#aggregates.sum(todaysMeals.![carbs])} != null ? ${#aggregates.sum(todaysMeals.![carbs])} / ${settings.carbUnit} : 0">">Meal carb units</td>
+                    <td th:text="${#aggregates.sum(todaysMeals.![proteins])} != null ? ${#aggregates.sum(todaysMeals.![proteins])} / ${settings.proteinUnit} : 0">Meal protien units</td>
+                    <td th:text="${#aggregates.sum(todaysMeals.![fats])} != null ? ${#aggregates.sum(todaysMeals.![fats])} / ${settings.fatUnit} : 0">meal fats units</td>                                                                   
+                </tr>                 
+                <tr style="border: black 2px double"> 
+                    <td><strong>Daily % reached</strong></td>
+                    <td th:text="${#aggregates.sum(todaysMeals.![carbs])} != null ? ${#aggregates.sum(todaysMeals.![carbs])} / ${settings.carbUnit} / ${dailyamounts.maxCarbUnitsPerDay} * 100 + '%' : 0 + '%'">">Meal carb units</td>
+                    <td th:text="${#aggregates.sum(todaysMeals.![proteins])} != null ? ${#aggregates.sum(todaysMeals.![proteins])} / ${settings.proteinUnit} / ${dailyamounts.maxProteinUnitsPerDay} * 100 + '%' : 0 + '%'">Meal protien units</td>
+                    <td th:text="${#aggregates.sum(todaysMeals.![fats])} != null ? ${#aggregates.sum(todaysMeals.![fats])} / ${settings.fatUnit} / ${dailyamounts.maxFatUnitsPerDay} * 100 + '%' : 0 + '%'">meal fats units</td>                                                                    
+                </tr>
+                </table>
+        </div>        
+        <div th:if='${allMeals.isEmpty()} == false'>
+                <form method="POST" th:object="${meal}" th:action="@{/today/add}"> 
+                    <div class="error" th:if="${#fields.hasErrors('*')}">
+                        <ul>
+                          <li th:each="err : ${#fields.errors('*')}"
+                              th:text="${err}">Input is incorrect</li>
+                        </ul>
+                    </div>
+                    <table>  
+                        <tbody><tr>  
                         <td>  
-                            <input class="btn btn-primary" type="submit" value="Add meal"/>  
-                        </td> 
-                    </tr>
-                    
-                </tbody>
-                </table>    
-            </form> 
+                            <select th:field="*{id}">
+                                <option th:each="meal : ${allMeals}" id="id" name="id" th:value="${meal.id}" th:text="${meal.title}">Meal Title</option>
+                            </select>
+                        </td>                     
+                        </tr> 
+                        <tr>
+                            <td>  
+                                <input class="btn btn-primary" type="submit" value="Add meal"/>  
+                            </td> 
+                        </tr>
+
+                    </tbody>
+                    </table>    
+                </form> 
+        </div>
+            
           
           
         </div><!--/span-->

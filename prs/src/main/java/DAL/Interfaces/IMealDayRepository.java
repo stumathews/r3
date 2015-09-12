@@ -27,6 +27,7 @@ package DAL.Interfaces;
 
 import DEL.Interfaces.IMeal;
 import DEL.Interfaces.IMealDay;
+import DEL.Meal;
 import java.util.Date;
 import java.util.Set;
 
@@ -39,4 +40,6 @@ public interface IMealDayRepository
     public IMealDay addMealDay(Date date, IMeal meal);    
 
     public Set<IMealDay> getDayMeals(Date date);
+
+    public void remove(Date date, IMeal meal);
 }

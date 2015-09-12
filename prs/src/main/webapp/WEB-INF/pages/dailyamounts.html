@@ -25,36 +25,27 @@
         </div><!--/span-->       
         <div class="span9">
           <!-- CONTENT GOES HERE -->
-          <h1 th:text="#{UnitDefinitions}"></h1>
-          <p>Configure your settings here</p>
-          <!--
-          Maintenance Regime Units: 25C, 20P, 15F 
-          Fat loss Regime Units: 20C, 17P, 12F
-          1 Carb Units : 15g
-          1 Protein Unit: 7g
-          1 Fat Unit: 5g
-          -->
-          <form method="POST" th:object="${settings}" th:action="@{/settings/save}"> 
+          <h1 th:text="#{DailyAmounts}"></h1>
+          <p>Configure your daily units here</p>
+          
+          <form method="POST" th:object="${dailyamounts}" th:action="@{/settings/dailyamounts}"> 
                 <div class="error" th:if="${#fields.hasErrors('*')}">
                     <ul>
                       <li th:each="err : ${#fields.errors('*')}"
                           th:text="${err}">Input is incorrect</li>
                     </ul>
                 </div>
-                <!--
-                <label th:class="${#fields.hasErrors('description')}? 'error'" th:text="#{description}">Macro Unit Profile description</label>
-                <input id="title" type="text" th:field="*{description}" /><br/>
-                -->
-                <label th:class="${#fields.hasErrors('carbUnit')}? 'error'" th:text="#{carbUnit}">Carb Units</label>
-                <input id="title" type="text" th:field="*{carbUnit}" /><br/>
+                           
+                <label th:class="${#fields.hasErrors('maxCarbUnitsPerDay')}? 'error'" th:text="#{maxCarbUnitsPerDay}">Max Carb Units</label>
+                <input id="title" type="text" th:field="*{maxCarbUnitsPerDay}" /><br/>
                 
-                <label th:class="${#fields.hasErrors('proteinUnit')}? 'error'" th:text="#{proteinUnit}">Protein Units</label>
-                <input id="title" type="text" th:field="*{proteinUnit}" /><br/>
+                <label th:class="${#fields.hasErrors('maxProteinUnitsPerDay')}? 'error'" th:text="#{maxProteinUnitsPerDay}">Max Protein Units</label>
+                <input id="title" type="text" th:field="*{maxProteinUnitsPerDay}" /><br/>
                 
-                <label th:class="${#fields.hasErrors('fatUnit')}? 'error'" th:text="#{fatUnit}">Fats Units</label>
-                <input id="title" type="text" th:field="*{fatUnit}" /><br/>
+                <label th:class="${#fields.hasErrors('maxFatUnitsPerDay')}? 'error'" th:text="#{maxFatUnitsPerDay}">max Fats Units</label>
+                <input id="title" type="text" th:field="*{maxFatUnitsPerDay}" /><br/>
          
-                <input class="btn btn-primary" type="submit" value="Save settings"/>  
+                <input class="btn btn-primary" type="submit" value="Save daily amounts"/>  
            </form> 
         </div><!--/span-->
       </div><!--/row-->

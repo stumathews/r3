@@ -28,6 +28,7 @@ package DAL;
 import DEL.Interfaces.IMealDay;
 import DAL.Interfaces.IMealDayRepository;
 import DEL.Interfaces.IMeal;
+import DEL.Meal;
 import DEL.MealDay;
 import java.io.Serializable;
 import java.util.Date;
@@ -74,5 +75,15 @@ public class MealDayRepository implements IMealDayRepository
         }
     return meals;
     }
+
+    @Transactional
+    public void remove(Date date, IMeal meal) 
+    {
+        MealDay mealDay = new MealDay();
+        mealDay.setDate(date);
+        mealDay.setMeal(meal);
+        sessionFactory.getCurrentSession().delete(mealDay);
+    }
+
     
 }
