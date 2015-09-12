@@ -26,7 +26,7 @@
 package DAL;
 
 import DAL.Interfaces.ISettingsRepository;
-import DEL.Settings;
+import DEL.MacroUnitProfile;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -43,18 +43,18 @@ public class SettingsRepository implements ISettingsRepository
     private SessionFactory sessionFactory;
     
     @Transactional
-    public void saveSettings(Settings settings) 
+    public void saveSettings(MacroUnitProfile settings) 
     {
         settings.setId(1);
         sessionFactory.getCurrentSession().merge(settings);
     }
 
     @Transactional
-    public Settings getSettings() 
+    public MacroUnitProfile getSettings() 
     {
-        Query q = sessionFactory.getCurrentSession().createQuery("from Settings where id = :id");
+        Query q = sessionFactory.getCurrentSession().createQuery("from MacroUnitProfile where id = :id");
         q.setLong("id", 1);
-        List<Settings> results = (List<Settings>) q.list();
+        List<MacroUnitProfile> results = (List<MacroUnitProfile>) q.list();
         if( results.isEmpty() )
         {
             return null;

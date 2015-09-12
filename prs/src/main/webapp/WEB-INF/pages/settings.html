@@ -41,6 +41,10 @@
                           th:text="${err}">Input is incorrect</li>
                     </ul>
                 </div>
+              
+                <label th:class="${#fields.hasErrors('description')}? 'error'" th:text="#{description}">Macro Unit Profile description</label>
+                <input id="title" type="text" th:field="*{description}" /><br/>
+                
                 <label th:class="${#fields.hasErrors('carbUnit')}? 'error'" th:text="#{carbUnit}">Carb Units</label>
                 <input id="title" type="text" th:field="*{carbUnit}" /><br/>
                 

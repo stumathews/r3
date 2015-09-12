@@ -27,8 +27,10 @@ package Website.Controllers;
 
 import BSL.Interfaces.IMealDayService;
 import BSL.Interfaces.IMealService;
+import BSL.Interfaces.ISettingsService;
 import DEL.Interfaces.IMeal;
 import DEL.Interfaces.IMealDay;
+import DEL.MacroUnitProfile;
 import DEL.Meal;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -55,9 +57,14 @@ public class MealDayController
     @Autowired
     private IMealService mealService;
     
+    @Autowired
+    private ISettingsService settingsService;
+    
     @RequestMapping( method = RequestMethod.GET)
     String today(Model model)
     {   
+        MacroUnitProfile defaultMacroUnitProfile = settingsService.getSettings();                
+        model.addAttribute("settings", defaultMacroUnitProfile == null ? new MacroUnitProfile(0,15,7,5,"Default"): defaultMacroUnitProfile);
         model.addAttribute("meal", new Meal());
         model.addAttribute("allMeals", mealService.getMeals());        
         model.addAttribute("todaysMeals", getDayMeals());

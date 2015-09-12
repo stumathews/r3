@@ -25,7 +25,7 @@
  */
 package DAL.Interfaces;
 
-import DEL.Settings;
+import DEL.MacroUnitProfile;
 
 /**
  *
@@ -33,6 +33,6 @@ import DEL.Settings;
  */
 public interface ISettingsRepository 
 {
-    public void saveSettings(Settings settings);
-    public Settings getSettings();
+    public void saveSettings(MacroUnitProfile settings);
+    public MacroUnitProfile getSettings();
 }

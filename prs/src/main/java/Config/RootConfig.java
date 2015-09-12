@@ -128,7 +128,7 @@ public class RootConfig {
      "DEL/User.hbm.xml",
      "DEL/Meal.hbm.xml",
      "DEL/MealDay.hbm.xml",
-     "DEL/Settings.hbm.xml"
+     "DEL/MacroUnitProfile.hbm.xml"
    });
    sessionFactory.setHibernateProperties(properties);   
    

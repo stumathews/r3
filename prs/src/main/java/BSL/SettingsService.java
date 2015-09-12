@@ -27,7 +27,7 @@ package BSL;
 
 import BSL.Interfaces.ISettingsService;
 import DAL.Interfaces.ISettingsRepository;
-import DEL.Settings;
+import DEL.MacroUnitProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -39,12 +39,12 @@ public class SettingsService implements ISettingsService
     @Autowired 
     ISettingsRepository settingsRepository;
     
-    public void saveSettings(Settings settings) 
+    public void saveSettings(MacroUnitProfile macroUnitProfile) 
     {
-        settingsRepository.saveSettings(settings);
+        settingsRepository.saveSettings(macroUnitProfile);
     }
 
-    public Settings getSettings() 
+    public MacroUnitProfile getSettings() 
     {
         return settingsRepository.getSettings();
     }

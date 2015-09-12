@@ -25,16 +25,48 @@
  */
 package DEL;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotEmpty;
+
 /**
  * The settings for the web app
  * @author Stuart Mathews
  */
-public class Settings 
+public class MacroUnitProfile 
 {
+
+    public MacroUnitProfile() 
+    {
+    }
+    
+    public MacroUnitProfile(long id, int carbUnit, int proteinUnit, int fatUnit, String description) 
+    {
+        this.id = id;
+        this.carbUnit = carbUnit;
+        this.proteinUnit = proteinUnit;
+        this.fatUnit = fatUnit;
+        this.description = description;
+    }
+    
+    @NotNull
     private long id;
+    @Min(0)  
     private int carbUnit;
+    @Min(0)  
     private int proteinUnit;
-    private int fatUnit;    
+    @Min(0)  
+    private int fatUnit; 
+    
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
     
     public long getId() {
         return id;

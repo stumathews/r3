@@ -34,22 +34,31 @@
             <thead>
               <tr>
                  <th>Title</th>
-                 <th>Carbs</th>
-                 <th>Proteins</th>
-                 <th>Fats</th>
+                 <th>Carbs(g)</th>
+                 <th>Carb Units</th>
+                 <th>Proteins(g)</th>
+                 <th>Protein Units</th>
+                 <th>Fats(g)</th>
+                 <th>Fat units</th>
               </tr>
             </thead>
             <tr th:each="meal : ${todaysMeals}">
               <td><a href="/id" th:href="@{'/'+${meal.id}}" th:text="${meal.title}"></a></td>
-              <td th:text="${meal.carbs}" th:with="${carbscount} = ${carbscount} +1"></td>
+              <td th:text="${meal.carbs}"></td>
+              <td th:text="${meal.carbs} / ${settings.carbUnit}">carb units</td>
               <td th:text="${meal.proteins}"></td>
+              <td th:text="${meal.proteins} / ${settings.proteinUnit}">protein units</td>
               <td th:text="${meal.fats}"></td>
+              <td th:text="${meal.fats} / ${settings.fatUnit}">fat units</td>
             </tr>
             <tr>                
                 <td>TOTALS:</td>
-                <td th:text="${#aggregates.sum(todaysMeals.![carbs])}">"></td>
-                <td th:text="${#aggregates.sum(todaysMeals.![proteins])}">"></td>
-                <td th:text="${#aggregates.sum(todaysMeals.![fats])}">"></td>                                
+                <td th:text="${#aggregates.sum(todaysMeals.![carbs])}">Meal Carbs</td>
+                <td th:text="${#aggregates.sum(todaysMeals.![carbs])} != null ? ${#aggregates.sum(todaysMeals.![carbs])} / ${settings.carbUnit} : 0">">Meal carb units</td>
+                <td th:text="${#aggregates.sum(todaysMeals.![proteins])}">Meal Protiens</td>
+                <td th:text="${#aggregates.sum(todaysMeals.![proteins])} != null ? ${#aggregates.sum(todaysMeals.![proteins])} / ${settings.proteinUnit} : 0">Meal protien units</td>
+                <td th:text="${#aggregates.sum(todaysMeals.![fats])}">Meal fats</td>                                
+                <td th:text="${#aggregates.sum(todaysMeals.![fats])} != null ? ${#aggregates.sum(todaysMeals.![fats])} / ${settings.fatUnit} : 0">meal fats units</td>                                                
             </tr>
             </table>
         

@@ -25,7 +25,7 @@
  */
 package BSL.Interfaces;
 
-import DEL.Settings;
+import DEL.MacroUnitProfile;
 
 /**
  *
@@ -33,7 +33,7 @@ import DEL.Settings;
  */
 public interface ISettingsService 
 {
-    public void saveSettings(Settings settings);
+    public void saveSettings(MacroUnitProfile settings);
 
-    public Settings getSettings();
+    public MacroUnitProfile getSettings();
 }
