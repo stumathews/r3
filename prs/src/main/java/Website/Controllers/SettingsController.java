@@ -70,7 +70,7 @@ public class SettingsController
     {        
         if(errors.hasErrors())
         {
-          return "redirect:/settings";
+          return "redirect:/settings/unitdefinitions";
         }
         
         settingsService.saveSettings(settings);
@@ -86,11 +86,12 @@ public class SettingsController
     }
     
     @RequestMapping(value = "/dailyamounts", method = RequestMethod.POST)
-    String saveDailyAmounts(@Valid DEL.DailyAmounts dailyAmounts, Errors errors)
+    String saveDailyAmounts(DEL.DailyAmounts dailyAmounts, Errors errors)
     {        
+        /*@Valid not being used because it doesnt work - need to fix it*/
         if(errors.hasErrors())
         {
-          return "redirect:/dailyamounts";
+          return "redirect:/settings/dailyamounts";
         }
         
         settingsService.saveDailyAmounts(dailyAmounts);
