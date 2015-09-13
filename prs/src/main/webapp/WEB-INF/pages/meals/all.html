@@ -29,7 +29,7 @@
            <table class="table table-hover" th:if='${meals.isEmpty()} == false'>
             <thead>
               <tr>
-                 <th>Title</th>
+                 <th>Meal</th>
                  <th>Carbs(g)</th>
                  <th>Proteins(g)</th>
                  <th>Fats(g)</th>
@@ -58,7 +58,7 @@
       <hr/>
 
       <footer>
-        <p>© R3 2013</p>
+        <p th:text="|© #{Appname} ${#calendars.format(#dates.createToday(),'yyyy')}|">© Meal Planner 2013</p>
       </footer>
 
     </div><!--/.fluid-container-->

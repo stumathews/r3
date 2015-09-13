@@ -48,7 +48,7 @@
       <hr/>
 
       <footer>
-        <p>© R3 2013</p>
+        <p th:text="|© #{Appname} ${#calendars.format(#dates.createToday(),'yyyy')}|">© Meal Planner 2013</p>
       </footer>
 
     </div><!--/.fluid-container-->

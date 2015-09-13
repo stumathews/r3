@@ -32,7 +32,7 @@
             <table class="table table-hover">
                 <thead>
                   <tr>                     
-                      <th>Title</th>                
+                      <th>Meal title</th>                
                      <th>Carb Units</th>                 
                      <th>Protein Units</th>                
                      <th>Fat units</th>
@@ -40,7 +40,7 @@
                   </tr>
                 </thead>
                 <tr th:each="mealday : ${todaysMeals}" th:with="meal = ${mealday.getMeal()}">
-                  <td><a href="/id" th:href="@{'/'+${meal.id}}" th:text="${meal.title}"></a></td>              
+                  <td th:text="${meal.title}"><a href="/id" th:href="@{'/'+${meal.id}}"> (details)</a></td>              
                   <td th:text="${meal.carbs} / ${settings.carbUnit}">carb units</td>
                   <td th:text="${meal.proteins} / ${settings.proteinUnit}">protein units</td>              
                   <td th:text="${meal.fats} / ${settings.fatUnit}">fat units</td>
@@ -102,7 +102,7 @@
       <hr/>
 
       <footer>
-        <p>© R3 2013</p>
+        <p th:text="|© #{Appname} ${#calendars.format(#dates.createToday(),'yyyy')}|">© Meal Planner 2013</p>
       </footer>
 
     </div><!--/.fluid-container-->
