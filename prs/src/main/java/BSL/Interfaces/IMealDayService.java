@@ -39,5 +39,6 @@ public interface IMealDayService
 {
     public IMealDay addMealDay( IMeal meal);
     public Set<IMealDay> getDayMeals();
-    public void removeMealDay(Meal meal);
+    public void removeMealDay(IMealDay mealDay);
+    public IMealDay getDayMeal(long id);
 }

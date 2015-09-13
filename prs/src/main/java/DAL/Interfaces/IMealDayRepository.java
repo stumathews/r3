@@ -41,5 +41,7 @@ public interface IMealDayRepository
 
     public Set<IMealDay> getDayMeals(Date date);
 
-    public void remove(Date date, IMeal meal);
+    public void remove(IMealDay mealDay);
+
+    public IMealDay getMealDay(long id);
 }

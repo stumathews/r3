@@ -12,7 +12,7 @@
           padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
         }
       </style>
-      <title>title</title>
+      <title>Add meal</title>
 </head>
 <body>
 
@@ -25,8 +25,7 @@
         </div><!--/span-->       
         <div class="span9">
           
-          <!-- CONTENT GOES HERE -->
-          <h1>Add meal</h1>
+          <!-- CONTENT GOES HERE -->          
           <p>Add details about your meal</p>
           <form method="POST" th:object="${meal}" th:action="@{/create}">
             <div class="error" th:if="${#fields.hasErrors('*')}">
@@ -35,7 +34,7 @@
                     th:text="${err}">Input is incorrect</li>
               </ul>
             </div>
-            <label th:class="${#fields.hasErrors('title')}? 'error'" th:text="#{Title}">Title</label>
+            <label th:class="${#fields.hasErrors('title')}? 'error'" th:text="#{Title}">Meal title</label>
             <input id="title" type="text" th:field="*{title}" /><br/>
             
             <label th:class="${#fields.hasErrors('carbs')}? 'error'" th:text="#{Carbs}">Carbs</label>

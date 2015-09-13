@@ -25,9 +25,7 @@
         </div><!--/span-->       
         <div class="span9">
           <!-- CONTENT GOES HERE -->
-          <h1 th:text="#{DailyAmounts}"></h1>
-          <p>Configure your daily units here</p>
-          
+          <p>Configure your daily units here</p>          
           <form method="POST" th:object="${dailyamounts}" th:action="@{/settings/dailyamounts}"> 
                 <div class="error" th:if="${#fields.hasErrors('*')}">
                     <ul>

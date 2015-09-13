@@ -33,6 +33,7 @@ import DEL.Interfaces.IMeal;
 import DEL.Interfaces.IMealDay;
 import DEL.MacroUnitProfile;
 import DEL.Meal;
+import DEL.MealDay;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -71,22 +72,10 @@ public class MealDayController
         model.addAttribute("settings", defaultMacroUnitProfile == null ? new MacroUnitProfile(0,15,7,5,"Default"): defaultMacroUnitProfile);
         model.addAttribute("meal", new Meal());
         model.addAttribute("allMeals", mealService.getMeals());        
-        model.addAttribute("todaysMeals", getDayMeals());
+        model.addAttribute("todaysMeals", mealDayService.getDayMeals());
         return "meals/today";
     }
 
-    private List<IMeal> getDayMeals() 
-    {
-        List<IMeal> todaysMeals = new ArrayList<IMeal>();
-        for( IMealDay mealday :  mealDayService.getDayMeals())
-        {
-            todaysMeals.add(mealday.getMeal());
-        }
-        return todaysMeals;
-    }
-
-    
-    
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     String todayAdd(Meal meal)
     {
@@ -94,12 +83,19 @@ public class MealDayController
         mealDayService.addMealDay(m);
         return "redirect:/today";
     }
+    @RequestMapping(value = "/addbyId/{id}", method = RequestMethod.POST)
+    String addbyId(@PathVariable int id)
+    {
+        Meal m = (Meal) mealService.getMeal(id);
+        mealDayService.addMealDay(m);
+        return "redirect:/today";
+    }
+    
     
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
-    String deleteMeal(@PathVariable int id)
-    {
-        IMeal meal =  mealService.getMeal(id);
-        mealDayService.removeMealDay((Meal)meal);
+    String deleteMeal(@PathVariable int id )
+    {           
+        mealDayService.removeMealDay(mealDayService.getDayMeal(id));
         return "redirect:/today";
     }
 }

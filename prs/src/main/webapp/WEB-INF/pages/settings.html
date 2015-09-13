@@ -25,15 +25,8 @@
         </div><!--/span-->       
         <div class="span9">
           <!-- CONTENT GOES HERE -->
-          <h1 th:text="#{UnitDefinitions}"></h1>
-          <p>Configure your settings here</p>
-          <!--
-          Maintenance Regime Units: 25C, 20P, 15F 
-          Fat loss Regime Units: 20C, 17P, 12F
-          1 Carb Units : 15g
-          1 Protein Unit: 7g
-          1 Fat Unit: 5g
-          -->
+          <p>Configure your units here</p>
+
           <form method="POST" th:object="${settings}" th:action="@{/settings/save}"> 
                 <div class="error" th:if="${#fields.hasErrors('*')}">
                     <ul>

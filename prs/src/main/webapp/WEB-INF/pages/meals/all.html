@@ -24,16 +24,16 @@
         </div><!--/span-->       
         <div class="span9">
           <!-- CONTENT GOES HERE -->
-          
-          <h1>Meals</h1>
-          
-          <table class="table table-hover">
+         
+          <p th:text="${meals.isEmpty()} == false ? 'These are all the meals that are loaded in the database' : 'No meals in the database.'">These are all the meals that are loaded in the database</p>
+           <table class="table table-hover" th:if='${meals.isEmpty()} == false'>
             <thead>
               <tr>
                  <th>Title</th>
-                 <th>Carbs</th>
-                 <th>Proteins</th>
-                 <th>Fats</th>
+                 <th>Carbs(g)</th>
+                 <th>Proteins(g)</th>
+                 <th>Fats(g)</th>
+                 <th></th>
               </tr>
             </thead>
             <tr th:each="meal : ${meals}">
@@ -41,8 +41,16 @@
               <td th:text="${meal.carbs}"></td>
               <td th:text="${meal.proteins}"></td>
               <td th:text="${meal.fats}"></td>
+              <td>
+                <form method="POST" th:action="|@{/today/addbyId}/${meal.getId()}|">                    
+                    <input type="submit" class="btn btn-link"  value="Add to today's meals"/>
+                </form>
+              </td>
             </tr>
           </table>
+          <div>
+              <a href="/meals/add" th:href="@{/add}" th:text="${meals.isEmpty()} == true ? 'Add a meal' : 'Add another meal'">Add meal</a>
+          </div>
           
         </div><!--/span-->
       </div><!--/row-->

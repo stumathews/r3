@@ -77,12 +77,15 @@ public class MealDayRepository implements IMealDayRepository
     }
 
     @Transactional
-    public void remove(Date date, IMeal meal) 
-    {
-        MealDay mealDay = new MealDay();
-        mealDay.setDate(date);
-        mealDay.setMeal(meal);
+    public void remove(IMealDay mealDay) 
+    {        
         sessionFactory.getCurrentSession().delete(mealDay);
+    }
+
+    @Transactional
+    public IMealDay getMealDay(long id) 
+    {
+       return (IMealDay) sessionFactory.getCurrentSession().get(MealDay.class, id);
     }
 
     
