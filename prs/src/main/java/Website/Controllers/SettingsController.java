@@ -55,13 +55,13 @@ public class SettingsController
     @Autowired
     private ISettingsService settingsService;
     
-    @RequestMapping(method = RequestMethod.GET)
-    String settings(@Valid DEL.MacroUnitProfile settings, Model model)
+    @RequestMapping(value = "/unitdefinitions", method = RequestMethod.GET)
+    String settings(Model model)
     {   
         MacroUnitProfile profile = settingsService.getSettings();
         DailyAmounts resultDailyAmounts = settingsService.getDailyAmounts();
-        model.addAttribute("dailyamounts", resultDailyAmounts == null ? new DailyAmounts(20,17,12): resultDailyAmounts);
-        model.addAttribute("settings", profile == null ? new MacroUnitProfile(0,15,7,5, "Default Macro Unit Profile"): profile);
+        model.addAttribute("dailyamounts", resultDailyAmounts == null ? new DailyAmounts(1, 20,17,12): resultDailyAmounts);
+        model.addAttribute("settings", profile == null ? new MacroUnitProfile(1,15,7,5, "Default Macro Unit Profile"): profile);
         return "settings";
     }
     
@@ -78,10 +78,10 @@ public class SettingsController
     }
     
     @RequestMapping( value = "/dailyamounts", method = RequestMethod.GET)
-    String dailyAmounts(@Valid DEL.DailyAmounts dailyAmounts, Model model)
+    String dailyAmounts(Model model)
     {   
         DailyAmounts resultDailyAmounts = settingsService.getDailyAmounts();
-        model.addAttribute("dailyamounts", resultDailyAmounts == null ? new DailyAmounts(20,17,12): resultDailyAmounts);
+        model.addAttribute("dailyamounts", resultDailyAmounts == null ? new DailyAmounts(1, 20,17,12): resultDailyAmounts);
         return "dailyamounts";
     }
     

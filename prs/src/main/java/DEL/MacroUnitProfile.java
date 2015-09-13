@@ -51,11 +51,11 @@ public class MacroUnitProfile
     
     @NotNull
     private long id;
-    @Min(0)  
+    @Min(1)  
     private int carbUnit;
-    @Min(0)  
+    @Min(1)  
     private int proteinUnit;
-    @Min(0)  
+    @Min(1)  
     private int fatUnit; 
     
     private String description;

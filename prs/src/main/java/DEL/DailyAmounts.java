@@ -25,20 +25,27 @@
  */
 package DEL;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 /**
  * A settng that holds daily amounts of things
  * @author Stuart
  */
 public class DailyAmounts 
 {
-
+    @NotNull
     public long id;
+    @Min(1)
     public int maxCarbUnitsPerDay;
+    @Min(1)
     public int maxProteinUnitsPerDay;
+    @Min(1)
     public int maxFatUnitsPerDay;
     
-    public DailyAmounts(int maxCarbUnitsPerDay, int maxProteinUnitsPerDay, int maxFatUnitsPerDay) 
+    public DailyAmounts( long id, int maxCarbUnitsPerDay, int maxProteinUnitsPerDay, int maxFatUnitsPerDay) 
     {
+        this.id = id;
         this.maxCarbUnitsPerDay = maxCarbUnitsPerDay;
         this.maxProteinUnitsPerDay = maxProteinUnitsPerDay;
         this.maxFatUnitsPerDay = maxFatUnitsPerDay;

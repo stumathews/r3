@@ -68,8 +68,8 @@ public class MealDayController
     {   
         MacroUnitProfile defaultMacroUnitProfile = settingsService.getSettings();  
         DailyAmounts resultDailyAmounts = settingsService.getDailyAmounts();
-        model.addAttribute("dailyamounts", resultDailyAmounts == null ? new DailyAmounts(20,17,12): resultDailyAmounts);
-        model.addAttribute("settings", defaultMacroUnitProfile == null ? new MacroUnitProfile(0,15,7,5,"Default"): defaultMacroUnitProfile);
+        model.addAttribute("dailyamounts", resultDailyAmounts == null ? new DailyAmounts(1, 20,17,12): resultDailyAmounts);
+        model.addAttribute("settings", defaultMacroUnitProfile == null ? new MacroUnitProfile(1,15,7,5,"Default"): defaultMacroUnitProfile);
         model.addAttribute("meal", new Meal());
         model.addAttribute("allMeals", mealService.getMeals());        
         model.addAttribute("todaysMeals", mealDayService.getDayMeals());
