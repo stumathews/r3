@@ -25,7 +25,7 @@
         </div><!--/span-->       
         <div class="span9">
           <!-- CONTENT GOES HERE -->
-          <p>Configure your units here</p>
+          
 
           <form method="POST" th:object="${settings}" th:action="@{/settings/save}"> 
                 <div class="error" th:if="${#fields.hasErrors('*')}">

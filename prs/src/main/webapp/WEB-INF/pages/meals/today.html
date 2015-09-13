@@ -25,7 +25,7 @@
         </div><!--/span-->       
         <div class="span9">
             
-        <p th:text="|Date: ${#calendars.format(#dates.createToday(),'dd MMM yyyy')}|"></p>        
+        <p class="pull-right" th:text="|Date: ${#calendars.format(#dates.createToday(),'dd MMM yyyy')}|"></p>        
         <p th:text="${todaysMeals.isEmpty()} == true ? 'No meals today yet.' : ''">These are todays meals so far</p>
         
         <div th:if='${todaysMeals.isEmpty()} == false'>
@@ -40,7 +40,9 @@
                   </tr>
                 </thead>
                 <tr th:each="mealday : ${todaysMeals}" th:with="meal = ${mealday.getMeal()}">
-                  <td th:text="${meal.title}"><a href="/id" th:href="@{'/'+${meal.id}}"> (details)</a></td>              
+                  <td>
+                      <span th:text="${meal.title}"></span>
+                      <a href="/id" th:href="@{'/meals/'+${meal.id}}"> (details)</a></td>              
                   <td th:text="${meal.carbs} / ${settings.carbUnit}">carb units</td>
                   <td th:text="${meal.proteins} / ${settings.proteinUnit}">protein units</td>              
                   <td th:text="${meal.fats} / ${settings.fatUnit}">fat units</td>

@@ -49,7 +49,7 @@
             </tr>
           </table>
           <div>
-              <a href="/meals/add" th:href="@{/meals/add}" th:text="${meals.isEmpty()} == true ? 'Add a meal' : 'Add another meal'">Add meal</a>
+              <a href="/meals/add" th:href="@{/meals/add}"  class="btn btn-primary" th:text="${meals.isEmpty()} == true ? 'Add a meal' : 'Add another meal'">Add meal</a>
           </div>
           
         </div><!--/span-->

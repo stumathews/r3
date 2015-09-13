@@ -26,7 +26,6 @@
         <div class="span9">
           
           <!-- CONTENT GOES HERE -->          
-          <p>Add details about your meal</p>
           <form method="POST" th:object="${meal}" th:action="@{/meals/create}">
             <div class="error" th:if="${#fields.hasErrors('*')}">
               <ul>
