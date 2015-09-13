@@ -42,7 +42,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author Stuart
  */
 @Controller()
-@RequestMapping({"/"})
+@RequestMapping({"/meals"})
 public class MealController
 {
   @Autowired
@@ -74,6 +74,7 @@ public class MealController
     model.addAttribute(new Meal());
     return "meals/add";
   }
+  
   @RequestMapping(value = "create", method = RequestMethod.POST)
   String create(
           @Valid Meal meal,

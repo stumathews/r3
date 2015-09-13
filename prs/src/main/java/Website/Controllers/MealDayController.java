@@ -51,7 +51,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author Stuart
  */
 @Controller
-@RequestMapping(value = "/today")
+
 public class MealDayController 
 {
     @Autowired
@@ -62,8 +62,8 @@ public class MealDayController
     
     @Autowired
     private ISettingsService settingsService;
-    
-    @RequestMapping( method = RequestMethod.GET)
+
+    @RequestMapping( value = {"/","/today"}, method = RequestMethod.GET)
     String today(Model model)
     {   
         MacroUnitProfile defaultMacroUnitProfile = settingsService.getSettings();  
@@ -76,14 +76,14 @@ public class MealDayController
         return "meals/today";
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/today/add", method = RequestMethod.POST)
     String todayAdd(Meal meal)
     {
         Meal m = (Meal) mealService.getMeal(meal.getId());
         mealDayService.addMealDay(m);
         return "redirect:/today";
     }
-    @RequestMapping(value = "/addbyId/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/today/addbyId/{id}", method = RequestMethod.POST)
     String addbyId(@PathVariable int id)
     {
         Meal m = (Meal) mealService.getMeal(id);
@@ -92,7 +92,7 @@ public class MealDayController
     }
     
     
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/today/delete/{id}", method = RequestMethod.POST)
     String deleteMeal(@PathVariable int id )
     {           
         mealDayService.removeMealDay(mealDayService.getDayMeal(id));

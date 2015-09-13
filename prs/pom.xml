@@ -2,10 +2,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.stuartmathews.www</groupId>
-  <artifactId>Meals</artifactId>
+  <artifactId>MealPlanner</artifactId>
   <packaging>war</packaging>
   <version>1.0</version>
-  <name>Meals</name>
+  <name>MealPlanner</name>
   <url>http://maven.apache.org</url>
   <profiles>
       <!-- This lets me use my Mac dev environment which currently uses Netbeans -->

@@ -29,17 +29,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
   @Override 
   protected void configure(HttpSecurity http) throws Exception
   {
-    http.authorizeRequests().antMatchers("/add","/create","/delete","/settings/**")
+    http.authorizeRequests().antMatchers("/meals/add",
+                                         "/meals/create",
+                                         "/meals/delete",
+                                         "/settings/**",
+                                         "/today/delete/**",
+                                         "/today/addbyId/**",
+                                         "/today/add")
                             .authenticated()
                             .and()
-                            .formLogin().loginPage("/login")
+                            .formLogin().loginPage("/meals/login")
                             .and()
                             .rememberMe()
                                 .tokenValiditySeconds(2419200)
                                 .key("mealKey")
                             .and()
                             .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                            .logoutSuccessUrl("/login");              
+                            .logoutSuccessUrl("/meals/login");              
   }
   
   @Override

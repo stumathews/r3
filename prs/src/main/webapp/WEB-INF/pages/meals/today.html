@@ -32,7 +32,7 @@
             <table class="table table-hover">
                 <thead>
                   <tr>                     
-                      <th>Meal title</th>                
+                      <th>Meal</th>                
                      <th>Carb Units</th>                 
                      <th>Protein Units</th>                
                      <th>Fat units</th>
@@ -68,7 +68,7 @@
         </div> 
         
         <div th:if='${allMeals.isEmpty()} == true'>
-                    <a href="/meals/add" th:href="@{/add}">Add a meal</a>
+                    <a href="/meals/add" th:href="@{/meals/add}">Add a meal</a>
         </div>
         <br/>
         <div th:if='${allMeals.isEmpty()} == false'>

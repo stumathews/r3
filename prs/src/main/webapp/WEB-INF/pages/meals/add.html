@@ -27,7 +27,7 @@
           
           <!-- CONTENT GOES HERE -->          
           <p>Add details about your meal</p>
-          <form method="POST" th:object="${meal}" th:action="@{/create}">
+          <form method="POST" th:object="${meal}" th:action="@{/meals/create}">
             <div class="error" th:if="${#fields.hasErrors('*')}">
               <ul>
                 <li th:each="err : ${#fields.errors('*')}"

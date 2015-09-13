@@ -24,8 +24,8 @@
         </div><!--/span-->
         <div class="span9">
           <div class="container">
-                <h1 th:text="#{Appname}">AppName</h1>
-                <form role="form" name='f' th:action='@{/login}' method='POST'>
+              <p th:text="|Please login to #{Appname}|">Please login</p>
+                <form role="form" name='f' th:action='@{/meals/login}' method='POST'>
                 <table>
                     <tr>
                         <td>
