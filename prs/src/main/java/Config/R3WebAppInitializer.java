@@ -25,7 +25,8 @@ public class R3WebAppInitializer extends AbstractAnnotationConfigDispatcherServl
   protected String[] getServletMappings(){
     return new String[] {"/"};
   }
-    
+  
+        
   /***
    * Load middle-tier and data-tier components(beans) that drive the back end of the application.
    * @return 

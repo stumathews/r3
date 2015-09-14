@@ -35,6 +35,7 @@ import org.thymeleaf.templateresolver.TemplateResolver;
                 Website.Controllers.NavigationController.class,
                 Website.Controllers.MealDayController.class,
                 Website.Controllers.SettingsController.class,
+                Website.Controllers.ErrorHandling.GlobalErrorHandler.class,
                 DAL.MealRepository.class,
                 DAL.MealDayRepository.class,
                 DAL.SettingsRepository.class,
@@ -52,7 +53,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
   @Override
   public void configureDefaultServletHandling( DefaultServletHandlerConfigurer configurer)
   {
-    configurer.enable();
+    configurer.enable();    
   }
   
   /***
