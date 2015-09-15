@@ -17,7 +17,7 @@
         <many-to-one name="meal"
                      column="meal_id"
                      class="DEL.Meal"
-                     not-null="true" lazy="false"/>
+                     not-null="true" />
         
   </class>
 </hibernate-mapping>
