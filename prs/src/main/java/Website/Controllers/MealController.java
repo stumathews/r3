@@ -47,6 +47,9 @@ public class MealController
 {
   @Autowired
   private BSL.Interfaces.IMealService mealService;
+  
+  @Autowired 
+  private BSL.Interfaces.IMealDayService mealDayService;
     
   @RequestMapping(method = RequestMethod.GET)
   String all(Model model)    
@@ -85,7 +88,10 @@ public class MealController
   @RequestMapping( value = "/delete/{id}", method = RequestMethod.GET)
   String delete( @PathVariable long id)
   {
+    // We can only delete the meal if its not associated with any meal days.
+    
     IMeal meal = mealService.getMeal(id);
+    mealDayService.removeAllDayMealsWithMeal(meal);
     mealService.deleteMeal(meal);
     return "redirect:/";
   }  

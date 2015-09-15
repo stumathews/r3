@@ -87,6 +87,14 @@ public class MealDayRepository implements IMealDayRepository
     {
        return (IMealDay) sessionFactory.getCurrentSession().get(MealDay.class, id);
     }
+    
+    @Transactional
+    public void removeAllDayMealsWithMeal(IMeal meal) 
+    {
+        Query q = sessionFactory.getCurrentSession().createQuery("delete from MealDay where meal_id = :meal_id");
+        q.setLong("meal_id", meal.getId());
+        q.executeUpdate();
+    }
 
     
 }

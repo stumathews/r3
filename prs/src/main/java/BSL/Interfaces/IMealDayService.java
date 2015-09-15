@@ -41,4 +41,6 @@ public interface IMealDayService
     public Set<IMealDay> getDayMeals();
     public void removeMealDay(IMealDay mealDay);
     public IMealDay getDayMeal(long id);
+
+    public void removeAllDayMealsWithMeal(IMeal meal);
 }

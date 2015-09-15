@@ -44,4 +44,6 @@ public interface IMealDayRepository
     public void remove(IMealDay mealDay);
 
     public IMealDay getMealDay(long id);
+
+    public void removeAllDayMealsWithMeal(IMeal meal);
 }

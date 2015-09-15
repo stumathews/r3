@@ -72,5 +72,10 @@ public class MealDayService implements BSL.Interfaces.IMealDayService
     {
         return mealDayRepository.getMealDay(id);
     }
+
+    public void removeAllDayMealsWithMeal(IMeal meal) 
+    {
+        mealDayRepository.removeAllDayMealsWithMeal(meal);
+    }
     
 }
