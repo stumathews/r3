@@ -23,70 +23,22 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-
 package Website.Controllers;
 
-import DEL.Interfaces.IMeal;
-import DEL.Meal;
-import javax.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * Deals with meals
+ * Deals with the /logon requests
  * @author Stuart
  */
-@Controller()
-@RequestMapping({"/meals"})
-public class MealController
+@Controller
+public class LoginController 
 {
-  @Autowired
-  private BSL.Interfaces.IMealService mealService;
-    
-  @RequestMapping(method = RequestMethod.GET)
-  String all(Model model)    
-  {
-    model.addAttribute("meals", mealService.getMeals());
-      return "meals/all";    
-  }
-  
-  @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-  String view(@PathVariable long id, Model model)
-  {
-    model.addAttribute("meal", mealService.getMeal(id));
-    return "meals/view";
-  }
-  
-  @RequestMapping(value = "add", method = RequestMethod.GET)
-  String add(Model model)
-  {
-    model.addAttribute(new Meal());
-    return "meals/add";
-  }
-  
-  @RequestMapping(value = "create", method = RequestMethod.POST)
-  String create(
-          @Valid Meal meal,
-          Errors errors)
-  {
-    if(errors.hasErrors())
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    String login()
     {
-      return "/meals/add";
+        return "login";
     }
-    mealService.addMeal(meal);
-    return "redirect:/";
-  }
-  
-  @RequestMapping( value = "/delete/{id}", method = RequestMethod.GET)
-  String delete( @PathVariable long id)
-  {
-    IMeal meal = mealService.getMeal(id);
-    mealService.deleteMeal(meal);
-    return "redirect:/";
-  }  
 }

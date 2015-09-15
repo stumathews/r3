@@ -38,14 +38,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                                          "/today/add")
                             .authenticated()
                             .and()
-                            .formLogin().loginPage("/meals/login")
+                            .formLogin().loginPage("/login")
                             .and()
                             .rememberMe()
                                 .tokenValiditySeconds(2419200)
                                 .key("mealKey")
                             .and()
                             .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                            .logoutSuccessUrl("/meals/login");              
+                            .logoutSuccessUrl("/login");              
   }
   
   @Override
