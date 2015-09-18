@@ -28,6 +28,10 @@ package Website.Controllers;
 
 import DEL.Interfaces.IMeal;
 import DEL.Meal;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import javax.servlet.http.Part;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,6 +40,8 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Deals with meals
@@ -95,4 +101,23 @@ public class MealController
     mealService.deleteMeal(meal);
     return "redirect:/";
   }  
+  
+  @RequestMapping(value="/upload", method=RequestMethod.POST)
+  public String upload( @RequestPart("csv") Part csv, Model model) throws IOException
+  {
+      model.addAttribute("filename", csv.getName());
+      model.addAttribute("size", csv.getSize());
+      
+      /* Convert input stream to text */
+      StringBuilder inputStringBuilder = new StringBuilder();
+      BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(csv.getInputStream(), "UTF-8"));
+         String line = bufferedReader.readLine();
+         while(line != null){
+             inputStringBuilder.append(line);inputStringBuilder.append('\n');
+             line = bufferedReader.readLine();
+         }
+
+      model.addAttribute("contents", inputStringBuilder.toString());
+      return "meals/uploadstatus";
+  }
 }

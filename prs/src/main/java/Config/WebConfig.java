@@ -8,7 +8,9 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.ui.context.support.ResourceBundleThemeSource;
+import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -93,13 +95,12 @@ public class WebConfig extends WebMvcConfigurerAdapter {
   {
     return new ExceptionHandlerExceptionResolver();
   }
-  
-  @Bean 
-  public CommonsMultipartResolver multipartResolver()
+    
+  public MultipartResolver multipartResolver()
   {
-    CommonsMultipartResolver cmr = new CommonsMultipartResolver();
-    cmr.setMaxUploadSize(100000);
-    return cmr;
+      //return new org.springframework.web.multipart.commons.CommonsMultipartResolver();
+      //return new CommonsMultipartResolver();
+      return new StandardServletMultipartResolver();
   }
   
   @Bean 

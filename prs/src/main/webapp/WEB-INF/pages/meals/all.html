@@ -51,6 +51,12 @@
           <div>
               <a href="/meals/add" th:href="@{/meals/add}"  class="btn btn-primary" th:text="${meals.isEmpty()} == true ? 'Add a meal' : 'Add another meal'">Add meal</a>
           </div>
+          <br/>
+          <form method="post" enctype="multipart/form-data" th:action="@{/meals/upload}">
+              <label>Upload meals:</label>
+              <input type="file" name="csv" accept="text/plain" /> <br/>
+              <input type="submit" value="submit" />
+          </form>
           
         </div><!--/span-->
       </div><!--/row-->
