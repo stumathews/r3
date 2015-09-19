@@ -40,6 +40,30 @@
           <tomcat-url>http://192.168.5.1:8080/manager/text/</tomcat-url>
       </properties>
     </profile>
+<profile>
+            <id>openshift</id>
+            <build>
+                <finalName>${project.artifactId}</finalName>
+                <plugins>
+                    <plugin>
+              <artifactId>maven-war-plugin</artifactId>
+              <configuration>
+                <outputDirectory>webapps</outputDirectory>
+                <warName>ROOT</warName>
+              </configuration>
+            </plugin>
+				
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-enforcer-plugin</artifactId>
+              <configuration>
+                <skip>true</skip>
+              </configuration>
+            </plugin>
+                </plugins>
+            </build>
+        </profile>
+
   </profiles>
   
   
@@ -311,7 +335,9 @@
   </pluginRepositories>
   
   <build>
+
   <plugins>
+
     <!-- New maven plugin -->			
     <plugin>
       <groupId>org.apache.tomcat.maven</groupId>
