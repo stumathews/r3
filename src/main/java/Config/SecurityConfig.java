@@ -31,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
   {
     http.authorizeRequests().antMatchers("/meals/add",
                                          "/today",
-                                         "/meals",
+                                         "/",
                                          "/meals/create",
                                          "/meals/delete",
                                          "/meals/upload",
