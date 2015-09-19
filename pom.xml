@@ -350,16 +350,6 @@
   </plugins>
     <finalName>recommendations</finalName>
   </build>
-  <repository>
-          <id>sonatype-oss-public</id>
-          <url>https://oss.sonatype.org/content/groups/public</url>
-          <releases>
-            <enabled>true</enabled>
-          </releases>
-          <snapshots>
-            <enabled>true</enabled>
-          </snapshots>
-        </repository>
  <properties>
   <netbeans.hint.deploy.server>Tomcat</netbeans.hint.deploy.server>
  </properties>
