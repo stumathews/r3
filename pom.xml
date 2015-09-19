@@ -327,7 +327,7 @@
               <configuration>
                 <skip>true</skip>
               </configuration>
-            </plugin>frepository
+            </plugin>
     <!-- New maven plugin -->			
     <plugin>
       <groupId>org.apache.tomcat.maven</groupId>
