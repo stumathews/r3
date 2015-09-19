@@ -1,0 +1,8 @@
+The BOL is the Business Object Layer. 
+It contains logic and functionality that are specific to the business needs of the software.
+This layer should manipulate business objects that represent entities of the business.
+Business objects are described above are simple POJOs and are defined in the 
+BOLO which is the Business Object Layer Objects layer. 
+The BOL should talk to the database via the DAL - Data Access layer.
+The Data Access layer should give the BOL, BOLO objects and the BOL should give the
+DAL BOLO objects. The DAL talks to the database however it wants to.

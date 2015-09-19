@@ -1,5 +1,0 @@
-* All Business Service Layer public methods should call IServiceAuthoriser.authorise(token) with the provided token.
-  This is to ensure that the user providing the token is allowed to call the method.
-* At this layer, the database transaction should be created.
-
-* An entire Business Service Layer should be able to be replaced by dependency injection - provided all are based on interfaces.
