@@ -30,6 +30,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
   protected void configure(HttpSecurity http) throws Exception
   {
     http.authorizeRequests().antMatchers("/meals/add",
+                                         "/today",
+                                         "/meals",
                                          "/meals/create",
                                          "/meals/delete",
                                          "/meals/upload",
