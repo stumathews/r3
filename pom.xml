@@ -312,6 +312,22 @@
   
   <build>
   <plugins>
+  <plugin>
+              <artifactId>maven-war-plugin</artifactId>
+              <configuration>
+                <outputDirectory>webapps</outputDirectory>
+                <warName>wotan</warName> <!-- http://wotan-anthavio.rhcloud.com/wotan -->
+                <!-- <warName>ROOT</warName> http://wotan-anthavio.rhcloud.com/-->
+              </configuration>
+            </plugin>
+				
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-enforcer-plugin</artifactId>
+              <configuration>
+                <skip>true</skip>
+              </configuration>
+            </plugin>frepository
     <!-- New maven plugin -->			
     <plugin>
       <groupId>org.apache.tomcat.maven</groupId>
@@ -334,6 +350,16 @@
   </plugins>
     <finalName>recommendations</finalName>
   </build>
+  <repository>
+          <id>sonatype-oss-public</id>
+          <url>https://oss.sonatype.org/content/groups/public</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
  <properties>
   <netbeans.hint.deploy.server>Tomcat</netbeans.hint.deploy.server>
  </properties>
