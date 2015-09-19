@@ -32,6 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     http.authorizeRequests().antMatchers("/meals/add",
                                          "/meals/create",
                                          "/meals/delete",
+                                         "/meals/upload",
+                                         "/meals/export",
                                          "/settings/**",
                                          "/today/delete/**",
                                          "/today/addbyId/**",
