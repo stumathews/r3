@@ -28,7 +28,28 @@
           <h1>Upload Successful</h1>
           <p th:text="|File name = ${filename}|">filename</p>
           <p th:text="|File size = ${size}|">size</p>
-          <p th:text="|File contents = ${contents}|">Contents</p>
+          <table class="table table-hover" th:if='${meals.isEmpty()} == false'>
+            <thead>
+              <tr>
+                 <th>Meal</th>
+                 <th>Carbs(g)</th>
+                 <th>Proteins(g)</th>
+                 <th>Fats(g)</th>
+                 <th></th>
+              </tr>
+            </thead>
+            <tr th:each="meal : ${meals}">
+              <td><a href="/id" th:href="@{'/meals/'+${meal.id}}" th:text="${meal.title}"></a></td>
+              <td th:text="${meal.carbs}"></td>
+              <td th:text="${meal.proteins}"></td>
+              <td th:text="${meal.fats}"></td>
+              <td>
+                <form method="POST" th:action="|@{/today/addbyId}/${meal.getId()}|">                    
+                    <input type="submit" class="btn btn-link"  value="Add to today's meals"/>
+                </form>
+              </td>
+            </tr>
+          </table>
         </div><!--/span-->
       </div><!--/row-->
 

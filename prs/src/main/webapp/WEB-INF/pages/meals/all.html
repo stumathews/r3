@@ -20,7 +20,21 @@
     <div class="container-fluid">
       <div class="row-fluid">
         <div class="span3">
-          <div th:replace="Common/NavMenu :: NavMenu"></div>
+          <div th:replace="Common/NavMenu :: NavMenu"></div> 
+          <div class="container">
+            <form class="form-inlne" method="post" enctype="multipart/form-data" th:action="@{/meals/upload}">
+                <div class="form-group">
+                  <label for="csv">Upload meals:</label>
+                  <input type="file" id="csv" class="form-control" name="csv" accept="text/csv" />
+                </div>
+                <div style="margin-top: 5px">
+                  <button type="submit" class="btn btn-primary">
+                    <i class="icon-upload icon-white"></i> Upload
+                  </button>   
+                </div>
+            </form>
+          </div>
+          
         </div><!--/span-->       
         <div class="span9">
           <!-- CONTENT GOES HERE -->
@@ -48,16 +62,17 @@
               </td>
             </tr>
           </table>
-          <div>
-              <a href="/meals/add" th:href="@{/meals/add}"  class="btn btn-primary" th:text="${meals.isEmpty()} == true ? 'Add a meal' : 'Add another meal'">Add meal</a>
-          </div>
-          <br/>
-          <form method="post" enctype="multipart/form-data" th:action="@{/meals/upload}">
-              <label>Upload meals:</label>
-              <input type="file" name="csv" accept="text/plain" /> <br/>
-              <input type="submit" value="submit" />
-          </form>
           
+          
+        <div>
+            <a href="/meals/add" th:href="@{/meals/add}"  class="btn btn-primary" th:text="${meals.isEmpty()} == true ? 'Add a meal' : 'Add another meal'">Add meal</a>
+            <span th:if="${meals.isEmpty()} == false">              
+            <a href="#" th:href="@{/meals/export}" class="btn btn-primary">
+              <span class="icon-download icon-white"></span> Export all meal definitions
+            </a>
+            </span>
+        </div>          
+
         </div><!--/span-->
       </div><!--/row-->
 

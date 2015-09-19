@@ -29,8 +29,14 @@ package Website.Controllers;
 import DEL.Interfaces.IMeal;
 import DEL.Meal;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +47,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Deals with meals
@@ -103,21 +108,21 @@ public class MealController
   }  
   
   @RequestMapping(value="/upload", method=RequestMethod.POST)
-  public String upload( @RequestPart("csv") Part csv, Model model) throws IOException
+  public String upload( @RequestPart("csv") Part csv, Model model) throws IOException, Exception
   {
       model.addAttribute("filename", csv.getName());
-      model.addAttribute("size", csv.getSize());
-      
-      /* Convert input stream to text */
-      StringBuilder inputStringBuilder = new StringBuilder();
-      BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(csv.getInputStream(), "UTF-8"));
-         String line = bufferedReader.readLine();
-         while(line != null){
-             inputStringBuilder.append(line);inputStringBuilder.append('\n');
-             line = bufferedReader.readLine();
-         }
-
-      model.addAttribute("contents", inputStringBuilder.toString());
+      model.addAttribute("size", csv.getSize());      
+      model.addAttribute("meals", mealService.importMealsCSV(csv.getInputStream()));
       return "meals/uploadstatus";
+  }
+  
+  @RequestMapping(value="/export", method=RequestMethod.GET)
+  public void export(HttpServletResponse response) throws IOException 
+  {
+        response.setContentType("text/csv");
+        String name = "meals.csv";
+        response.setHeader("Content-disposition", "attachment;filename="+name);
+        response.getOutputStream().print(mealService.exportMealsCSV());
+        response.getOutputStream().flush();
   }
 }
