@@ -316,7 +316,7 @@
               <artifactId>maven-war-plugin</artifactId>
               <configuration>
                 <outputDirectory>webapps</outputDirectory>
-                <warName>ROOT</warName> http://wotan-anthavio.rhcloud.com/
+                <warName>ROOT</warName>
               </configuration>
             </plugin>
 				
