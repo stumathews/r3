@@ -1,0 +1,11 @@
+<div class="well sidebar-nav" th:fragment="NavMenu">
+    <ul class="nav nav-list">
+        <li class="nav-header">Meal tasks</li>
+            <li><a href="/meals/add" th:href="@{/meals/add}">Add meal</a></li>
+            <li><a href="/meals/all" th:href="@{/meals/}">Meals</a></li>
+            <li><a href="/today" th:href="@{/today}">Todays meals</a></li>
+            <li class="nav-header">Settings</li>
+            <li><a href="/settings/unitdefinitions" th:href="@{/settings/unitdefinitions}">Unit definitions</a></li>
+            <li><a href="/settings/dailyamounts" th:href="@{/settings/dailyamounts}">Daily amounts</a></li>
+    </ul>
+</div>
