@@ -43,9 +43,9 @@
                   <td>
                       <span th:text="${meal.title}"></span>
                       <a href="/id" th:href="@{'/meals/'+${meal.id}}"> (details)</a></td>              
-                  <td th:text="${meal.carbs} / ${settings.carbUnit}">carb units</td>
-                  <td th:text="${meal.proteins} / ${settings.proteinUnit}">protein units</td>              
-                  <td th:text="${meal.fats} / ${settings.fatUnit}">fat units</td>
+                  <td th:with="carbs = ${meal.carbs} / ${settings.carbUnit}" th:text="${#numbers.formatDecimal(carbs,1,2)}">carb units</td>
+                  <td th:with="proteins = ${meal.proteins} / ${settings.proteinUnit}" th:text="${#numbers.formatDecimal(proteins,1,2)}">protein units</td>              
+                  <td th:with="fats = ${meal.fats} / ${settings.fatUnit}" th:text="${#numbers.formatDecimal(fats,1,2)}">fat units</td>
                    <td>
                         <form method="POST" th:action="|@{/today/delete/}${mealday.getId()}|">                            
                             <input type="submit" class="btn btn-link"  value="remove"/>
@@ -54,9 +54,9 @@
                 </tr>                
                 <tr style="border: black 2px double">                
                     <td><strong>Total Units</strong></td> 
-                    <td th:with="carbunits = ${#aggregates.sum(todaysMeals.![getMeal().carbs])} != null ? ${#aggregates.sum(todaysMeals.![getMeal().carbs])} / ${settings.carbUnit} : 0" th:text="${carbunits}">Meal carb units</td>
-                    <td th:with="proteinunits = ${#aggregates.sum(todaysMeals.![getMeal().proteins])} != null ? ${#aggregates.sum(todaysMeals.![getMeal().proteins])} / ${settings.proteinUnit} : 0" th:text="${proteinunits}">Meal protien units</td>
-                    <td th:with="fatunits = ${#aggregates.sum(todaysMeals.![getMeal().fats])} != null ? ${#aggregates.sum(todaysMeals.![getMeal().fats])} / ${settings.fatUnit} : 0" th:text="${fatunits}">meal fats units</td>                                                                                       
+                    <td th:with="carbunits = ${#aggregates.sum(todaysMeals.![getMeal().carbs])} != null ? ${#aggregates.sum(todaysMeals.![getMeal().carbs])} / ${settings.carbUnit} : 0" th:text="${#numbers.formatDecimal(carbunits,1,2)}">Meal carb units</td>
+                    <td th:with="proteinunits = ${#aggregates.sum(todaysMeals.![getMeal().proteins])} != null ? ${#aggregates.sum(todaysMeals.![getMeal().proteins])} / ${settings.proteinUnit} : 0" th:text="${#numbers.formatDecimal(proteinunits,1,2)}">Meal protien units</td>
+                    <td th:with="fatunits = ${#aggregates.sum(todaysMeals.![getMeal().fats])} != null ? ${#aggregates.sum(todaysMeals.![getMeal().fats])} / ${settings.fatUnit} : 0" th:text="${#numbers.formatDecimal(fatunits,1,2)}">meal fats units</td>                                                                                       
                     <td/>
                 </tr>                 
                 <tr style="border: black 2px double"> 
