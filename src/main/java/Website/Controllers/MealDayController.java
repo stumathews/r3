@@ -36,9 +36,11 @@ import DEL.Meal;
 import DEL.MealDay;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.TreeSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -62,6 +64,17 @@ public class MealDayController
     
     @Autowired
     private ISettingsService settingsService;
+    
+    final Comparator<IMealDay> ID_ORDER;
+
+    public MealDayController() 
+    {
+        this.ID_ORDER = new Comparator<IMealDay>(){
+            public int compare(IMealDay md1, IMealDay md2){
+                return md1.getId() < md2.getId() ? -1 : (md1.getId() == md2.getId()) ? 0 : 1;
+            }
+        };
+    }
 
     @RequestMapping( value = {"/","/today"}, method = RequestMethod.GET)
     String today(Model model)
@@ -71,8 +84,13 @@ public class MealDayController
         model.addAttribute("dailyamounts", resultDailyAmounts == null ? new DailyAmounts(1, 20,17,12): resultDailyAmounts);
         model.addAttribute("settings", defaultMacroUnitProfile == null ? new MacroUnitProfile(1,15,7,5,"Default"): defaultMacroUnitProfile);
         model.addAttribute("meal", new Meal());
+        
+        // Sort meals by when they were added        
+        TreeSet<IMealDay> mealdays = new TreeSet<IMealDay>(ID_ORDER);
+        for( IMealDay md : mealDayService.getDayMeals()) { mealdays.add(md); }
+        
         model.addAttribute("allMeals", mealService.getMeals());        
-        model.addAttribute("todaysMeals", mealDayService.getDayMeals());
+        model.addAttribute("todaysMeals", mealdays);
         return "meals/today";
     }
 
@@ -98,4 +116,7 @@ public class MealDayController
         mealDayService.removeMealDay(mealDayService.getDayMeal(id));
         return "redirect:/today";
     }
+    
+    
+    
 }
