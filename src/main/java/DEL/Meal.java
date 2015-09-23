@@ -44,15 +44,15 @@ public class Meal implements IMeal
   private String title;
   
   @Min(0)  
-  private int carbs;
+  private float carbs;
   
   @Min(0)  
-  private int proteins;
+  private float proteins;
   
   @Min(0)  
-  private int fats;
+  private float fats;
 
-  public Meal(String title, int carbs, int proteins, int fats)
+  public Meal(String title, float carbs, float proteins, float fats)
   {
     this.title = title;
     this.carbs = carbs;
@@ -85,32 +85,32 @@ public class Meal implements IMeal
     this.title = title;
   }
 
-  public int getCarbs()
+  public float getCarbs()
   {
     return carbs;
   }
 
-  public void setCarbs(int carbs)
+  public void setCarbs(float carbs)
   {
     this.carbs = carbs;
   }
 
-  public int getProteins()
+  public float getProteins()
   {
     return proteins;
   }
 
-  public void setProteins(int proteins)
+  public void setProteins(float proteins)
   {
     this.proteins = proteins;
   }
 
-  public int getFats()
+  public float getFats()
   {
     return fats;
   }
 
-  public void setFats(int fats)
+  public void setFats(float fats)
   {
     this.fats = fats;
   }
@@ -121,9 +121,9 @@ public class Meal implements IMeal
     int hash = 7;
     hash = 97 * hash + (int) (this.id ^ (this.id >>> 32));
     hash = 97 * hash + (this.title != null ? this.title.hashCode() : 0);
-    hash = 97 * hash + this.carbs;
-    hash = 97 * hash + this.proteins;
-    hash = 97 * hash + this.fats;
+    hash = (int) (97 * hash + this.carbs);
+    hash = (int) (97 * hash + this.proteins);
+    hash = (int) (97 * hash + this.fats);
     return hash;
   }
 

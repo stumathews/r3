@@ -29,9 +29,11 @@ import DEL.Interfaces.IMealDay;
 import DEL.Interfaces.IMeal;
 import DEL.Meal;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Set;
+import java.util.TreeSet;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -50,7 +52,19 @@ public class MealDayService implements BSL.Interfaces.IMealDayService
 
     public Set<IMealDay> getDayMeals() 
     {
-        return mealDayRepository.getDayMeals(TodaysDate() );                
+        /*
+        final Comparator<IMealDay> ID_ORDER;
+    
+        ID_ORDER = new Comparator<IMealDay>(){
+            public int compare(IMealDay md1, IMealDay md2){
+                return md1.getId() < md2.getId() ? -1 : (md1.getId() == md2.getId()) ? 0 : 1;
+            }
+        };
+        // Sort meals by when they were added        
+        TreeSet<IMealDay> mealdays = new TreeSet<IMealDay>(ID_ORDER);
+        for( IMealDay md : mealDayRepository.getDayMeals(TodaysDate() ) ) { mealdays.add(md); }        
+    */
+        return mealDayRepository.getDayMeals(TodaysDate() );// mealdays;                
     }
     
     private Date TodaysDate() 

@@ -47,4 +47,10 @@ public class GlobalErrorHandler
     {
         return "Errors/database_error";
     }
+    
+    @ExceptionHandler(Exception.class)
+    public String handleGeneralException(HttpServletRequest request, Exception ex)
+    {
+        return "Errors/database_error";
+    }
 }

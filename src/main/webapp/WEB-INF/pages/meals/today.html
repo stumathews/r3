@@ -54,7 +54,7 @@
                         </form>
                     </td>
                 </tr>                
-                <tr style="border: black 2px double">      
+                <tr>      
                     <td></td>
                     <td><strong>Total Units</strong></td> 
                     <td th:with="carbunits = ${#aggregates.sum(todaysMeals.![getMeal().carbs])} != null ? ${#aggregates.sum(todaysMeals.![getMeal().carbs])} / ${settings.carbUnit} : 0" th:text="${#numbers.formatDecimal(carbunits,1,2)}">Meal carb units</td>
@@ -62,7 +62,7 @@
                     <td th:with="fatunits = ${#aggregates.sum(todaysMeals.![getMeal().fats])} != null ? ${#aggregates.sum(todaysMeals.![getMeal().fats])} / ${settings.fatUnit} : 0" th:text="${#numbers.formatDecimal(fatunits,1,2)}">meal fats units</td>                                                                                       
                     <td/>
                 </tr>                 
-                <tr style="border: black 2px double"> 
+                <tr> 
                     <td></td>
                     <td><strong>Daily % reached</strong></td>                    
                     <td th:with="dailycarbs = ${#aggregates.sum(todaysMeals.![getMeal().carbs])} != null ? ${#aggregates.sum(todaysMeals.![getMeal().carbs])} / ${settings.carbUnit} / ${dailyamounts.maxCarbUnitsPerDay} * 100: 0 " th:text="|${#numbers.formatDecimal(dailycarbs,1,2)} % |">Meal carb units</td>

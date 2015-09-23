@@ -14,9 +14,9 @@
       </id>
       
       <property name="title" column="title" type="string"/>
-      <property name="carbs" column="carbs" type="int" />
-      <property name="proteins" column="proteins" type="int" />
-      <property name="fats" column="fats" type="int" />
+      <property name="carbs" column="carbs" type="float" />
+      <property name="proteins" column="proteins" type="float" />
+      <property name="fats" column="fats" type="float" />
 
   </class>
 </hibernate-mapping>

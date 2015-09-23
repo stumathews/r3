@@ -39,13 +39,13 @@ public interface IMeal
   public String getTitle();
   public void setTitle(String title);
   
-  public int getCarbs();
-  public void setCarbs(int carbs);
+  public float getCarbs();
+  public void setCarbs(float carbs);
   
-  public int getProteins();
-  public void setProteins(int proteins);
+  public float getProteins();
+  public void setProteins(float proteins);
   
-  public int getFats();
-  public void setFats(int fats);
+  public float getFats();
+  public void setFats(float fats);
   
 }

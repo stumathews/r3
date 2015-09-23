@@ -65,7 +65,7 @@ public class MealDayRepository implements IMealDayRepository
     {
         HashSet<IMealDay> meals = new HashSet<IMealDay>();
         
-        Query q = sessionFactory.getCurrentSession().createQuery("from MealDay md where md.date = :date");
+        Query q = sessionFactory.getCurrentSession().createQuery("from MealDay md where md.date = :date order by id");
         
         q.setDate("date", date);
         

@@ -65,17 +65,6 @@ public class MealDayController
     @Autowired
     private ISettingsService settingsService;
     
-    final Comparator<IMealDay> ID_ORDER;
-
-    public MealDayController() 
-    {
-        this.ID_ORDER = new Comparator<IMealDay>(){
-            public int compare(IMealDay md1, IMealDay md2){
-                return md1.getId() < md2.getId() ? -1 : (md1.getId() == md2.getId()) ? 0 : 1;
-            }
-        };
-    }
-
     @RequestMapping( value = {"/","/today"}, method = RequestMethod.GET)
     String today(Model model)
     {   
@@ -83,14 +72,9 @@ public class MealDayController
         DailyAmounts resultDailyAmounts = settingsService.getDailyAmounts();
         model.addAttribute("dailyamounts", resultDailyAmounts == null ? new DailyAmounts(1, 20,17,12): resultDailyAmounts);
         model.addAttribute("settings", defaultMacroUnitProfile == null ? new MacroUnitProfile(1,15,7,5,"Default"): defaultMacroUnitProfile);
-        model.addAttribute("meal", new Meal());
-        
-        // Sort meals by when they were added        
-        TreeSet<IMealDay> mealdays = new TreeSet<IMealDay>(ID_ORDER);
-        for( IMealDay md : mealDayService.getDayMeals()) { mealdays.add(md); }
-        
+        model.addAttribute("meal", new Meal());        
         model.addAttribute("allMeals", mealService.getMeals());        
-        model.addAttribute("todaysMeals", mealdays);
+        model.addAttribute("todaysMeals", mealDayService.getDayMeals());
         return "meals/today";
     }
 
