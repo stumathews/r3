@@ -27,9 +27,7 @@
           <!-- CONTENT GOES HERE -->
           <h1>Upload results</h1>
           <p>These are the meals that were uploaded:</p>
-
-          <p th:text="|File name = ${filename}|">filename</p>
-          <p th:text="|File size = ${size}|">size</p>
+         
           <table class="table table-hover" th:if='${meals.isEmpty()} == false'>
             <thead>
               <tr>

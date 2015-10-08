@@ -109,9 +109,7 @@ public class MealController
   
   @RequestMapping(value="/upload", method=RequestMethod.POST)
   public String upload( @RequestPart("csv") Part csv, Model model) throws IOException, Exception
-  {
-      model.addAttribute("filename", csv.getName());
-      model.addAttribute("size", csv.getSize());      
+  {      
       model.addAttribute("meals", mealService.importMealsCSV(csv.getInputStream()));
       return "meals/uploadstatus";
   }

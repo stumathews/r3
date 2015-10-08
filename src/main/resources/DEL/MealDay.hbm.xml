@@ -12,7 +12,7 @@
         <id column="id" name="id" type="long" >
             <generator class="identity" />
         </id>
-        <property name="date" column="date" type="date"/>
+        <property name="date" column="date" type="timestamp"/>
         
         <many-to-one name="meal"
                      column="meal_id"

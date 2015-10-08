@@ -32,7 +32,10 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.Set;
+import java.util.SimpleTimeZone;
+import java.util.TimeZone;
 import java.util.TreeSet;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -52,27 +55,12 @@ public class MealDayService implements BSL.Interfaces.IMealDayService
 
     public Set<IMealDay> getDayMeals() 
     {
-        /*
-        final Comparator<IMealDay> ID_ORDER;
-    
-        ID_ORDER = new Comparator<IMealDay>(){
-            public int compare(IMealDay md1, IMealDay md2){
-                return md1.getId() < md2.getId() ? -1 : (md1.getId() == md2.getId()) ? 0 : 1;
-            }
-        };
-        // Sort meals by when they were added        
-        TreeSet<IMealDay> mealdays = new TreeSet<IMealDay>(ID_ORDER);
-        for( IMealDay md : mealDayRepository.getDayMeals(TodaysDate() ) ) { mealdays.add(md); }        
-    */
         return mealDayRepository.getDayMeals(TodaysDate() );// mealdays;                
     }
     
     private Date TodaysDate() 
     {
-        Calendar c = new GregorianCalendar();
-        c.set(Calendar.HOUR_OF_DAY, 0); //anything 0 - 23
-        c.set(Calendar.MINUTE, 0);
-        c.set(Calendar.SECOND, 0);
+        Calendar c = new GregorianCalendar();        
         Date date = c.getTime(); //the midnight, that's the first second of the day.
         return date;
     }

@@ -33,6 +33,7 @@
                 <thead>
                   <tr>
                      <th>#</th>
+                     <th>Time</th>
                      <th>Meal</th>                
                      <th>Carb Units</th>                 
                      <th>Protein Units</th>                
@@ -42,6 +43,7 @@
                 </thead>
                 <tr th:each="mealday,iter : ${todaysMeals}" th:with="meal = ${mealday.getMeal()}" >
                     <td th:text="${iter.count}"></td>
+                    <td th:with="date = ${mealday.getDate()}" th:text="${#dates.format(date, 'dd/MMM/yyyy HH:mm')}"></td>
                   <td>
                       <span th:text="${meal.title}"></span>
                       <a href="/id" th:href="@{'/meals/'+${meal.id}}"> (details)</a></td>              
@@ -55,7 +57,7 @@
                     </td>
                 </tr>                
                 <tr>      
-                    <td></td>
+                    <td></td><td></td>
                     <td><strong>Total Units</strong></td> 
                     <td th:with="carbunits = ${#aggregates.sum(todaysMeals.![getMeal().carbs])} != null ? ${#aggregates.sum(todaysMeals.![getMeal().carbs])} / ${settings.carbUnit} : 0" th:text="${#numbers.formatDecimal(carbunits,1,2)}">Meal carb units</td>
                     <td th:with="proteinunits = ${#aggregates.sum(todaysMeals.![getMeal().proteins])} != null ? ${#aggregates.sum(todaysMeals.![getMeal().proteins])} / ${settings.proteinUnit} : 0" th:text="${#numbers.formatDecimal(proteinunits,1,2)}">Meal protien units</td>
@@ -63,7 +65,7 @@
                     <td/>
                 </tr>                 
                 <tr> 
-                    <td></td>
+                    <td></td><td></td>
                     <td><strong>Daily % reached</strong></td>                    
                     <td th:with="dailycarbs = ${#aggregates.sum(todaysMeals.![getMeal().carbs])} != null ? ${#aggregates.sum(todaysMeals.![getMeal().carbs])} / ${settings.carbUnit} / ${dailyamounts.maxCarbUnitsPerDay} * 100: 0 " th:text="|${#numbers.formatDecimal(dailycarbs,1,2)} % |">Meal carb units</td>
                     <td th:with="dailyproteins = ${#aggregates.sum(todaysMeals.![getMeal().proteins])} != null ? ${#aggregates.sum(todaysMeals.![getMeal().proteins])} / ${settings.proteinUnit} / ${dailyamounts.maxProteinUnitsPerDay} * 100: 0" th:text="|${#numbers.formatDecimal(dailyproteins,1,2)} % |">Meal protien units</td>
