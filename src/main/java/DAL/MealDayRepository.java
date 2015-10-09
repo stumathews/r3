@@ -28,7 +28,6 @@ package DAL;
 import DEL.Interfaces.IMealDay;
 import DAL.Interfaces.IMealDayRepository;
 import DEL.Interfaces.IMeal;
-import DEL.Meal;
 import DEL.MealDay;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -37,10 +36,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
-import java.util.SimpleTimeZone;
-import java.util.TimeZone;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -73,7 +69,7 @@ public class MealDayRepository implements IMealDayRepository
     @Transactional
     public Set<IMealDay> getDayMeals(Date date) 
     {
-       Calendar c = new GregorianCalendar(LocaleContextHolder.getLocale());       
+        Calendar c = new GregorianCalendar(LocaleContextHolder.getTimeZone(),LocaleContextHolder.getLocale());
         c.set(Calendar.HOUR_OF_DAY, 0); //anything 0 - 23
         c.set(Calendar.MINUTE, 0);
         c.set(Calendar.SECOND, 1);

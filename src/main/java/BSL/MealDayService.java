@@ -39,6 +39,7 @@ import java.util.TimeZone;
 import java.util.TreeSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.web.servlet.support.RequestContext;
 
 /**
  *
@@ -61,7 +62,8 @@ public class MealDayService implements BSL.Interfaces.IMealDayService
     
     private Date TodaysDate() 
     {
-        Calendar c = new GregorianCalendar(LocaleContextHolder.getLocale());        
+       
+        Calendar c = new GregorianCalendar(LocaleContextHolder.getTimeZone(),LocaleContextHolder.getLocale());
         Date date = c.getTime(); //the midnight, that's the first second of the day.
         return date;
     }
