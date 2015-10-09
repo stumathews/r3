@@ -1,5 +1,6 @@
 package Config;
 
+import java.util.Locale;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -11,10 +12,14 @@ import org.springframework.ui.context.support.ResourceBundleThemeSource;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 import org.springframework.web.servlet.theme.FixedThemeResolver;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
@@ -58,6 +63,16 @@ public class WebConfig extends WebMvcConfigurerAdapter {
   {
     configurer.enable();    
   }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+         LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
+        interceptor.setParamName("mylocale");
+        registry.addInterceptor(interceptor);
+
+    }
+  
+  
   
   /***
    * Configure Theymleaf view resolver
@@ -126,5 +141,14 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     resourceBundleMessageSource.setBasename("Messages");
     return resourceBundleMessageSource;
   }   
+  
+  @Bean
+  public LocaleResolver localeResolver(){
+    CookieLocaleResolver resolver = new CookieLocaleResolver();
+    resolver.setDefaultLocale(new Locale("en"));
+    resolver.setCookieName("myLocaleCookie");
+    resolver.setCookieMaxAge(4800);
+    return resolver;
+} 
   
 }
