@@ -77,7 +77,7 @@ public class MealDayController
         model.addAttribute("settings", defaultMacroUnitProfile == null ? new MacroUnitProfile(1,15,7,5,"Default"): defaultMacroUnitProfile);
         model.addAttribute("meal", new Meal());        
         model.addAttribute("allMeals", mealService.getMeals());        
-        model.addAttribute("todaysMeals", mealDayService.getDayMeals(RequestContextUtils.getTimeZone(request)));
+        //model.addAttribute("todaysMeals", mealDayService.getDayMeals(RequestContextUtils.getTimeZone(request)));
         model.addAttribute("timezone", RequestContextUtils.getTimeZone(request).getDisplayName());
         return "meals/today";
     }
