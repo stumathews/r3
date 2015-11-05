@@ -77,6 +77,7 @@ public class MealDayController
         model.addAttribute("meal", new Meal());        
         model.addAttribute("allMeals", mealService.getMeals());        
         model.addAttribute("todaysMeals", mealDayService.getDayMeals(timezone));
+        model.addAttribute("timezone", timezone.getDisplayName());
         return "meals/today";
     }
 

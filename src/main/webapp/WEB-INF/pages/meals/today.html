@@ -26,6 +26,7 @@
         <div class="span9">
             
         <p class="pull-right" th:text="|Date: ${#calendars.format(#dates.createToday(),'dd MMM yyyy')}|"></p>        
+        <p  th:text="|Timezone: ${timezone}|"></p>        
         <p th:text="${todaysMeals.isEmpty()} == true ? 'No meals today yet.' : ''">These are todays meals so far</p>
         
         <div th:if='${todaysMeals.isEmpty()} == false'>
