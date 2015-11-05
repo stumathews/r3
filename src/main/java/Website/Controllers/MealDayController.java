@@ -49,6 +49,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 /**
  *
@@ -68,7 +69,7 @@ public class MealDayController
     private ISettingsService settingsService;
     
     @RequestMapping( value = {"/","/today"}, method = RequestMethod.GET)
-    String today(TimeZone timezone, Model model)
+    String today(HttpServletRequest request, Model model)
     {   
         MacroUnitProfile defaultMacroUnitProfile = settingsService.getSettings();  
         DailyAmounts resultDailyAmounts = settingsService.getDailyAmounts();
@@ -76,8 +77,8 @@ public class MealDayController
         model.addAttribute("settings", defaultMacroUnitProfile == null ? new MacroUnitProfile(1,15,7,5,"Default"): defaultMacroUnitProfile);
         model.addAttribute("meal", new Meal());        
         model.addAttribute("allMeals", mealService.getMeals());        
-        model.addAttribute("todaysMeals", mealDayService.getDayMeals(timezone));
-        model.addAttribute("timezone", timezone.getDisplayName());
+        model.addAttribute("todaysMeals", mealDayService.getDayMeals(RequestContextUtils.getTimeZone(request)));
+        model.addAttribute("timezone", RequestContextUtils.getTimeZone(request).getDisplayName());
         return "meals/today";
     }
 
