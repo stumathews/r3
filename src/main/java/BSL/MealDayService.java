@@ -28,8 +28,6 @@ package BSL;
 import DEL.Interfaces.IMealDay;
 import DEL.Interfaces.IMeal;
 import DEL.Meal;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
@@ -52,20 +50,20 @@ public class MealDayService implements BSL.Interfaces.IMealDayService
     @Autowired
     private DAL.Interfaces.IMealDayRepository mealDayRepository;
         
-    public IMealDay addMealDay( IMeal meal, TimeZone timezone) 
+    public IMealDay addMealDay( IMeal meal) 
     {        
-      
-       return mealDayRepository.addMealDay(TodaysDate(timezone), meal );
+       return mealDayRepository.addMealDay( TodaysDate() , meal );
     }
 
-    public Set<IMealDay> getDayMeals(TimeZone timezone) 
+    public Set<IMealDay> getDayMeals() 
     {
-        return mealDayRepository.getDayMeals(TodaysDate(timezone) );// mealdays;                
+        return mealDayRepository.getDayMeals(TodaysDate() );// mealdays;                
     }
     
-    private Date TodaysDate( TimeZone timezone) 
-    {       
-        Calendar c = new GregorianCalendar(timezone);
+    private Date TodaysDate() 
+    {
+       
+        Calendar c = new GregorianCalendar(LocaleContextHolder.getTimeZone(),LocaleContextHolder.getLocale());
         Date date = c.getTime(); //the midnight, that's the first second of the day.
         return date;
     }
