@@ -29,7 +29,9 @@ import DEL.Interfaces.IMealDay;
 import DEL.Interfaces.IMeal;
 import DEL.Meal;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Set;
+import java.util.TimeZone;
 
 /**
  * Meal Day service interface
@@ -37,8 +39,8 @@ import java.util.Set;
  */
 public interface IMealDayService 
 {
-    public IMealDay addMealDay( IMeal meal);
-    public Set<IMealDay> getDayMeals();
+    public IMealDay addMealDay( IMeal meal, TimeZone timezone);
+    public Set<IMealDay> getDayMeals(TimeZone timezone);
     public void removeMealDay(IMealDay mealDay);
     public IMealDay getDayMeal(long id);
 

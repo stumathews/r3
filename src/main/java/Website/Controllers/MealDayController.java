@@ -40,7 +40,9 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.TreeSet;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -66,7 +68,7 @@ public class MealDayController
     private ISettingsService settingsService;
     
     @RequestMapping( value = {"/","/today"}, method = RequestMethod.GET)
-    String today(Model model)
+    String today(TimeZone timezone, Model model)
     {   
         MacroUnitProfile defaultMacroUnitProfile = settingsService.getSettings();  
         DailyAmounts resultDailyAmounts = settingsService.getDailyAmounts();
@@ -74,22 +76,23 @@ public class MealDayController
         model.addAttribute("settings", defaultMacroUnitProfile == null ? new MacroUnitProfile(1,15,7,5,"Default"): defaultMacroUnitProfile);
         model.addAttribute("meal", new Meal());        
         model.addAttribute("allMeals", mealService.getMeals());        
-        model.addAttribute("todaysMeals", mealDayService.getDayMeals());
+        model.addAttribute("todaysMeals", mealDayService.getDayMeals(timezone));
         return "meals/today";
     }
 
     @RequestMapping(value = "/today/add", method = RequestMethod.POST)
-    String todayAdd(Meal meal)
+    String todayAdd(TimeZone timezone, Meal meal)
     {
         Meal m = (Meal) mealService.getMeal(meal.getId());
-        mealDayService.addMealDay(m);
+        
+        mealDayService.addMealDay(m,timezone);
         return "redirect:/today";
     }
     @RequestMapping(value = "/today/addbyId/{id}", method = RequestMethod.POST)
-    String addbyId(@PathVariable int id)
+    String addbyId(TimeZone timezone, @PathVariable int id)
     {
         Meal m = (Meal) mealService.getMeal(id);
-        mealDayService.addMealDay(m);
+        mealDayService.addMealDay(m, timezone);
         return "redirect:/today";
     }
     
