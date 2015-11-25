@@ -43,7 +43,7 @@
                 </thead>
                 <tr th:each="mealday,iter : ${todaysMeals}" th:with="meal = ${mealday.getMeal()}" >
                     <td th:text="${iter.count}"></td>
-                    <td th:with="date = ${mealday.getDate()}" th:text="${#dates.format(date, 'dd/MMM/yyyy HH:mm')}"></td>
+                    <td th:with="date = ${mealday.getDate()}" th:text="${#dates.format(#calendars.createForTimeZone(#calendars.year(date), #calendars.month(date), #calendars.day(date), #calendars.hour(date), #calendars.minute(date),'GMT'), 'yyyy-MMM-dd HH:mm')}"></td>
                   <td>
                       <span th:text="${meal.title}"></span>
                       <a href="/id" th:href="@{'/meals/'+${meal.id}}"> (details)</a></td>              
