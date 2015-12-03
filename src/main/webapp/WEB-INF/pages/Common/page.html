@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TODO supply a title</title>        
+    </head>
+    <body>
+        <footer th:fragment="footer">
+            <p th:text="|© #{Appname} ${#calendars.format(#dates.createToday(),'yyyy')}|">© Meal Planner 2013</p>
+        </footer>
+    </body>
+</html>

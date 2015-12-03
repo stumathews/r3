@@ -14,41 +14,49 @@
       <title th:text="#{settings}">title</title>
 </head>
 <body>
-    <div th:replace="Common/TopMenu :: TopMenu"/>
+
+    <div th:replace="Common/TopMenu :: TopMenu"></div>
+
     <div class="container-fluid">
-      <div class="row-fluid">
-        <div class="span3">
+      <div class="row">
+        <div class="col-md-3">
           <div th:replace="Common/NavMenu :: NavMenu"></div>
         </div><!--/span-->       
-        <div class="span9">
-            <form method="POST" th:object="${settings}" th:action="@{/settings/save}"> 
+        <div class="col-md-9">
+          <form method="POST" th:object="${settings}" th:action="@{/settings/save}"> 
                 <div class="error" th:if="${#fields.hasErrors('*')}">
                     <ul>
                       <li th:each="err : ${#fields.errors('*')}"
                           th:text="${err}">Input is incorrect</li>
                     </ul>
                 </div>
-
+                
                 <label th:class="${#fields.hasErrors('carbUnit')}? 'error'" th:text="#{carbUnit}">Carb Units</label>
                 <input id="carbUnit" type="text" th:field="*{carbUnit}" /><br/>
-
+                
                 <label th:class="${#fields.hasErrors('proteinUnit')}? 'error'" th:text="#{proteinUnit}">Protein Units</label>
                 <input id="proteinUnit" type="text" th:field="*{proteinUnit}" /><br/>
-
+                
                 <label th:class="${#fields.hasErrors('fatUnit')}? 'error'" th:text="#{fatUnit}">Fats Units</label>
                 <input id="fatUnit" type="text" th:field="*{fatUnit}" /><br/>
-
+         
                 <input class="btn btn-primary" type="submit" value="Save settings"/>  
-            </form> 
+           </form> 
         </div><!--/span-->
       </div><!--/row-->
-    <hr/>
-    <footer th:replace="Common/page :: footer">
-      <p th:text="|© #{Appname} ${#calendars.format(#dates.createToday(),'yyyy')}|">© Meal Planner 2013</p>
-    </footer>
-    </div> <!-- Fluid container -->
-    <script src="@{/themes/jquery.js}" th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"/>
-    <script th:src="@{/webjars/bootstrap/2.3.2/js/bootstrap.min.js}"/>
+
+      <hr/>
+
+      <footer>
+        <p th:text="|© #{Appname} ${#calendars.format(#dates.createToday(),'yyyy')}|">© Meal Planner 2013</p>
+      </footer>
+
+    </div>
+    <script th:src="@{/themes/jquery.js}"/>
+    <script th:src="@{/webjars/bootstrap/3.3.1/js/bootstrap.min.js}"/>
+
+  
+
 </body>
 
 </html>

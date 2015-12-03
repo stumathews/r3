@@ -40,29 +40,29 @@
           <tomcat-url>http://192.168.5.1:8080/manager/text/</tomcat-url>
       </properties>
     </profile>
-<profile>
-            <id>openshift</id>
-            <build>
-                <finalName>${project.artifactId}</finalName>
-                <plugins>
-                    <plugin>
-              <artifactId>maven-war-plugin</artifactId>
-              <configuration>
-                <outputDirectory>webapps</outputDirectory>
-                <warName>ROOT</warName>
-              </configuration>
-            </plugin>
+    <profile>
+        <id>openshift</id>
+        <build>
+            <finalName>${project.artifactId}</finalName>
+            <plugins>
+                <plugin>
+          <artifactId>maven-war-plugin</artifactId>
+          <configuration>
+            <outputDirectory>webapps</outputDirectory>
+            <warName>ROOT</warName>
+          </configuration>
+        </plugin>
 				
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-enforcer-plugin</artifactId>
-              <configuration>
-                <skip>true</skip>
-              </configuration>
-            </plugin>
-                </plugins>
-            </build>
-        </profile>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <configuration>
+            <skip>true</skip>
+          </configuration>
+        </plugin>
+            </plugins>
+        </build>
+    </profile>
 
   </profiles>
   
@@ -213,6 +213,29 @@
       <version>1.1.0.RELEASE</version>
     </dependency>
    
+   <!-- WebJars -->
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>angularjs</artifactId>
+      <version>1.4.7</version>
+    </dependency>
+    <!-- this is the latest version of bootstrap that I should eventually upgrade to
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>bootstrap</artifactId>
+      <version>3.3.5</version>
+    </dependency>
+    -->
+    <dependency>        
+      <groupId>org.webjars</groupId>
+      <artifactId>bootstrap</artifactId>
+      <version>2.3.2</version>
+    </dependency>
+    <dependency>        
+      <groupId>org.webjars</groupId>
+      <artifactId>jquery</artifactId>
+      <version>2.1.4</version>
+    </dependency>
     
     <!-- ::UNKNOWN:: -->
        
@@ -323,6 +346,10 @@
         <releases>
             <enabled>true</enabled>
         </releases>
+    </repository>
+    <repository>
+        <id>webjars</id>
+        <url>http://webjars.github.com/m2</url>
     </repository>
   </repositories>
   <pluginRepositories>

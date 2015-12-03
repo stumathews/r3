@@ -6,12 +6,9 @@
 
 package Config;
 
-import java.io.File;
 import javax.servlet.Filter;
 import javax.servlet.MultipartConfigElement;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.web.multipart.support.MultipartFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -24,7 +21,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 @EnableWebMvcSecurity
 public class R3WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer 
 {
-    private int maxUploadSizeInMb = 5 * 1024 * 1024; // 5 MB
+    private final int maxUploadSizeInMb = 5 * 1024 * 1024; // 5 MB
     
     
   /***

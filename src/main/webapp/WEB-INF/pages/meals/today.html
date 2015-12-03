@@ -4,8 +4,9 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
-      <link rel="stylesheet" href="../../../themes/bootstrap/css/bootstrap.min.css" th:href="@{/themes/bootstrap/css/bootstrap.min.css}" media="screen"  />
-      <link rel="stylesheet" href="../../../themes/bootstrap/css/bootstrap-responsive.css" th:href ="@{/themes/bootstrap/css/bootstrap-responsive.css}"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/2.3.2/css/bootstrap.min.css}" href="bootstrap.min.css"  media="screen" />      
+    <link rel="stylesheet" href="../../themes/bootstrap/css/bootstrap-responsive.css" th:href ="@{/webjars/bootstrap/2.3.2/css/bootstrap-responsive.css}"/>
+
       
       <style>
         body {
@@ -15,41 +16,38 @@
       <title th:text="#{todays_meals}">Today</title>
 </head>
 <body>
-
-    <div th:replace="Common/TopMenu :: TopMenu"></div>
-
+    <div th:replace="Common/TopMenu :: TopMenu"/>
     <div class="container-fluid">
-      <div class="row-fluid">
+        <div class="row-fluid">
         <div class="span3">
-          <div th:replace="Common/NavMenu :: NavMenu"></div>
+          <div th:replace="Common/NavMenu :: NavMenu"/>
         </div><!--/span-->       
-        <div class="span9">
-            
-        <p class="pull-right" th:text="|Date: ${#calendars.format(#dates.createToday(),'dd MMM yyyy')}|"></p>        
-        <p th:text="${todaysMeals.isEmpty()} == true ? 'No meals today yet.' : ''">These are todays meals so far</p>
-        
-        <div th:if='${todaysMeals.isEmpty()} == false'>
-            <table class="table table-hover">
+        <div class="span9">            
+            <p class="pull-right" th:text="|Date: ${#calendars.format(#dates.createToday(),'dd MMM yyyy')}|"></p>        
+            <p th:text="${todaysMeals.isEmpty()} == true ? 'No meals today yet.' : ''">These are todays meals so far</p>        
+            <div th:if='${todaysMeals.isEmpty()} == false'>
+                <table class="table table-hover">
                 <thead>
-                  <tr>
-                     <th>#</th>
-                     <th>Time</th>
-                     <th>Meal</th>                
-                     <th>Carb Units</th>                 
-                     <th>Protein Units</th>                
-                     <th>Fat units</th>
-                     <th></th>
-                  </tr>
+                    <tr>
+                      <th>#</th>
+                      <th>Time</th>
+                      <th>Meal</th>                
+                      <th>Carb Units</th>                 
+                      <th>Protein Units</th>                
+                      <th>Fat units</th>
+                      <th></th>
+                    </tr>
                 </thead>
                 <tr th:each="mealday,iter : ${todaysMeals}" th:with="meal = ${mealday.getMeal()}" >
                     <td th:text="${iter.count}"></td>
                     <td th:with="date = ${mealday.getDate()}" th:text="${#dates.format(#calendars.createForTimeZone(#calendars.year(date), #calendars.month(date), #calendars.day(date), #calendars.hour(date), #calendars.minute(date),'GMT'), 'yyyy-MMM-dd HH:mm')}"></td>
-                  <td>
-                      <span th:text="${meal.title}"></span>
-                      <a href="/id" th:href="@{'/meals/'+${meal.id}}"> (details)</a></td>              
-                  <td th:with="carbs = ${meal.carbs} / ${settings.carbUnit}" th:text="${#numbers.formatDecimal(carbs,1,2)}">carb units</td>
-                  <td th:with="proteins = ${meal.proteins} / ${settings.proteinUnit}" th:text="${#numbers.formatDecimal(proteins,1,2)}">protein units</td>              
-                  <td th:with="fats = ${meal.fats} / ${settings.fatUnit}" th:text="${#numbers.formatDecimal(fats,1,2)}">fat units</td>
+                    <td>
+                        <span th:text="${meal.title}"></span>
+                        <a href="/id" th:href="@{'/meals/'+${meal.id}}"> (details)</a>
+                    </td>              
+                    <td th:with="carbs = ${meal.carbs} / ${settings.carbUnit}" th:text="${#numbers.formatDecimal(carbs,1,2)}">carb units</td>
+                    <td th:with="proteins = ${meal.proteins} / ${settings.proteinUnit}" th:text="${#numbers.formatDecimal(proteins,1,2)}">protein units</td>              
+                    <td th:with="fats = ${meal.fats} / ${settings.fatUnit}" th:text="${#numbers.formatDecimal(fats,1,2)}">fat units</td>
                    <td>
                         <form method="POST" th:action="|@{/today/delete/}${mealday.getId()}|">                            
                             <input type="submit" class="btn btn-link"  value="remove"/>
@@ -57,12 +55,12 @@
                     </td>
                 </tr>                
                 <tr>      
-                    <td></td><td></td>
-                    <td><strong>Total Units</strong></td> 
-                    <td th:with="carbunits = ${#aggregates.sum(todaysMeals.![getMeal().carbs])} != null ? ${#aggregates.sum(todaysMeals.![getMeal().carbs])} / ${settings.carbUnit} : 0" th:text="${#numbers.formatDecimal(carbunits,1,2)}">Meal carb units</td>
-                    <td th:with="proteinunits = ${#aggregates.sum(todaysMeals.![getMeal().proteins])} != null ? ${#aggregates.sum(todaysMeals.![getMeal().proteins])} / ${settings.proteinUnit} : 0" th:text="${#numbers.formatDecimal(proteinunits,1,2)}">Meal protien units</td>
-                    <td th:with="fatunits = ${#aggregates.sum(todaysMeals.![getMeal().fats])} != null ? ${#aggregates.sum(todaysMeals.![getMeal().fats])} / ${settings.fatUnit} : 0" th:text="${#numbers.formatDecimal(fatunits,1,2)}">meal fats units</td>                                                                                       
-                    <td/>
+                <td></td><td></td>
+                <td><strong>Total Units</strong></td> 
+                <td th:with="carbunits = ${#aggregates.sum(todaysMeals.![getMeal().carbs])} != null ? ${#aggregates.sum(todaysMeals.![getMeal().carbs])} / ${settings.carbUnit} : 0" th:text="${#numbers.formatDecimal(carbunits,1,2)}">Meal carb units</td>
+                <td th:with="proteinunits = ${#aggregates.sum(todaysMeals.![getMeal().proteins])} != null ? ${#aggregates.sum(todaysMeals.![getMeal().proteins])} / ${settings.proteinUnit} : 0" th:text="${#numbers.formatDecimal(proteinunits,1,2)}">Meal protien units</td>
+                <td th:with="fatunits = ${#aggregates.sum(todaysMeals.![getMeal().fats])} != null ? ${#aggregates.sum(todaysMeals.![getMeal().fats])} / ${settings.fatUnit} : 0" th:text="${#numbers.formatDecimal(fatunits,1,2)}">meal fats units</td>                                                                                       
+                <td/>
                 </tr>                 
                 <tr> 
                     <td></td><td></td>
@@ -73,56 +71,52 @@
                     <td/>
                 </tr>
                 </table>                
-        </div> 
-        
-        <div th:if='${allMeals.isEmpty()} == true'>
-                    <a href="/meals/add" th:href="@{/meals/add}">Add a meal</a>
-        </div>
+            </div> <!-- if -->        
+            <div th:if='${allMeals.isEmpty()} == true'>
+                <a href="/meals/add" th:href="@{/meals/add}">Add a meal</a>
+            </div>
         <br/>
         <div th:if='${allMeals.isEmpty()} == false'>
-                <form method="POST" th:object="${meal}" th:action="@{/today/add}"> 
-                    <div class="error" th:if="${#fields.hasErrors('*')}">
-                        <ul>
-                          <li th:each="err : ${#fields.errors('*')}"
-                              th:text="${err}">Input is incorrect</li>
-                        </ul>
-                    </div>
-                    <table class='table table-hover'>  
-                        <tbody>
-                        <tr>
-                        <td>Select meal to add to todays meal plan: </td>
-                        <td>  
-                            <select th:field="*{id}">
-                                <option th:each="meal : ${allMeals}" id="id" name="id" th:value="${meal.id}" th:text="${meal.title}">Meal Title</option>
-                            </select>
-                        </td>     
-                        <td>  
-                            <input class="btn btn-primary" type="submit" value="Add meal"/>  
-                        </td> 
-                        </tr>
-                    </tbody>
-                    </table>    
-                </form> 
+            <form method="POST" th:object="${meal}" th:action="@{/today/add}"> 
+                <div class="error" th:if="${#fields.hasErrors('*')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+                    </ul>
+                </div>
+                <table class='table table-hover'>  
+                    <tbody>
+                    <tr>
+                    <td>Select meal to add to todays meal plan: </td>
+                    <td>  
+                        <select th:field="*{id}">
+                            <option th:each="meal : ${allMeals}" id="id" name="id" th:value="${meal.id}" th:text="${meal.title}">Meal Title</option>
+                        </select>
+                    </td>     
+                    <td>  
+                        <input class="btn btn-primary" type="submit" value="Add meal"/>  
+                    </td> 
+                    </tr>
+                </tbody>
+                </table>    
+            </form> 
         </div>
         </div><!--/span-->
-      </div><!--/row-->
-
-      <hr/>
-
-      <footer>
+    </div><!--/row-->
+    <hr/>
+    <footer th:replace="Common/page :: footer">
         <p th:text="|© #{Appname} ${#calendars.format(#dates.createToday(),'yyyy')}|">© Meal Planner 2013</p>
-      </footer>
-
+    </footer>
     </div><!--/.fluid-container-->
-
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script th:src="@{/themes/jquery.js}"/>
-    <script th:src="@{/themes/bootstrap/js/bootstrap.min.js}"/>
-
-  
-
+    <script src="@{/themes/jquery.js}" th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"/>
+    <script th:src="@{/webjars/bootstrap/2.3.2/js/bootstrap.min.js}"/>
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+        $(document).ready(function(){
+                $("button").click(function(){
+                    $("p").hide();
+                });
+            });
+    /*]]>*/
+    </script>
 </body>
-
 </html>

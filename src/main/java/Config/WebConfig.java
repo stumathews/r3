@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.servlet.configuration.
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.ui.context.support.ResourceBundleThemeSource;
 import org.springframework.web.multipart.MultipartResolver;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
@@ -51,7 +50,8 @@ import org.thymeleaf.templateresolver.TemplateResolver;
                 BSL.MealDayService.class,
                 BSL.SettingsService.class
 })
-public class WebConfig extends WebMvcConfigurerAdapter {
+public class WebConfig extends WebMvcConfigurerAdapter 
+{
   
   /***
    * Configure static content handling
@@ -62,8 +62,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
   public void configureDefaultServletHandling( DefaultServletHandlerConfigurer configurer)
   {
     configurer.enable();    
-  }
-
+  } 
+  
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
          LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
@@ -149,6 +149,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     resolver.setCookieName("myLocaleCookie");
     resolver.setCookieMaxAge(4800);
     return resolver;
-} 
+    } 
   
 }
