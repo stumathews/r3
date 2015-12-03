@@ -9,14 +9,13 @@
          polymorphism="implicit" 
          select-before-update="false">
 
-      <id name="id" column="user_id" type="long">
-          <generator class="identity" />
-      </id>
+        <id name="id" column="user_id" type="long">
+            <generator class="identity" />
+        </id>
       
-      <property name="title" column="title" type="string"/>
-      <property name="carbs" column="carbs" type="float" />
-      <property name="proteins" column="proteins" type="float" />
-      <property name="fats" column="fats" type="float" />
-
+        <property name="title" column="title" type="string"/>
+        <property name="carbs" column="carbs" type="float" />
+        <property name="proteins" column="proteins" type="float" />
+        <property name="fats" column="fats" type="float" />
   </class>
 </hibernate-mapping>

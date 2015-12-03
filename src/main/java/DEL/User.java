@@ -1,13 +1,12 @@
 package DEL;
 
 import java.io.Serializable;
-import java.util.Set;
 
 /***
  * A User is...
  * @author Stuart Mathews <stumathews@gmail.com>
  */
-public class User implements Serializable
+public final class User implements Serializable
 {
     private Long id;
     private String username;
