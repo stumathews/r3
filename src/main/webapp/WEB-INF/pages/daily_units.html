@@ -21,7 +21,7 @@
                 <div th:replace="Common/NavMenu :: NavMenu"></div>
             </div><!--/span-->       
             <div class="span9">            
-                <form method="POST" th:object="${dailyamounts}" th:action="@{/settings/dailyamounts}"> 
+                <form method="POST" th:object="${daily_units}" th:action="@{/settings/dailyamounts}"> 
                     <div class="error" th:if="${#fields.hasErrors('*')}">
                         <ul>
                           <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>

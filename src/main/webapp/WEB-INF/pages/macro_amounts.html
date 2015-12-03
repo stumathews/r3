@@ -21,7 +21,7 @@
           <div th:replace="Common/NavMenu :: NavMenu"></div>
         </div><!--/span-->       
         <div class="span9">
-            <form method="POST" th:object="${settings}" th:action="@{/settings/save}"> 
+            <form method="POST" th:object="${macro_amounts}" th:action="@{/settings/save}"> 
                 <div class="error" th:if="${#fields.hasErrors('*')}">
                     <ul>
                       <li th:each="err : ${#fields.errors('*')}"

@@ -35,12 +35,12 @@ public class SettingsController
     {   
         MacroUnitProfile profile = settingsService.getSettings();
         DailyAmounts resultDailyAmounts = settingsService.getDailyAmounts();
-        model.addAttribute(DAILYAMOUNTS, resultDailyAmounts == null ? new DailyAmounts(1, 20,17,12): resultDailyAmounts);
-        model.addAttribute(SETTINGS, profile == null ? new MacroUnitProfile(1,15,7,5, "Default Macro Unit Profile"): profile);
-        return SETTINGS;
+        model.addAttribute(DAILY_UNITS, resultDailyAmounts == null ? new DailyAmounts(1, 20,17,12): resultDailyAmounts);
+        model.addAttribute(MACRO_AMOUNTS, profile == null ? new MacroUnitProfile(1,15,7,5, "Default Macro Unit Profile"): profile);
+        return MACRO_AMOUNTS;
     }
-    private static final String SETTINGS = "settings";
-    private static final String DAILYAMOUNTS = "dailyamounts";
+    private static final String MACRO_AMOUNTS = "macro_amounts";
+    private static final String DAILY_UNITS = "daily_units";
     
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     String save(@Valid DEL.MacroUnitProfile settings, Errors errors)
@@ -58,8 +58,8 @@ public class SettingsController
     String dailyAmounts(Model model)
     {   
         DailyAmounts resultDailyAmounts = settingsService.getDailyAmounts();
-        model.addAttribute(DAILYAMOUNTS, resultDailyAmounts == null ? new DailyAmounts(1, 20,17,12): resultDailyAmounts);
-        return DAILYAMOUNTS;
+        model.addAttribute(DAILY_UNITS, resultDailyAmounts == null ? new DailyAmounts(1, 20,17,12): resultDailyAmounts);
+        return DAILY_UNITS;
     }
     
     @RequestMapping(value = "/dailyamounts", method = RequestMethod.POST)
