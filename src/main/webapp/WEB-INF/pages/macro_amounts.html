@@ -20,7 +20,7 @@
         <div class="span3">
           <div th:replace="Common/NavMenu :: NavMenu"></div>
         </div><!--/span-->       
-        <div class="span9">
+        <div ng-app="myApp" ng-init="" class="span9" ng-controller="myCtrl">
             <form method="POST" th:object="${macro_amounts}" th:action="@{/settings/save}"> 
                 <div class="error" th:if="${#fields.hasErrors('*')}">
                     <ul>
@@ -29,17 +29,18 @@
                     </ul>
                 </div>
 
-                <label th:class="${#fields.hasErrors('carbUnit')}? 'error'" th:text="#{carbUnit}">Carb Units</label>
-                <input id="carbUnit" type="text" th:field="*{carbUnit}" /><br/>
+                <label th:class="${#fields.hasErrors('carbUnit')}? 'error'" th:text="#{carbUnit}" ng-click="turnBlue()" id="carbUnit">Carb Units</label>
+                <input id="carbUnit" type="text" th:field="*{carbUnit}" ng-model="carbUnit" /><br/>
 
                 <label th:class="${#fields.hasErrors('proteinUnit')}? 'error'" th:text="#{proteinUnit}">Protein Units</label>
-                <input id="proteinUnit" type="text" th:field="*{proteinUnit}" /><br/>
+                <input id="proteinUnit" type="text" th:field="*{proteinUnit}" ng-model="proteinUnit" /><br/>
 
                 <label th:class="${#fields.hasErrors('fatUnit')}? 'error'" th:text="#{fatUnit}">Fats Units</label>
-                <input id="fatUnit" type="text" th:field="*{fatUnit}" /><br/>
+                <input id="fatUnit" type="text" th:field="*{fatUnit}" ng-model="fatUnit" /><br/>
 
-                <input class="btn btn-primary" type="submit" value="Save settings"/>  
+                <input class="btn btn-primary" type="submit" value="Save settings"/>                 
             </form> 
+            <button class="btn btn-primary" ng-click="reset()">Reset</button>
         </div><!--/span-->
       </div><!--/row-->
     <hr/>
@@ -49,6 +50,27 @@
     </div> <!-- Fluid container -->
     <script src="@{/themes/jquery.js}" th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"/>
     <script th:src="@{/webjars/bootstrap/2.3.2/js/bootstrap.min.js}"/>
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function($scope) 
+    {
+        $scope.carbUnit = [[${macro_amounts.getCarbUnit()}]];
+        $scope.proteinUnit = [[${macro_amounts.getProteinUnit()}]];
+        $scope.fatUnit = [[${macro_amounts.getFatUnit()}]];
+        $scope.reset = function() {
+            $scope.carbUnit = 15;
+            $scope.proteinUnit = 7;
+            $scope.fatUnit = 5;
+        };
+        
+        $scope.turnBlue = function() {
+            $scope.carbUnit = "You clicked me!";
+        };
+        
+    });
+    /*]]>*/
+    </script>
 </body>
 
 </html>
