@@ -109,7 +109,7 @@ public class MealDayRepository implements IMealDayRepository
     private Date convertDateToGmtDate(Date date) 
     {
         //getting current time and date
-        Date currentDate = new Date();        
+        Date currentDate = date;      
         //getting date format
         DateFormat dateFormatter = DateFormat.getInstance();
         //setting date format in GMT TimeZone
