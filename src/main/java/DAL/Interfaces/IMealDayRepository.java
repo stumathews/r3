@@ -13,11 +13,11 @@ import java.util.Set;
 {
     public IMealDay addMealDay(Date date, IMeal meal);    
 
-    public Set<IMealDay> getDayMeals(Date date) throws ParseException;
+    public Set<IMealDay> getDayMeals(Date date);
 
     public void remove(IMealDay mealDay);
 
-    public IMealDay getMealDay(long id) throws ParseException;
+    public IMealDay getMealDay(long id);
 
     public void removeAllDayMealsWithMeal(IMeal meal);
 }
