@@ -74,15 +74,7 @@ public class MealDayRepository implements IMealDayRepository
         
        
         for( IMealDay mealDay : (List<IMealDay>) query.list())
-        { 
-          DateTimeZone zone = DateTimeZone.forID("Europe/London");
-          DateTime dt = new DateTime(mealDay.getDate(),zone);
-          int day = dt.getDayOfMonth();
-          int year = dt.getYear();
-          int month = dt.getMonthOfYear();
-          int hours = dt.getHourOfDay();
-          int minutes = dt.getMinuteOfHour(); 
-          mealDay.setDate(dt.toDate());
+        {          
           meals.add(mealDay);
         }
     return meals;
@@ -97,15 +89,7 @@ public class MealDayRepository implements IMealDayRepository
     @Transactional
     public IMealDay getMealDay(long id)
     {
-       IMealDay md = (IMealDay) sessionFactory.getCurrentSession().get(MealDay.class, id);
-       DateTimeZone zone = DateTimeZone.forID("Europe/London");
-          DateTime dt = new DateTime(md.getDate(),zone);
-          int day = dt.getDayOfMonth();
-          int year = dt.getYear();
-          int month = dt.getMonthOfYear();
-          int hours = dt.getHourOfDay();
-          int minutes = dt.getMinuteOfHour(); 
-          md.setDate(dt.toDate());
+       IMealDay md = (IMealDay) sessionFactory.getCurrentSession().get(MealDay.class, id);       
        return md;
     }
     
