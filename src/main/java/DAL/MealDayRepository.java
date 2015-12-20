@@ -6,12 +6,16 @@ import DEL.Interfaces.IMeal;
 import DEL.MealDay;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TimeZone;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -45,7 +49,7 @@ public class MealDayRepository implements IMealDayRepository
     }
     
     @Transactional
-    public Set<IMealDay> getDayMeals(Date date) 
+    public Set<IMealDay> getDayMeals(Date date) throws ParseException
     {
         Calendar c = new GregorianCalendar();
         c.set(Calendar.HOUR_OF_DAY, 0); //anything 0 - 23
@@ -69,6 +73,10 @@ public class MealDayRepository implements IMealDayRepository
        
         for( IMealDay mealDay : (List<IMealDay>) query.list())
         {
+         DateFormat gmtFormat = new SimpleDateFormat();
+         TimeZone gmtTime = TimeZone.getTimeZone("GMT");
+         gmtFormat.setTimeZone(gmtTime);
+         Date d = gmtFormat.parse(gmtFormat.format(mealDay.getDate()));
           meals.add(mealDay);
         }
     return meals;
@@ -81,9 +89,16 @@ public class MealDayRepository implements IMealDayRepository
     }
 
     @Transactional
-    public IMealDay getMealDay(long id) 
+    public IMealDay getMealDay(long id) throws ParseException
     {
-       return (IMealDay) sessionFactory.getCurrentSession().get(MealDay.class, id);
+       IMealDay md = (IMealDay) sessionFactory.getCurrentSession().get(MealDay.class, id);
+       
+       DateFormat gmtFormat = new SimpleDateFormat();
+         TimeZone gmtTime = TimeZone.getTimeZone("GMT");
+         gmtFormat.setTimeZone(gmtTime);
+         Date d = gmtFormat.parse(gmtFormat.format(md.getDate()));
+       md.setDate(d);
+        return md;
     }
     
     @Transactional
