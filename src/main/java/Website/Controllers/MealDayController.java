@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  *
@@ -60,6 +61,7 @@ public class MealDayController
         model.addAttribute("todaysMeals", mealDayService.getDayMeals());
         Date date = new Date();
         model.addAttribute("localdate", date.toString());
+        model.addAttribute("timezone", TimeZone.getTimeZone("GMT"));
        
         return "meals/today";
     }
