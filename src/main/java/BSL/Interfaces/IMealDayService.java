@@ -15,6 +15,5 @@ public interface IMealDayService
     public Set<IMealDay> getDayMeals() throws ParseException;
     public void removeMealDay(IMealDay mealDay);
     public IMealDay getDayMeal(long id) throws ParseException;
-
     public void removeAllDayMealsWithMeal(IMeal meal);
 }
