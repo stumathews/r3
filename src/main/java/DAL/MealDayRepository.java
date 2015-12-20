@@ -73,10 +73,9 @@ public class MealDayRepository implements IMealDayRepository
        
         for( IMealDay mealDay : (List<IMealDay>) query.list())
         {
-         DateFormat gmtFormat = new SimpleDateFormat();
-         TimeZone gmtTime = TimeZone.getTimeZone("GMT");
-         gmtFormat.setTimeZone(gmtTime);
-         Date d = gmtFormat.parse(gmtFormat.format(mealDay.getDate()));
+         
+         Date d = convertDateToGmtDate(mealDay.getDate());
+         mealDay.setDate(d);
           meals.add(mealDay);
         }
     return meals;
@@ -93,11 +92,9 @@ public class MealDayRepository implements IMealDayRepository
     {
        IMealDay md = (IMealDay) sessionFactory.getCurrentSession().get(MealDay.class, id);
        
-       DateFormat gmtFormat = new SimpleDateFormat();
-         TimeZone gmtTime = TimeZone.getTimeZone("GMT");
-         gmtFormat.setTimeZone(gmtTime);
-         Date d = gmtFormat.parse(gmtFormat.format(md.getDate()));
-       md.setDate(d);
+        
+        Date d = convertDateToGmtDate(md.getDate());
+        md.setDate(d);
         return md;
     }
     
@@ -107,6 +104,36 @@ public class MealDayRepository implements IMealDayRepository
         Query q = sessionFactory.getCurrentSession().createQuery("delete from MealDay where meal_id = :meal_id");
         q.setLong("meal_id", meal.getId());
         q.executeUpdate();
+    }
+
+    private Date convertDateToGmtDate(Date date) 
+    {
+        //getting current time and date
+        Date currentDate = new Date();        
+        //getting date format
+        DateFormat dateFormatter = DateFormat.getInstance();
+        //setting date format in GMT TimeZone
+        dateFormatter.setTimeZone (TimeZone.getTimeZone("GMT"));
+        //passing current date as argument in format function
+        String gmtS = dateFormatter.format(currentDate);        
+        //converting back to date
+        Date gmt = null ;
+        try
+        {
+            java.text.SimpleDateFormat formatter = new  SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
+            formatter = new  SimpleDateFormat("dd/mm/yy HH:mm");
+            gmt= formatter.parse(gmtS);            
+             
+            //gettng calendar instance
+            Calendar gmtCal=Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+            //setting gmt date to calendar object
+            gmtCal.setTime(gmt);
+            return gmt;
+        } 
+        catch(Exception e){
+            return date;
+        }
     }
 
     
