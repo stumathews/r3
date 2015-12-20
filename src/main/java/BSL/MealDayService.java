@@ -38,10 +38,7 @@ public class MealDayService implements BSL.Interfaces.IMealDayService
     
     private Date TodaysDate() 
     {   
-        DateTimeZone tz = DateTimeZone.forID("Europe/London");
-        DateTime dt = new DateTime(tz);               
-        GregorianCalendar cal = dt.toGregorianCalendar();
-        return cal.getTime();
+        return new Date();
     }
 
     public void removeMealDay(IMealDay mealDay) 

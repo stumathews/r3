@@ -75,6 +75,10 @@ public class MealDayRepository implements IMealDayRepository
        
         for( IMealDay mealDay : (List<IMealDay>) query.list())
         {          
+            DateTimeZone tz = DateTimeZone.forID("Europe/London");
+            DateTime dt = new DateTime(tz);               
+            GregorianCalendar cal = dt.toGregorianCalendar();
+            mealDay.setDate(cal.getTime());
           meals.add(mealDay);
         }
     return meals;
@@ -89,7 +93,11 @@ public class MealDayRepository implements IMealDayRepository
     @Transactional
     public IMealDay getMealDay(long id)
     {
-       IMealDay md = (IMealDay) sessionFactory.getCurrentSession().get(MealDay.class, id);       
+       IMealDay md = (IMealDay) sessionFactory.getCurrentSession().get(MealDay.class, id);    
+        DateTimeZone tz = DateTimeZone.forID("Europe/London");
+            DateTime dt = new DateTime(tz);               
+            GregorianCalendar cal = dt.toGregorianCalendar();
+            md.setDate(cal.getTime());
        return md;
     }
     
