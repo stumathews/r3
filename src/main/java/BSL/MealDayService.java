@@ -10,6 +10,8 @@ import java.util.GregorianCalendar;
 import java.util.Set;
 import java.util.TimeZone;
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 
@@ -35,14 +37,10 @@ public class MealDayService implements BSL.Interfaces.IMealDayService
     }
     
     private Date TodaysDate() 
-    {       
-        TimeZone tz = TimeZone.getDefault();
-        logger.info("TimeZone : " + tz.getID() + " - " + tz.getDisplayName());
-        logger.info("TimeZone : " + tz);
-        Date date = new Date();
-        logger.info("Date:" + date.toString() );
-        
-        return date;
+    {   
+        DateTimeZone tz = DateTimeZone.forID("Europe/London");
+        DateTime dateTime = new DateTime(tz);               
+        return dateTime.toDate();
     }
 
     public void removeMealDay(IMealDay mealDay) 
