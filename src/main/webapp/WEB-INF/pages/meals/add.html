@@ -27,8 +27,8 @@
                 <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
             </ul>
         </div>
-        <label th:class="${#fields.hasErrors('title')}? 'error'" th:text="#{Title}">Meal title</label>
-        <input id="title" type="text" th:field="*{title}" /><br/>
+        <label th:class="${#fields.hasErrors('title')}? 'error'" th:text="#{Title}" >Meal title</label>
+        <input id="title" type="text" th:field="*{title}" autofocus="true" placeholder="type your meal title here" /><br/>
         <label th:class="${#fields.hasErrors('carbs')}? 'error'" th:text="#{Carbs}">Carbs</label>
         <input type="text" th:field="*{carbs}"/><br/>
         <label th:class="${#fields.hasErrors('proteins')}? 'error'" th:text="#{Proteins}">Proteins</label>

@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * Contract for BSL User objects
  * @author Stuart Mathews <stuart@stuartmathews.com>
  */
-public interface IUserAdmin 
+public interface IUserService 
 {
     public BOLO.User createUser( String token, String username, String password) throws Exception;
     public ArrayList<User> getAllUsers(String string) throws Exception;

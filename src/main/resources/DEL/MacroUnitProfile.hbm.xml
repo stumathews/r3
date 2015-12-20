@@ -9,12 +9,12 @@
          polymorphism="implicit" 
          select-before-update="false">
   
-      <id column="id" name="id" type="long" >
-            <generator class="identity" />
-      </id>
-      <property name="description" column="description" type="string" />
-      <property name="carbUnit" column="carbUnit" type="int" />
-      <property name="proteinUnit" column="proteinUnit" type="int" />
-      <property name="fatUnit" column="fatUnit" type="int" />
+    <id column="id" name="id" type="long" >
+        <generator class="identity" />
+    </id>
+    <property name="description" column="description" type="string" />
+    <property name="carbUnit" column="carbUnit" type="int" />
+    <property name="proteinUnit" column="proteinUnit" type="int" />
+    <property name="fatUnit" column="fatUnit" type="int" />
   </class>
 </hibernate-mapping>
