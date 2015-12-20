@@ -9,6 +9,7 @@ import DEL.Interfaces.IMeal;
 import DEL.MacroUnitProfile;
 import DEL.Meal;
 import DEL.MealDay;
+import java.text.ParseException;
 import javax.validation.Valid;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class MealDayController
     static final Logger logger = Logger.getLogger(MealDayRepository.class);
     
     @RequestMapping( value = {"/","/today"}, method = RequestMethod.GET)
-    String today(Model model)
+    String today(Model model) throws ParseException
     {   
         
         MacroUnitProfile defaultMacroUnitProfile = settingsService.getSettings();  
@@ -66,7 +67,7 @@ public class MealDayController
     @RequestMapping(value = "/today/add", method = RequestMethod.POST)
     String todayAdd(@Valid Meal meal, 
                     Errors errors,
-                    Model model)
+                    Model model) throws ParseException
     {
          if(errors.hasErrors())
         {
@@ -91,7 +92,7 @@ public class MealDayController
     
     
     @RequestMapping(value = "/today/delete/{id}", method = RequestMethod.POST)
-    String deleteMeal(@PathVariable int id )
+    String deleteMeal(@PathVariable int id ) throws ParseException
     {           
         mealDayService.removeMealDay(mealDayService.getDayMeal(id));
         return "redirect:/today";
