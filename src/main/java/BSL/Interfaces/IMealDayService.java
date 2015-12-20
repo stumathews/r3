@@ -2,6 +2,7 @@ package BSL.Interfaces;
 
 import DEL.Interfaces.IMealDay;
 import DEL.Interfaces.IMeal;
+import java.text.ParseException;
 import java.util.Set;
 
 /**
@@ -11,9 +12,9 @@ import java.util.Set;
 public interface IMealDayService 
 {
     public IMealDay addMealDay( IMeal meal);
-    public Set<IMealDay> getDayMeals();
+    public Set<IMealDay> getDayMeals() throws ParseException;
     public void removeMealDay(IMealDay mealDay);
-    public IMealDay getDayMeal(long id);
+    public IMealDay getDayMeal(long id) throws ParseException;
 
     public void removeAllDayMealsWithMeal(IMeal meal);
 }

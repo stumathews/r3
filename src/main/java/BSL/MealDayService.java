@@ -3,6 +3,7 @@ package BSL;
 import DAL.MealDayRepository;
 import DEL.Interfaces.IMealDay;
 import DEL.Interfaces.IMeal;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -28,9 +29,9 @@ public class MealDayService implements BSL.Interfaces.IMealDayService
        return mealDayRepository.addMealDay( TodaysDate() , meal );
     }
 
-    public Set<IMealDay> getDayMeals() 
+    public Set<IMealDay> getDayMeals() throws ParseException
     {
-        return mealDayRepository.getDayMeals(TodaysDate() );// mealdays;                
+        return mealDayRepository.getDayMeals(TodaysDate());// mealdays;                
     }
     
     private Date TodaysDate() 
@@ -49,7 +50,7 @@ public class MealDayService implements BSL.Interfaces.IMealDayService
         mealDayRepository.remove(mealDay);
     }
 
-    public IMealDay getDayMeal(long id) 
+    public IMealDay getDayMeal(long id) throws ParseException  
     {
         return mealDayRepository.getMealDay(id);
     }
