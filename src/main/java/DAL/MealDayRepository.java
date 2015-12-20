@@ -21,6 +21,8 @@ import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -72,7 +74,15 @@ public class MealDayRepository implements IMealDayRepository
         
        
         for( IMealDay mealDay : (List<IMealDay>) query.list())
-        {       
+        { 
+          DateTimeZone zone = DateTimeZone.forID("Europe/London");
+          DateTime dt = new DateTime(mealDay.getDate(),zone);
+          int day = dt.getDayOfMonth();
+          int year = dt.getYear();
+          int month = dt.getMonthOfYear();
+          int hours = dt.getHourOfDay();
+          int minutes = dt.getMinuteOfHour(); 
+          mealDay.setDate(dt.toDate());
           meals.add(mealDay);
         }
     return meals;
@@ -88,6 +98,14 @@ public class MealDayRepository implements IMealDayRepository
     public IMealDay getMealDay(long id)
     {
        IMealDay md = (IMealDay) sessionFactory.getCurrentSession().get(MealDay.class, id);
+       DateTimeZone zone = DateTimeZone.forID("Europe/London");
+          DateTime dt = new DateTime(md.getDate(),zone);
+          int day = dt.getDayOfMonth();
+          int year = dt.getYear();
+          int month = dt.getMonthOfYear();
+          int hours = dt.getHourOfDay();
+          int minutes = dt.getMinuteOfHour(); 
+          md.setDate(dt.toDate());
        return md;
     }
     
