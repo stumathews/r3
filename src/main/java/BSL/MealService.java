@@ -84,5 +84,11 @@ public class MealService implements BSL.Interfaces.IMealService
          }
          return meals;
     }
-  
+
+    public IMeal getMealByName(String title) 
+    {
+        return mealRepository.GetMealByName(title);
+    }
+
+    
 }

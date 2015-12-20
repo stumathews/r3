@@ -1,11 +1,14 @@
 package BSL;
 
+import DAL.MealDayRepository;
 import DEL.Interfaces.IMealDay;
 import DEL.Interfaces.IMeal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Set;
+import java.util.TimeZone;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 
@@ -15,6 +18,8 @@ import org.springframework.context.i18n.LocaleContextHolder;
  */
 public class MealDayService implements BSL.Interfaces.IMealDayService
 {
+    static final Logger logger = Logger.getLogger(MealDayRepository.class);
+    
     @Autowired
     private DAL.Interfaces.IMealDayRepository mealDayRepository;
         
@@ -29,10 +34,13 @@ public class MealDayService implements BSL.Interfaces.IMealDayService
     }
     
     private Date TodaysDate() 
-    {
-       
-        Calendar c = new GregorianCalendar(LocaleContextHolder.getTimeZone(),LocaleContextHolder.getLocale());
-        Date date = c.getTime(); //the midnight, that's the first second of the day.
+    {       
+        TimeZone tz = TimeZone.getDefault();
+        logger.info("TimeZone : " + tz.getID() + " - " + tz.getDisplayName());
+        logger.info("TimeZone : " + tz);
+        Date date = new Date();
+        logger.info("Date:" + date.toString() );
+        
         return date;
     }
 

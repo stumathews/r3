@@ -34,5 +34,6 @@ Any value defined here will override the pom.xml file value but is only applicab
         <word>rel</word>
         <word>servlet</word>
         <word>stylesheet</word>
+        <word>TODO</word>
     </spellchecker-wordlist>
 </project-shared-configuration>

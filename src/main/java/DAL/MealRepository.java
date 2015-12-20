@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -50,12 +51,18 @@ public class MealRepository implements DAL.Interfaces.IMealRepository
     sessionFactory.getCurrentSession().delete(meal);
   }
 
-  @Transactional
-  @Cacheable(value = MEAL_CACHE)
-  public IMeal GetMeal(long Id)
-  {
-    return (IMeal) sessionFactory.getCurrentSession().get(Meal.class, Id);   
-  }
+    @Transactional
+    @Cacheable(value = MEAL_CACHE)
+    public IMeal GetMeal(long Id)
+    {
+      return (IMeal) sessionFactory.getCurrentSession().get(Meal.class, Id);   
+    }
+
+    @Transactional
+    public IMeal GetMealByName(String title) 
+    {
+        return (IMeal) sessionFactory.getCurrentSession().createCriteria(Meal.class).add(Restrictions.eq("title", title)).uniqueResult();
+    }
   
   
 }

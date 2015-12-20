@@ -19,6 +19,7 @@ public interface IMealService
   public void deleteMeal(IMeal meal);
 
   public IMeal getMeal(long id);
+  public IMeal getMealByName(String title);
 
   public Set<IMeal>  importMealsCSV(InputStream inputStream) throws Exception, IOException;
   public String exportMealsCSV();

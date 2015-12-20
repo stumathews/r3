@@ -16,4 +16,6 @@ public interface IMealRepository
   public void delete(IMeal meal);
 
   public IMeal GetMeal(long id);
+
+  public IMeal GetMealByName(String title);
 }

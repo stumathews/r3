@@ -17,14 +17,17 @@ import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+
 @Component
 public class MealDayRepository implements IMealDayRepository 
-{    
+{   
+    
     @Autowired
     private SessionFactory sessionFactory;  
     
@@ -44,7 +47,7 @@ public class MealDayRepository implements IMealDayRepository
     @Transactional
     public Set<IMealDay> getDayMeals(Date date) 
     {
-        Calendar c = new GregorianCalendar(LocaleContextHolder.getTimeZone(),LocaleContextHolder.getLocale());
+        Calendar c = new GregorianCalendar();
         c.set(Calendar.HOUR_OF_DAY, 0); //anything 0 - 23
         c.set(Calendar.MINUTE, 0);
         c.set(Calendar.SECOND, 1);

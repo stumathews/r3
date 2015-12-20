@@ -1,53 +1,26 @@
-/*
- * Copyright (c) 2015, Stuart
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * * Redistributions of source code must retain the above copyright notice, this
- *   list of conditions and the following disclaimer.
- * * Redistributions in binary form must reproduce the above copyright notice,
- *   this list of conditions and the following disclaimer in the documentation
- *   and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
 package Website.Controllers;
 
 import BSL.Interfaces.IMealDayService;
 import BSL.Interfaces.IMealService;
 import BSL.Interfaces.ISettingsService;
+import DAL.MealDayRepository;
 import DEL.DailyAmounts;
 import DEL.Interfaces.IMeal;
-import DEL.Interfaces.IMealDay;
 import DEL.MacroUnitProfile;
 import DEL.Meal;
 import DEL.MealDay;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.TreeSet;
+import javax.validation.Valid;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.support.RequestContextUtils;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import java.util.Date;
 
 /**
  *
@@ -66,25 +39,47 @@ public class MealDayController
     @Autowired
     private ISettingsService settingsService;
     
+    static final Logger logger = Logger.getLogger(MealDayRepository.class);
+    
     @RequestMapping( value = {"/","/today"}, method = RequestMethod.GET)
     String today(Model model)
     {   
+        
         MacroUnitProfile defaultMacroUnitProfile = settingsService.getSettings();  
         DailyAmounts resultDailyAmounts = settingsService.getDailyAmounts();
         model.addAttribute("dailyamounts", resultDailyAmounts == null ? new DailyAmounts(1, 20,17,12): resultDailyAmounts);
         model.addAttribute("settings", defaultMacroUnitProfile == null ? new MacroUnitProfile(1,15,7,5,"Default"): defaultMacroUnitProfile);
-        model.addAttribute("meal", new Meal());        
+
+        // This could be a repost with errors, in which case we have a meal already
+        if( !model.containsAttribute("meal"))
+        {
+            model.addAttribute("meal", new Meal()); 
+        }
         model.addAttribute("allMeals", mealService.getMeals());        
         model.addAttribute("todaysMeals", mealDayService.getDayMeals());
+        Date date = new Date();
+        model.addAttribute("localdate", date.toString());
+       
         return "meals/today";
     }
 
     @RequestMapping(value = "/today/add", method = RequestMethod.POST)
-    String todayAdd(Meal meal)
+    String todayAdd(@Valid Meal meal, 
+                    Errors errors,
+                    Model model)
     {
-        Meal m = (Meal) mealService.getMeal(meal.getId());
-        mealDayService.addMealDay(m);
-        return "redirect:/today";
+         if(errors.hasErrors())
+        {
+          return today(model);
+        }
+        IMeal found = (IMeal) mealService.getMealByName(meal.getTitle());
+        if( found == null)
+        {
+            errors.rejectValue("title", "validation.notfound","meal not found");
+            return today(model);
+        }
+        mealDayService.addMealDay(found);
+        return today(model);
     }
     @RequestMapping(value = "/today/addbyId/{id}", method = RequestMethod.POST)
     String addbyId(@PathVariable int id)

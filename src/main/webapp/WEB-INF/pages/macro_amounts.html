@@ -1,9 +1,7 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-2.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
+    <meta http-equiv="Content-Type" Content="text/html" charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0"/> 
       <link rel="stylesheet" th:href="@{/webjars/bootstrap/2.3.2/css/bootstrap.min.css}" href="bootstrap.min.css"  media="screen" />
       <script src="anjular.min.js" th:src="@{/webjars/angularjs/1.4.7/angular.min.js}"/>
       <style>
@@ -11,41 +9,55 @@
           padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
         }
       </style>
-      <title th:text="#{settings}">title</title>
+      <title th:text="#{settings}">The title will go here</title>
 </head>
 <body>
-    <div th:replace="Common/TopMenu :: TopMenu"/>
+    <nav>
+        <div th:replace="Common/TopMenu :: TopMenu"/>
+    </nav>
     <div class="container-fluid">
       <div class="row-fluid">
-        <div class="span3">
-          <div th:replace="Common/NavMenu :: NavMenu"></div>
-        </div><!--/span-->       
+        <nav>
+            <div class="span3">
+              <div th:replace="Common/NavMenu :: NavMenu"></div>
+            </div>
+        </nav>
         <div ng-app="myApp" ng-init="" class="span9" ng-controller="myCtrl">
-            <form method="POST" th:object="${macro_amounts}" th:action="@{/settings/save}"> 
-                <div class="error" th:if="${#fields.hasErrors('*')}">
-                    <ul>
-                      <li th:each="err : ${#fields.errors('*')}"
-                          th:text="${err}">Input is incorrect</li>
-                    </ul>
-                </div>
+            <header>
+                <h1>
+                    Macro unit breakdown
+                </h1>
+                <p>Here you can specify how many carbs, proteins and fats make up their equivalent macro Unit.&nbsp;
+                   It is this unit that will will be used through this site to base food quantities on. &nbsp;
+                   It is also what your daily intake percentage is based upon, as all foods will count towards that daily goal.              
+                </p>
+            </header>
+            <article>            
+                    <form method="POST" th:object="${macro_amounts}" th:action="@{/settings/save}"> 
+                        <div class="error" th:if="${#fields.hasErrors('*')}">
+                            <ul>
+                              <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+                            </ul>
+                        </div>
+                        <label th:class="${#fields.hasErrors('carbUnit')}? 'error'" th:text="#{carbUnit}"  id="carbUnit">Carb Units</label>
+                        <input id="carbUnit" type="text" th:field="*{carbUnit}" ng-model="carbUnit" />
+                        <br/>
+                        <label th:class="${#fields.hasErrors('proteinUnit')}? 'error'" th:text="#{proteinUnit}">Protein Units</label>
+                        <input id="proteinUnit" type="text" th:field="*{proteinUnit}" ng-model="proteinUnit" />
+                        <br/>
+                        <label th:class="${#fields.hasErrors('fatUnit')}? 'error'" th:text="#{fatUnit}">Fats Units</label>
+                        <input id="fatUnit" type="text" th:field="*{fatUnit}" ng-model="fatUnit" />
+                        <br/>
+                        <input class="btn btn-primary" type="submit" value="Save settings"/>                 
+                    </form> 
+                    <button class="btn btn-primary" ng-click="reset()">Reset</button>
 
-                <label th:class="${#fields.hasErrors('carbUnit')}? 'error'" th:text="#{carbUnit}" ng-click="turnBlue()" id="carbUnit">Carb Units</label>
-                <input id="carbUnit" type="text" th:field="*{carbUnit}" ng-model="carbUnit" /><br/>
-
-                <label th:class="${#fields.hasErrors('proteinUnit')}? 'error'" th:text="#{proteinUnit}">Protein Units</label>
-                <input id="proteinUnit" type="text" th:field="*{proteinUnit}" ng-model="proteinUnit" /><br/>
-
-                <label th:class="${#fields.hasErrors('fatUnit')}? 'error'" th:text="#{fatUnit}">Fats Units</label>
-                <input id="fatUnit" type="text" th:field="*{fatUnit}" ng-model="fatUnit" /><br/>
-
-                <input class="btn btn-primary" type="submit" value="Save settings"/>                 
-            </form> 
-            <button class="btn btn-primary" ng-click="reset()">Reset</button>
-        </div><!--/span-->
-      </div><!--/row-->
+            </article>
+        </div><!-- span -->
+      </div><!-- row-fluid -->
     <hr/>
     <footer th:replace="Common/page :: footer">
-      <p th:text="|© #{Appname} ${#calendars.format(#dates.createToday(),'yyyy')}|">© Meal Planner 2013</p>
+      <p th:text="|Â© #{Appname} ${#calendars.format(#dates.createToday(),'yyyy')}|">Â© Meal Planner 2013</p>
     </footer>
     </div> <!-- Fluid container -->
     <script src="@{/themes/jquery.js}" th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"/>
@@ -55,6 +67,7 @@
     var app = angular.module('myApp', []);
     app.controller('myCtrl', function($scope) 
     {
+        // Ask, thymlaf to Pull out model objects and convert them into javascript objects.
         $scope.carbUnit = [[${macro_amounts.getCarbUnit()}]];
         $scope.proteinUnit = [[${macro_amounts.getProteinUnit()}]];
         $scope.fatUnit = [[${macro_amounts.getFatUnit()}]];
@@ -67,6 +80,19 @@
         $scope.turnBlue = function() {
             $scope.carbUnit = "You clicked me!";
         };
+        
+        // Always check that this javascript will wotk with this page
+        // Ie does it have a valid DOM setup
+        if( document.getElementById)
+        {
+            var carbUnitLabel = document.getElementById('carbUnit');
+            // Decouble the script from the page by not assuming elments exist.
+            if(carbUnitLabel)
+            {
+               carbUnitlable.onClick = $scope.turnBlue;
+            }
+        }
+               
         
     });
     /*]]>*/
