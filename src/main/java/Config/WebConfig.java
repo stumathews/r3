@@ -76,10 +76,20 @@ public class WebConfig extends WebMvcConfigurerAdapter
          LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
         interceptor.setParamName("language");
         registry.addInterceptor(interceptor);
+        
+        // This opens a hibernate session for each request...
+        // possibly not the best option performace wise but pervents lazyinitialization errors
+        // when the view is resolved(thymleaf)
         registry.addWebRequestInterceptor(openSessionInViewInterceptor());
 
     }
   
+    /***
+     * This opens a hibernate session for each request...
+     * possibly not the best option performace wise but pervents lazyinitialization errors
+     * when the view is resolved(thymleaf)
+     * @return OpenSessionInViewInterceptor
+     */
     @Bean
     public WebRequestInterceptor openSessionInViewInterceptor() {
         OpenSessionInViewInterceptor osivi = new OpenSessionInViewInterceptor();

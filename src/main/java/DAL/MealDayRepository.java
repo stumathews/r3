@@ -58,7 +58,7 @@ public class MealDayRepository implements IMealDayRepository
                     .add(Restrictions.ge("date", new Timestamp(begining_day.getTime())))
                     //.add(Restrictions.gt("date", new Timestamp(date.getTime())))
                     //.add(Restrictions.lt("date", new Timestamp(toDate.getTime())))
-                    .addOrder(Order.desc("id"));
+                    .addOrder(Order.asc("id"));
         
         for( IMealDay mealDay : (List<IMealDay>) query.list())
         {            
