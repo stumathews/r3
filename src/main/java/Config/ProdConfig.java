@@ -2,17 +2,23 @@ package Config;
 
 import java.util.Properties;
 import javax.sql.DataSource;
-import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate3.LocalSessionFactoryBean;
 
 @Configuration
 @Profile("prod")
+@PropertySource("classpath:prod.properties")
 public class ProdConfig {
+    
+    @Autowired
+    private Environment environment;
     
     Properties hibernateProperties() 
     {      
@@ -29,29 +35,15 @@ public class ProdConfig {
          }
       };
    }
-      
-    @Bean 
-    public static PropertyPlaceholderConfigurer properties() 
-    {
-
-    PropertyPlaceholderConfigurer ppc = new PropertyPlaceholderConfigurer();
-    ClassPathResource[] resources = new ClassPathResource[ ] {
-        new ClassPathResource("db.properties")
-    };
-    ppc.setLocations( resources );
-    ppc.setIgnoreUnresolvablePlaceholders( true );
-    ppc.setSearchSystemEnvironment(true);
-    return ppc;
-    }
    
   @Bean 
   public org.springframework.jdbc.datasource.DriverManagerDataSource myDataSource()
-  {
+  {    
     DriverManagerDataSource myDataSource = new DriverManagerDataSource();
-    myDataSource.setDriverClassName("com.mysql.jdbc.Driver");    
-    myDataSource.setUrl("jdbc:mysql://${OPENSHIFT_MYSQL_DB_HOST}:${OPENSHIFT_MYSQL_DB_PORT}/${OPENSHIFT_APP_NAME}");
-    myDataSource.setUsername("${OPENSHIFT_MYSQL_DB_USERNAME}");
-    myDataSource.setPassword("${OPENSHIFT_MYSQL_DB_PASSWORD}");
+    myDataSource.setDriverClassName(environment.getProperty("db.driver"));    
+    myDataSource.setUrl(environment.getProperty("db.url"));
+    myDataSource.setUsername(environment.getProperty("db.username"));
+    myDataSource.setPassword(environment.getProperty("db.password"));
     return myDataSource;    
   }
   
