@@ -16,7 +16,7 @@ public class ProdConfig {
     {      
          return new Properties() {
          {
-            setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+            setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
             setProperty("hibernate.show_sql", "true");
             setProperty("hibernate.c3p0.min_size", "5");
             setProperty("hibernate.c3p0.max_size", "20");
