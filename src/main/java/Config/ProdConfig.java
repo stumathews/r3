@@ -2,6 +2,7 @@ package Config;
 
 import java.util.Properties;
 import javax.sql.DataSource;
+import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -28,6 +29,19 @@ public class ProdConfig {
       };
    }
   
+    @Bean 
+    public static PropertyPlaceholderConfigurer properties() 
+    {
+
+    PropertyPlaceholderConfigurer ppc = new PropertyPlaceholderConfigurer();
+    /*ClassPathResource[] resources = new ClassPathResource[ ] {
+        new ClassPathResource("db.properties")
+    };
+    ppc.setLocations( resources );*/
+    ppc.setIgnoreUnresolvablePlaceholders( true );
+    ppc.setSearchSystemEnvironment(true);
+    return ppc;
+}
    
   @Bean 
   public org.springframework.jdbc.datasource.DriverManagerDataSource myDataSource()
