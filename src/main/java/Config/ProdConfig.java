@@ -6,6 +6,7 @@ import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate3.LocalSessionFactoryBean;
 
@@ -29,28 +30,29 @@ public class ProdConfig {
       };
    }
   
+    /*
     @Bean 
     public static PropertyPlaceholderConfigurer properties() 
     {
 
     PropertyPlaceholderConfigurer ppc = new PropertyPlaceholderConfigurer();
-    /*ClassPathResource[] resources = new ClassPathResource[ ] {
+    ClassPathResource[] resources = new ClassPathResource[ ] {
         new ClassPathResource("db.properties")
     };
-    ppc.setLocations( resources );*/
+    ppc.setLocations( resources );
     ppc.setIgnoreUnresolvablePlaceholders( true );
     ppc.setSearchSystemEnvironment(true);
     return ppc;
-}
-   
+    }
+   */
   @Bean 
   public org.springframework.jdbc.datasource.DriverManagerDataSource myDataSource()
   {
     DriverManagerDataSource myDataSource = new DriverManagerDataSource();
     myDataSource.setDriverClassName("com.mysql.jdbc.Driver");    
-    myDataSource.setUrl("jdbc:mysql://#{systemEnvironment[OPENSHIFT_MYSQL_DB_HOST]}:#{systemEnvironment[OPENSHIFT_MYSQL_DB_PORT]}/${OPENSHIFT_APP_NAME]}");
-    myDataSource.setUsername("#{systemEnvironment[OPENSHIFT_MYSQL_DB_USERNAME]}");
-    myDataSource.setPassword("#{systemEnvironment[OPENSHIFT_MYSQL_DB_PASSWORD]}");
+    myDataSource.setUrl("jdbc:mysql://${OPENSHIFT_MYSQL_DB_HOST}:${OPENSHIFT_MYSQL_DB_PORT}/${OPENSHIFT_APP_NAME}");
+    myDataSource.setUsername("${OPENSHIFT_MYSQL_DB_USERNAME}");
+    myDataSource.setPassword("${OPENSHIFT_MYSQL_DB_PASSWORD}");
     return myDataSource;    
   }
   
