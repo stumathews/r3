@@ -34,7 +34,7 @@ public class ProdConfig {
   {
     DriverManagerDataSource myDataSource = new DriverManagerDataSource();
     myDataSource.setDriverClassName("com.mysql.jdbc.Driver");
-    myDataSource.setUrl("jdbc:mysql://$OPENSHIFT_MYSQL_DB_HOST:$OPENSHIFT_MYSQL_DB_PORT/${OPENSHIFT_APP_NAME}");
+    myDataSource.setUrl("jdbc:mysql://${OPENSHIFT_MYSQL_DB_HOST}:${OPENSHIFT_MYSQL_DB_PORT}/${OPENSHIFT_APP_NAME}");
     myDataSource.setUsername("${OPENSHIFT_MYSQL_DB_USERNAME}");
     myDataSource.setPassword("${OPENSHIFT_MYSQL_DB_PASSWORD}");
     return myDataSource;    
