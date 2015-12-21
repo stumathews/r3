@@ -47,10 +47,10 @@ public class ProdConfig {
   public org.springframework.jdbc.datasource.DriverManagerDataSource myDataSource()
   {
     DriverManagerDataSource myDataSource = new DriverManagerDataSource();
-    myDataSource.setDriverClassName("com.mysql.jdbc.Driver");
-    myDataSource.setUrl("jdbc:mysql://${OPENSHIFT_MYSQL_DB_HOST}:${OPENSHIFT_MYSQL_DB_PORT}/${OPENSHIFT_APP_NAME}");
-    myDataSource.setUsername("${OPENSHIFT_MYSQL_DB_USERNAME}");
-    myDataSource.setPassword("${OPENSHIFT_MYSQL_DB_PASSWORD}");
+    myDataSource.setDriverClassName("com.mysql.jdbc.Driver");    
+    myDataSource.setUrl("jdbc:mysql://#{systemEnvironment[OPENSHIFT_MYSQL_DB_HOST]}:#{systemEnvironment[OPENSHIFT_MYSQL_DB_PORT]}/${OPENSHIFT_APP_NAME]}");
+    myDataSource.setUsername("#{systemEnvironment[OPENSHIFT_MYSQL_DB_USERNAME]}");
+    myDataSource.setPassword("#{systemEnvironment[OPENSHIFT_MYSQL_DB_PASSWORD]}");
     return myDataSource;    
   }
   
