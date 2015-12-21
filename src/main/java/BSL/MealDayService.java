@@ -6,6 +6,7 @@ import DEL.Interfaces.IMeal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
 import org.apache.log4j.Logger;
@@ -27,9 +28,9 @@ public class MealDayService implements BSL.Interfaces.IMealDayService
        return mealDayRepository.addMealDay( TodaysDate() , meal );
     }
 
-    public Set<IMealDay> getDayMeals(TimeZone timeZone) throws ParseException
+    public List<IMealDay> getDayMeals(TimeZone timeZone) throws ParseException
     {
-        Set<IMealDay> mealDays = mealDayRepository.getDayMeals(TodaysDate());
+        List<IMealDay> mealDays = mealDayRepository.getDayMeals(TodaysDate());
         
         // Convert to GTM time as thats what I'm in
         for( IMealDay mealDay : mealDays )
@@ -74,7 +75,7 @@ public class MealDayService implements BSL.Interfaces.IMealDayService
      */
     private String ConvertDateToTimeZoneTimeString(Date date, TimeZone timeZone) 
     {
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         sdf.setTimeZone(timeZone);
         return sdf.format(date);
     }

@@ -2,9 +2,8 @@ package DAL.Interfaces;
 
 import DEL.Interfaces.IMeal;
 import DEL.Interfaces.IMealDay;
-import java.text.ParseException;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 /**
  *
@@ -13,7 +12,7 @@ import java.util.Set;
 {
     public IMealDay addMealDay(Date date, IMeal meal);    
 
-    public Set<IMealDay> getDayMeals(Date date);
+    public List<IMealDay> getDayMeals(Date date);
 
     public void remove(IMealDay mealDay);
 

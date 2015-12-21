@@ -6,13 +6,11 @@ import DEL.Interfaces.IMeal;
 import DEL.MealDay;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.TimeZone;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -45,33 +43,29 @@ public class MealDayRepository implements IMealDayRepository
     }
     
     @Transactional
-    public Set<IMealDay> getDayMeals(Date date)
+    public List<IMealDay> getDayMeals(Date date)
     {
         Calendar c = new GregorianCalendar();
         c.set(Calendar.HOUR_OF_DAY, 0); //anything 0 - 23
         c.set(Calendar.MINUTE, 0);
         c.set(Calendar.SECOND, 1);
         Date begining_day = c.getTime();
+                        
+        List<IMealDay> meals = new ArrayList<IMealDay>(); 
         
-                
-        HashSet<IMealDay> meals = new HashSet<IMealDay>(); 
-        
-              
-                
         Criteria query = sessionFactory.getCurrentSession()
                     .createCriteria(MealDay.class)
                     .add(Restrictions.ge("date", new Timestamp(begining_day.getTime())))
                     //.add(Restrictions.gt("date", new Timestamp(date.getTime())))
                     //.add(Restrictions.lt("date", new Timestamp(toDate.getTime())))
                     .addOrder(Order.desc("id"));
-        long from = date.getTime();
         
-       
         for( IMealDay mealDay : (List<IMealDay>) query.list())
         {            
           meals.add(mealDay);
         }
-    return meals;
+    
+        return meals;
     }
 
     @Transactional
