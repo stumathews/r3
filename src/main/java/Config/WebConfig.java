@@ -1,14 +1,19 @@
 package Config;
 
 import java.util.Locale;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor;
+import org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.ui.context.support.ResourceBundleThemeSource;
+import org.springframework.web.context.request.WebRequestInterceptor;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
@@ -52,6 +57,8 @@ import org.thymeleaf.templateresolver.TemplateResolver;
 })
 public class WebConfig extends WebMvcConfigurerAdapter 
 {
+    
+    @Autowired SessionFactory sessionFactory;
   
   /***
    * Configure static content handling
@@ -69,10 +76,16 @@ public class WebConfig extends WebMvcConfigurerAdapter
          LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
         interceptor.setParamName("language");
         registry.addInterceptor(interceptor);
+        registry.addWebRequestInterceptor(openSessionInViewInterceptor());
 
     }
   
-  
+    @Bean
+    public WebRequestInterceptor openSessionInViewInterceptor() {
+        OpenSessionInViewInterceptor osivi = new OpenSessionInViewInterceptor();
+        osivi.setSessionFactory(sessionFactory);
+        return osivi;
+    }
   
   /***
    * Configure Theymleaf view resolver
