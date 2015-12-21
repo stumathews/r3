@@ -23,7 +23,7 @@
           <div th:replace="Common/NavMenu :: NavMenu"/>
         </div><!--/span-->       
         <div class="span9">                         
-            <p class="pull-right" th:text="|Local Date: ${localdate}|"></p>            
+            <p class="pull-right" th:text="|Date: ${#calendars.format(#dates.createToday(),'dd MMM yyyy')}|"></p>                   
             <p th:text="${todaysMeals.isEmpty()} == true ? 'No meals today yet.' : ''">These are todays meals so far</p>        
             <div th:if='${todaysMeals.isEmpty()} == false'>            
                 <table class="table table-hover">
@@ -40,7 +40,7 @@
                 </thead>
                 <tr th:each="mealday,iter : ${todaysMeals}" th:with="meal = ${mealday.getMeal()}" >
                     <td th:text="${iter.count}"></td>                    
-                    <td th:text="|GMT: ${mealday.getLocalTimeString()}|"></td>                    
+                    <td th:text="${mealday.getLocalTimeString()}"></td>                    
                     <td>
                         <span th:text="${meal.title}"></span>
                         <a href="/id" th:href="@{'/meals/'+${meal.id}}"> (details)</a>
