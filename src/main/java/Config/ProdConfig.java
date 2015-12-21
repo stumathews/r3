@@ -29,8 +29,7 @@ public class ProdConfig {
          }
       };
    }
-  
-    /*
+      
     @Bean 
     public static PropertyPlaceholderConfigurer properties() 
     {
@@ -44,7 +43,7 @@ public class ProdConfig {
     ppc.setSearchSystemEnvironment(true);
     return ppc;
     }
-   */
+   
   @Bean 
   public org.springframework.jdbc.datasource.DriverManagerDataSource myDataSource()
   {

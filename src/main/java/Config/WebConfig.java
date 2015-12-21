@@ -1,4 +1,4 @@
-package Config;
+    package Config;
 
 import java.util.Locale;
 import org.hibernate.SessionFactory;
