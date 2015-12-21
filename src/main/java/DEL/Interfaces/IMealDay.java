@@ -12,10 +12,12 @@ public interface IMealDay
 
     public IMeal getMeal();
     public void setMeal(IMeal meal);
-    
+            
     @Override
     public int hashCode() ;
 
     @Override
     public boolean equals(Object obj);
+
+    void setLocalTimeString(String localTimeString);
 }

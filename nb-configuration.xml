@@ -30,10 +30,12 @@ Any value defined here will override the pom.xml file value but is only applicab
     <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
         <word>css</word>
         <word>href</word>
+        <word>localtime</word>
         <word>logon</word>
         <word>rel</word>
         <word>servlet</word>
         <word>stylesheet</word>
+        <word>timezone</word>
         <word>TODO</word>
     </spellchecker-wordlist>
 </project-shared-configuration>

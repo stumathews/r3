@@ -4,16 +4,12 @@ import DAL.MealDayRepository;
 import DEL.Interfaces.IMealDay;
 import DEL.Interfaces.IMeal;
 import java.text.ParseException;
-import java.util.Calendar;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Set;
 import java.util.TimeZone;
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.i18n.LocaleContextHolder;
 
 /**
  *
@@ -31,9 +27,16 @@ public class MealDayService implements BSL.Interfaces.IMealDayService
        return mealDayRepository.addMealDay( TodaysDate() , meal );
     }
 
-    public Set<IMealDay> getDayMeals() throws ParseException
+    public Set<IMealDay> getDayMeals(TimeZone timeZone) throws ParseException
     {
-        return mealDayRepository.getDayMeals(TodaysDate());// mealdays;                
+        Set<IMealDay> mealDays = mealDayRepository.getDayMeals(TodaysDate());
+        
+        // Convert to GTM time as thats what I'm in
+        for( IMealDay mealDay : mealDays )
+        {            
+            mealDay.setLocalTimeString(ConvertDateToTimeZoneTimeString(mealDay.getDate(), timeZone));  
+        }
+        return mealDays;               
     }
     
     private Date TodaysDate() 
@@ -46,14 +49,34 @@ public class MealDayService implements BSL.Interfaces.IMealDayService
         mealDayRepository.remove(mealDay);
     }
 
-    public IMealDay getDayMeal(long id) throws ParseException  
+    public IMealDay getDayMeal(long id, TimeZone timeZone) throws ParseException  
     {
-        return mealDayRepository.getMealDay(id);
+        IMealDay mealDay = mealDayRepository.getMealDay(id);
+        
+        // Convert localtime to GMT, thats where I be at.
+        if( mealDay != null)
+        {
+            mealDay.setLocalTimeString(ConvertDateToTimeZoneTimeString(mealDay.getDate(),timeZone));  
+        }
+        return mealDay;        
     }
 
     public void removeAllDayMealsWithMeal(IMeal meal) 
     {
         mealDayRepository.removeAllDayMealsWithMeal(meal);
+    }
+
+    /***
+     * Computes the localtime of the date, according to timezone
+     * @param date raw date instance
+     * @param timeZone timezone to represent date in
+     * @return  string time in timezone
+     */
+    private String ConvertDateToTimeZoneTimeString(Date date, TimeZone timeZone) 
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
+        sdf.setTimeZone(timeZone);
+        return sdf.format(date);
     }
     
 }

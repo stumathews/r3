@@ -6,9 +6,6 @@ import DEL.Interfaces.IMeal;
 import DEL.MealDay;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -21,11 +18,8 @@ import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -74,11 +68,7 @@ public class MealDayRepository implements IMealDayRepository
         
        
         for( IMealDay mealDay : (List<IMealDay>) query.list())
-        {          
-            DateTimeZone tz = DateTimeZone.forID("Europe/London");
-            DateTime dt = new DateTime(tz);               
-            GregorianCalendar cal = dt.toGregorianCalendar();
-            mealDay.setDate(cal.getTime());
+        {            
           meals.add(mealDay);
         }
     return meals;
@@ -93,11 +83,8 @@ public class MealDayRepository implements IMealDayRepository
     @Transactional
     public IMealDay getMealDay(long id)
     {
-       IMealDay md = (IMealDay) sessionFactory.getCurrentSession().get(MealDay.class, id);    
-        DateTimeZone tz = DateTimeZone.forID("Europe/London");
-            DateTime dt = new DateTime(tz);               
-            GregorianCalendar cal = dt.toGregorianCalendar();
-            md.setDate(cal.getTime());
+       IMealDay md = (IMealDay) sessionFactory.getCurrentSession().get(MealDay.class, id);   
+       
        return md;
     }
     

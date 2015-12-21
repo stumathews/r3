@@ -40,7 +40,7 @@
                 </thead>
                 <tr th:each="mealday,iter : ${todaysMeals}" th:with="meal = ${mealday.getMeal()}" >
                     <td th:text="${iter.count}"></td>                    
-                    <td th:with="date = ${mealday.getDate()}" th:text="|GMT: ${date}|"></td>                    
+                    <td th:text="|GMT: ${mealday.getLocalTimeString()}|"></td>                    
                     <td>
                         <span th:text="${meal.title}"></span>
                         <a href="/id" th:href="@{'/meals/'+${meal.id}}"> (details)</a>

@@ -8,7 +8,6 @@ import DEL.DailyAmounts;
 import DEL.Interfaces.IMeal;
 import DEL.MacroUnitProfile;
 import DEL.Meal;
-import DEL.MealDay;
 import java.text.ParseException;
 import javax.validation.Valid;
 import org.apache.log4j.Logger;
@@ -19,12 +18,8 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.Date;
 import java.util.TimeZone;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 
 /**
  *
@@ -60,7 +55,7 @@ public class MealDayController
             model.addAttribute("meal", new Meal()); 
         }
         model.addAttribute("allMeals", mealService.getMeals());        
-        model.addAttribute("todaysMeals", mealDayService.getDayMeals());
+        model.addAttribute("todaysMeals", mealDayService.getDayMeals(TimeZone.getTimeZone("GMT")));
         Date date = new Date();
         model.addAttribute("localdate", date.toString());        
           
@@ -97,7 +92,7 @@ public class MealDayController
     @RequestMapping(value = "/today/delete/{id}", method = RequestMethod.POST)
     String deleteMeal(@PathVariable int id ) throws ParseException
     {           
-        mealDayService.removeMealDay(mealDayService.getDayMeal(id));
+        mealDayService.removeMealDay(mealDayService.getDayMeal(id, TimeZone.getTimeZone("GMT")));
         return "redirect:/today";
     }
     

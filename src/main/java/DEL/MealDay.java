@@ -1,7 +1,10 @@
 package DEL;
 
 import DEL.Interfaces.IMeal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
+import javax.persistence.Transient;
 
 /**
  * A specific instance of a meal on a day
@@ -12,6 +15,16 @@ public class MealDay implements DEL.Interfaces.IMealDay
     private long id;
     private Date date;
     private IMeal meal;
+    
+    public String localTimeString;    
+    public String getLocalTimeString() 
+    {
+        return this.localTimeString;
+    }
+    
+    public void setLocalTimeString(String localTimeString) {
+        this.localTimeString = localTimeString;
+    }
 
     public long getId() {
         return id;
