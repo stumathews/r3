@@ -40,6 +40,19 @@ public class MealDayController
     
     static final Logger logger = Logger.getLogger(MealDayRepository.class);
     
+    @RequestMapping(value = "/today/history", method = RequestMethod.GET)
+    String viewAllMealsHistory(Model model) throws ParseException
+    { 
+        MacroUnitProfile defaultMacroUnitProfile = settingsService.getSettings();  
+        DailyAmounts resultDailyAmounts = settingsService.getDailyAmounts();
+        model.addAttribute("dailyamounts", resultDailyAmounts == null ? new DailyAmounts(1, 20,17,12): resultDailyAmounts);
+        model.addAttribute("settings", defaultMacroUnitProfile == null ? new MacroUnitProfile(1,15,7,5,"Default"): defaultMacroUnitProfile);
+
+        model.addAttribute("allMeals", mealService.getMeals());        
+        model.addAttribute("allDayMeals", mealDayService.getDayMealsFromDateOnwards(TimeZone.getTimeZone("GMT"), null)); // get all
+        return "mealday/history";
+    }
+    
     @RequestMapping( value = {"/","/today"}, method = RequestMethod.GET)
     String today(Model model) throws ParseException
     {   
@@ -55,7 +68,7 @@ public class MealDayController
             model.addAttribute("meal", new Meal()); 
         }
         model.addAttribute("allMeals", mealService.getMeals());        
-        model.addAttribute("todaysMeals", mealDayService.getDayMeals(TimeZone.getTimeZone("GMT")));
+        model.addAttribute("todaysMeals", mealDayService.getDayMealsFromDateOnwards(TimeZone.getTimeZone("GMT"), new Date()));
         Date date = new Date();
         model.addAttribute("localdate", date.toString());        
           

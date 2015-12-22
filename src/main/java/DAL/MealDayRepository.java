@@ -43,29 +43,27 @@ public class MealDayRepository implements IMealDayRepository
     }
     
     @Transactional
-    public List<IMealDay> getDayMeals(Date date)
+    public List<IMealDay> getDayMealsFromDateOnwards(Date date)
     {
+        // Rationalise the date to the beginning of that day
         Calendar c = new GregorianCalendar();
         c.set(Calendar.HOUR_OF_DAY, 0); //anything 0 - 23
         c.set(Calendar.MINUTE, 0);
         c.set(Calendar.SECOND, 1);
         Date begining_day = c.getTime();
-                        
-        List<IMealDay> meals = new ArrayList<IMealDay>(); 
+          
+        Criteria query = sessionFactory.getCurrentSession().createCriteria(MealDay.class);
         
-        Criteria query = sessionFactory.getCurrentSession()
-                    .createCriteria(MealDay.class)
-                    .add(Restrictions.ge("date", new Timestamp(begining_day.getTime())))
-                    //.add(Restrictions.gt("date", new Timestamp(date.getTime())))
-                    //.add(Restrictions.lt("date", new Timestamp(toDate.getTime())))
-                    .addOrder(Order.asc("id"));
-        
-        for( IMealDay mealDay : (List<IMealDay>) query.list())
+        if( date != null)
         {            
-          meals.add(mealDay);
+            query.add(Restrictions.ge("date", new Timestamp(begining_day.getTime())));
+            //.add(Restrictions.gt("date", new Timestamp(date.getTime())))
+            //.add(Restrictions.lt("date", new Timestamp(toDate.getTime())))            
         }
-    
-        return meals;
+                    
+        query.addOrder(Order.asc("id"));
+        
+        return query.list();        
     }
 
     @Transactional

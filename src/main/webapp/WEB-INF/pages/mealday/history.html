@@ -1,0 +1,79 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-2.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/2.3.2/css/bootstrap.min.css}" href="bootstrap.min.css"  media="screen" />      
+    <link rel="stylesheet" href="../../themes/bootstrap/css/bootstrap-responsive.css" th:href ="@{/webjars/bootstrap/2.3.2/css/bootstrap-responsive.css}"/>
+
+      
+      <style>
+        body {
+          padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+        }
+      </style>
+      <title th:text="#{todays_meals}">Today</title>
+</head>
+<body>
+    <div th:replace="Common/TopMenu :: TopMenu"/>
+    <div class="container-fluid">
+        <div class="row-fluid">
+        <div class="span3">
+          <div th:replace="Common/NavMenu :: NavMenu"/>
+        </div><!--/span-->       
+        <div class="span9">                         
+            <p class="pull-right" th:text="|Date: ${#calendars.format(#dates.createToday(),'dd MMM yyyy')}|"></p>                   
+            <p th:text="${allDayMeals.isEmpty()} == true ? 'No meals yet.' : ''">These are meals so far</p>        
+            <div th:if='${allDayMeals.isEmpty()} == false'>            
+                <table class="table table-hover">
+                <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Time</th>
+                      <th>Meal</th>                
+                      <th>Carb Units</th>                 
+                      <th>Protein Units</th>                
+                      <th>Fat units</th>
+                      <th></th>
+                    </tr>
+                </thead>
+                <tr th:each="mealday,iter : ${allDayMeals}" th:with="meal = ${mealday.getMeal()}" >
+                    <td th:text="${iter.count}"></td>                    
+                    <td th:text="${mealday.getLocalTimeString()}"></td>                    
+                    <td>
+                        <span th:text="${meal.title}"></span>
+                        <a href="/id" th:href="@{'/meals/'+${meal.id}}"> (details)</a>
+                    </td>              
+                    <td th:with="carbs = ${meal.carbs} / ${settings.carbUnit}" th:text="${#numbers.formatDecimal(carbs,1,2)}">carb units</td>
+                    <td th:with="proteins = ${meal.proteins} / ${settings.proteinUnit}" th:text="${#numbers.formatDecimal(proteins,1,2)}">protein units</td>              
+                    <td th:with="fats = ${meal.fats} / ${settings.fatUnit}" th:text="${#numbers.formatDecimal(fats,1,2)}">fat units</td>
+                   <td>
+                        <form method="POST" th:action="|@{/today/delete/}${mealday.getId()}|">                            
+                            <input type="submit" class="btn btn-link"  value="remove"/>
+                        </form>
+                    </td>
+                </tr>
+                </table>                
+            </div> <!-- if -->
+        <br/>        
+        </div><!--/span-->
+    </div><!--/row-->
+    <hr/>
+    <footer th:replace="Common/page :: footer">
+        <p th:text="|© #{Appname} ${#calendars.format(#dates.createToday(),'yyyy')}|">© Meal Planner 2013</p>
+    </footer>
+    </div><!--/.fluid-container-->
+    <script src="@{/themes/jquery.js}" th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"/>
+    <script th:src="@{/webjars/bootstrap/2.3.2/js/bootstrap.min.js}"/>
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+        $(document).ready(function(){
+                $("button").click(function(){
+                    $("p").hide();
+                });
+            });
+    /*]]>*/
+    </script>
+</body>
+</html>

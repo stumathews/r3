@@ -23,14 +23,14 @@ public class MealDayService implements BSL.Interfaces.IMealDayService
     @Autowired
     private DAL.Interfaces.IMealDayRepository mealDayRepository;
         
-    public IMealDay addMealDay( IMeal meal) 
+    public IMealDay addMealDay(IMeal meal) 
     {        
-       return mealDayRepository.addMealDay( TodaysDate() , meal );
+       return mealDayRepository.addMealDay(new Date() , meal);
     }
 
-    public List<IMealDay> getDayMeals(TimeZone timeZone) throws ParseException
+    public List<IMealDay> getDayMealsFromDateOnwards(TimeZone timeZone, Date from) throws ParseException
     {
-        List<IMealDay> mealDays = mealDayRepository.getDayMeals(TodaysDate());
+        List<IMealDay> mealDays = mealDayRepository.getDayMealsFromDateOnwards(from);
         
         // Convert to GTM time as thats what I'm in
         for( IMealDay mealDay : mealDays )
@@ -40,11 +40,6 @@ public class MealDayService implements BSL.Interfaces.IMealDayService
         return mealDays;               
     }
     
-    private Date TodaysDate() 
-    {   
-        return new Date();
-    }
-
     public void removeMealDay(IMealDay mealDay) 
     {
         mealDayRepository.remove(mealDay);

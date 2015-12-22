@@ -12,7 +12,7 @@ import java.util.List;
 {
     public IMealDay addMealDay(Date date, IMeal meal);    
 
-    public List<IMealDay> getDayMeals(Date date);
+    public List<IMealDay> getDayMealsFromDateOnwards(Date date);
 
     public void remove(IMealDay mealDay);
 

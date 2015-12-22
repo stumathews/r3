@@ -34,8 +34,9 @@
         <label th:class="${#fields.hasErrors('proteins')}? 'error'" th:text="#{Proteins}">Proteins</label>
         <input type="text" th:field="*{proteins}"/><br/>
         <label th:class="${#fields.hasErrors('fats')}? 'error'" th:text="#{Fats}">Fats</label>
-        <input type="text" th:field="*{fats}"/><br/>
-        <input class="btn btn-primary" type='submit' value='Add' th:value="#{Add}"/>           
+        <input type="text" th:field="*{fats}"/><br/>        
+        <input type="hidden" th:field="*{id}"/><br/>      
+        <input class="btn btn-primary" type='submit' value='AddOrUpdate' th:value="${addOrUpdate}"/>           
     </form>          
     </div><!--/span-->
     </div><!--/row-->
