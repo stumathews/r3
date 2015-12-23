@@ -28,14 +28,14 @@ public class MealDayService implements BSL.Interfaces.IMealDayService
        return mealDayRepository.addMealDay(new Date() , meal);
     }
 
-    public List<IMealDay> getDayMealsFromDateOnwards(TimeZone timeZone, Date from) throws ParseException
+    public List<IMealDay> getDayMealsFromDateOnwards(TimeZone timeZone, Date from, String timeDateFormat) throws ParseException
     {
         List<IMealDay> mealDays = mealDayRepository.getDayMealsFromDateOnwards(from);
         
         // Convert to GTM time as thats what I'm in
         for( IMealDay mealDay : mealDays )
         {            
-            mealDay.setLocalTimeString(ConvertDateToTimeZoneTimeString(mealDay.getDate(), timeZone));  
+            mealDay.setLocalTimeString(ConvertDateToTimeZoneTimeString(mealDay.getDate(), timeZone, timeDateFormat));  
         }
         return mealDays;               
     }
@@ -45,14 +45,14 @@ public class MealDayService implements BSL.Interfaces.IMealDayService
         mealDayRepository.remove(mealDay);
     }
 
-    public IMealDay getDayMeal(long id, TimeZone timeZone) throws ParseException  
+    public IMealDay getDayMeal(long id, TimeZone timeZone, String timeDateFormat) throws ParseException  
     {
         IMealDay mealDay = mealDayRepository.getMealDay(id);
         
         // Convert localtime to GMT, thats where I be at.
         if( mealDay != null)
         {
-            mealDay.setLocalTimeString(ConvertDateToTimeZoneTimeString(mealDay.getDate(),timeZone));  
+            mealDay.setLocalTimeString(ConvertDateToTimeZoneTimeString(mealDay.getDate(),timeZone, timeDateFormat));  
         }
         return mealDay;        
     }
@@ -68,9 +68,10 @@ public class MealDayService implements BSL.Interfaces.IMealDayService
      * @param timeZone timezone to represent date in
      * @return  string time in timezone
      */
-    private String ConvertDateToTimeZoneTimeString(Date date, TimeZone timeZone) 
+    private String ConvertDateToTimeZoneTimeString(Date date, TimeZone timeZone, String timeDateFormat) 
     {
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        //"HH:mm:ss"
+        SimpleDateFormat sdf = new SimpleDateFormat(timeDateFormat);
         sdf.setTimeZone(timeZone);
         return sdf.format(date);
     }

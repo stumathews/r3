@@ -36,15 +36,10 @@
                   </tr>
                 </thead>
                 <tr th:each="meal : ${meals}">
-                    <td><a href="/id" th:href="@{'/meals/'+${meal.id}}" th:text="${meal.title}"></a></td>
+                    <td><div th:text="${meal.title}"/></td>
                     <td th:text="${meal.carbs}"></td>
                     <td th:text="${meal.proteins}"></td>
-                    <td th:text="${meal.fats}"></td>
-                    <td>
-                    <form method="POST" th:action="|@{/today/addbyId}/${meal.getId()}|">                    
-                        <input type="submit" class="btn btn-link"  value="Add to today's meals"/>
-                    </form>
-                    </td>
+                    <td th:text="${meal.fats}"></td>                    
                 </tr>
             </table>
         </div><!--/span-->

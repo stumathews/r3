@@ -15,8 +15,8 @@ import java.util.TimeZone;
 public interface IMealDayService 
 {
     public IMealDay addMealDay(IMeal meal);
-    public List<IMealDay> getDayMealsFromDateOnwards(TimeZone timeZone, Date from) throws ParseException;
+    public List<IMealDay> getDayMealsFromDateOnwards(TimeZone timeZone, Date from, String timeDateFormat) throws ParseException;
     public void removeMealDay(IMealDay mealDay);
-    public IMealDay getDayMeal(long id, TimeZone timeZone) throws ParseException;
+    public IMealDay getDayMeal(long id, TimeZone timeZone, String timeDateFormat) throws ParseException;
     public void removeAllDayMealsWithMeal(IMeal meal);
 }
