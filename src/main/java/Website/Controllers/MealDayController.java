@@ -21,10 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.Date;
 import java.util.TimeZone;
 
-/**
- *
- * @author Stuart
- */
 @Controller
 
 public class MealDayController 
@@ -45,20 +41,21 @@ public class MealDayController
     { 
         MacroUnitProfile defaultMacroUnitProfile = settingsService.getSettings();  
         DailyAmounts resultDailyAmounts = settingsService.getDailyAmounts();
+        
         model.addAttribute("dailyamounts", resultDailyAmounts == null ? new DailyAmounts(1, 20,17,12): resultDailyAmounts);
         model.addAttribute("settings", defaultMacroUnitProfile == null ? new MacroUnitProfile(1,15,7,5,"Default"): defaultMacroUnitProfile);
-
         model.addAttribute("allMeals", mealService.getMeals());        
-        model.addAttribute("allDayMeals", mealDayService.getDayMealsFromDateOnwards(TimeZone.getTimeZone("GMT"), null)); // get all
+        model.addAttribute("allDayMeals", mealDayService.getDayMealsFromDateOnwards(TimeZone.getTimeZone("GMT"), null,"d MMM HH:mm")); // get all
+        
         return "mealday/history";
     }
     
     @RequestMapping( value = {"/","/today"}, method = RequestMethod.GET)
     String today(Model model) throws ParseException
-    {   
-        
+    {           
         MacroUnitProfile defaultMacroUnitProfile = settingsService.getSettings();  
         DailyAmounts resultDailyAmounts = settingsService.getDailyAmounts();
+        
         model.addAttribute("dailyamounts", resultDailyAmounts == null ? new DailyAmounts(1, 20,17,12): resultDailyAmounts);
         model.addAttribute("settings", defaultMacroUnitProfile == null ? new MacroUnitProfile(1,15,7,5,"Default"): defaultMacroUnitProfile);
 
@@ -68,31 +65,32 @@ public class MealDayController
             model.addAttribute("meal", new Meal()); 
         }
         model.addAttribute("allMeals", mealService.getMeals());        
-        model.addAttribute("todaysMeals", mealDayService.getDayMealsFromDateOnwards(TimeZone.getTimeZone("GMT"), new Date()));
-        Date date = new Date();
-        model.addAttribute("localdate", date.toString());        
+        model.addAttribute("todaysMeals", mealDayService.getDayMealsFromDateOnwards(TimeZone.getTimeZone("GMT"), new Date(),"HH:mm:ss"));        
+        model.addAttribute("localdate", new Date().toString());        
           
         return "meals/today";
     }
 
     @RequestMapping(value = "/today/add", method = RequestMethod.POST)
-    String todayAdd(@Valid Meal meal, 
-                    Errors errors,
-                    Model model) throws ParseException
+    String todayAdd(@Valid Meal meal, Errors errors, Model model) throws ParseException
     {
-         if(errors.hasErrors())
+        if(errors.hasErrors())
         {
           return today(model);
         }
+        
         IMeal found = (IMeal) mealService.getMealByName(meal.getTitle());
-        if( found == null)
+        
+        if(found == null)
         {
             errors.rejectValue("title", "validation.notfound","meal not found");
             return today(model);
         }
+        
         mealDayService.addMealDay(found);
         return today(model);
     }
+    
     @RequestMapping(value = "/today/addbyId/{id}", method = RequestMethod.POST)
     String addbyId(@PathVariable int id)
     {
@@ -100,15 +98,12 @@ public class MealDayController
         mealDayService.addMealDay(m);
         return "redirect:/today";
     }
-    
+   
     
     @RequestMapping(value = "/today/delete/{id}", method = RequestMethod.POST)
     String deleteMeal(@PathVariable int id ) throws ParseException
     {           
-        mealDayService.removeMealDay(mealDayService.getDayMeal(id, TimeZone.getTimeZone("GMT")));
+        mealDayService.removeMealDay(mealDayService.getDayMeal(id, TimeZone.getTimeZone("GMT"),"HH:mm:ss"));
         return "redirect:/today";
-    }
-    
-    
-    
+    }    
 }
