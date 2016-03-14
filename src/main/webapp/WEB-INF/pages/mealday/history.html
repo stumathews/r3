@@ -22,7 +22,12 @@
         <div class="span3">
           <div th:replace="Common/NavMenu :: NavMenu"/>
         </div><!--/span-->       
-        <div class="span9">                         
+        <div class="span9"> 
+            <header>
+             <h1>Food diary</h1>
+             <p>These are all the meals you've had so far</p>
+            </header>
+            <article>
             <p class="pull-right" th:text="|Date: ${#calendars.format(#dates.createToday(),'dd MMM yyyy')}|"></p>                   
             <p th:text="${allDayMeals.isEmpty()} == true ? 'No meals yet.' : ''">These are meals so far</p>        
             <div th:if='${allDayMeals.isEmpty()} == false'>            
@@ -56,7 +61,8 @@
                 </tr>
                 </table>                
             </div> <!-- if -->
-        <br/>        
+        <br/>      
+        </article>
         </div><!--/span-->
     </div><!--/row-->
     <hr/>

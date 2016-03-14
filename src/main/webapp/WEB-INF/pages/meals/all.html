@@ -34,6 +34,11 @@
                     </div>          
             </div><!--/span-->       
             <div class="span9">
+            <header>
+             <h1>Food database</h1>
+             <p>These are all the foods that you can select to add to your day</p>
+            </header>
+            <article>
             <!-- CONTENT GOES HERE -->         
             <p th:text="${meals.isEmpty()} == false ? 'These are all the meals that are loaded in the database' : 'No meals in the database.'">These are all the meals that are loaded in the database</p>
                 <table class="table table-hover" th:if='${meals.isEmpty()} == false'>
@@ -66,6 +71,7 @@
                     </a>
                     </span>
                 </div>
+            </article>
             </div><!--/span-->
           </div><!--/row-->
           <hr/>

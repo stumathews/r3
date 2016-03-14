@@ -113,7 +113,7 @@
     </div><!--/.fluid-container-->
     <script src="@{/themes/jquery.js}" th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"/>
     <script th:src="@{/webjars/bootstrap/2.3.2/js/bootstrap.min.js}"/>
-    <script th:src="@{/webjars/sockjs-client/1.0.2/sockjs.min.js}"/>
+    <script th:src="@{/webjars/sockjs-client/1.0.0/sockjs.min.js}"/>
     <script th:inline="javascript">
     /*<![CDATA[*/
         $(document).ready(function(){
@@ -121,7 +121,7 @@
                     $("p").hide();
                 });
                 
-                var sock = new SockJS('/generic');
+                var sock = new SockJS('/mealplanner/generic');
                 sock.onopen = function() {
                     console.log('Opening'); 
                     sock.send('hello');

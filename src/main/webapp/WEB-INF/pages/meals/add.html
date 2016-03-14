@@ -20,24 +20,31 @@
     <div class="span3">
         <div th:replace="Common/NavMenu :: NavMenu"></div>
     </div><!--/span-->       
-    <div class="span9">          
-        <form method="POST" th:object="${meal}" th:action="@{/meals/create}">
-        <div class="error" th:if="${#fields.hasErrors('*')}">
-            <ul>
-                <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
-            </ul>
-        </div>
-        <label th:class="${#fields.hasErrors('title')}? 'error'" th:text="#{Title}" >Meal title</label>
-        <input id="title" type="text" th:field="*{title}" autofocus="true" placeholder="type your meal title here" /><br/>
-        <label th:class="${#fields.hasErrors('carbs')}? 'error'" th:text="#{Carbs}">Carbs</label>
-        <input type="text" th:field="*{carbs}"/><br/>
-        <label th:class="${#fields.hasErrors('proteins')}? 'error'" th:text="#{Proteins}">Proteins</label>
-        <input type="text" th:field="*{proteins}"/><br/>
-        <label th:class="${#fields.hasErrors('fats')}? 'error'" th:text="#{Fats}">Fats</label>
-        <input type="text" th:field="*{fats}"/><br/>        
-        <input type="hidden" th:field="*{id}"/><br/>      
-        <input class="btn btn-primary" type='submit' value='AddOrUpdate' th:value="${addOrUpdate}"/>           
-    </form>          
+    <div class="span9"> 
+        <header>
+             <h1>Add a food</h1>
+                <p>Here you can specify details about a meal that you often have and then you'll be able to add it to your day.</p>
+                <p>All figures should be entered in grams(g)</p>
+        </header>
+        <article>
+            <form method="POST" th:object="${meal}" th:action="@{/meals/create}">
+                <div class="error" th:if="${#fields.hasErrors('*')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+                    </ul>
+                </div>
+                <label th:class="${#fields.hasErrors('title')}? 'error'" th:text="#{Title}" >Meal title</label>
+                <input id="title" type="text" th:field="*{title}" autofocus="true" placeholder="type your meal title here" /><br/>
+                <label th:class="${#fields.hasErrors('carbs')}? 'error'" th:text="#{Carbs}">Carbs</label>
+                <input type="text" th:field="*{carbs}"/><br/>
+                <label th:class="${#fields.hasErrors('proteins')}? 'error'" th:text="#{Proteins}">Proteins</label>
+                <input type="text" th:field="*{proteins}"/><br/>
+                <label th:class="${#fields.hasErrors('fats')}? 'error'" th:text="#{Fats}">Fats</label>
+                <input type="text" th:field="*{fats}"/><br/>        
+                <input type="hidden" th:field="*{id}"/><br/>      
+                <input class="btn btn-primary" type='submit' value='AddOrUpdate' th:value="${addOrUpdate}"/>           
+            </form>  
+    </article>
     </div><!--/span-->
     </div><!--/row-->
     <hr/>
