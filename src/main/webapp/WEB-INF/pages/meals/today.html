@@ -95,11 +95,15 @@
                     <td> 
                         <input class="btn btn-primary" type="submit" value="Add mealday"/>  
                     </td> 
-                    </tr>
+                    </tr>                        
                 </tbody>
                 </table>    
             </form> 
         </div>
+        <div id="updates">
+            
+        </div>      
+        
         </div><!--/span-->
     </div><!--/row-->
     <hr/>
@@ -109,12 +113,36 @@
     </div><!--/.fluid-container-->
     <script src="@{/themes/jquery.js}" th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"/>
     <script th:src="@{/webjars/bootstrap/2.3.2/js/bootstrap.min.js}"/>
+    <script th:src="@{/webjars/sockjs-client/1.0.2/sockjs.min.js}"/>
     <script th:inline="javascript">
     /*<![CDATA[*/
         $(document).ready(function(){
                 $("button").click(function(){
                     $("p").hide();
                 });
+                
+                var sock = new SockJS('/mealplanner/generic');
+                sock.onopen = function() {
+                    console.log('Opening'); 
+                    sock.send('hello');
+                }
+                sock.onmessage = function(e) {
+                    console.log('Received message:', e.data);  
+                    var now = new Date();
+                    var outStr = now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
+                    $("#updates").append(outStr + e.data + '<br/>');
+                    setTimeout(function(){saySomethingBack()},2000);
+                }
+                sock.onclose = function(){
+                    console.log('Closing');
+                }
+                
+                function saySomethingBack() {
+                    console.log('Sending something back to the server');                    
+                    sock.send('Something back!');
+                }
+                               
+                
             });
     /*]]>*/
     </script>
