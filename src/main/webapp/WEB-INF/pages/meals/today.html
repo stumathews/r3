@@ -121,7 +121,7 @@
                     $("p").hide();
                 });
                 
-                var sock = new SockJS('/mealplanner/generic');
+                var sock = new SockJS('/generic');
                 sock.onopen = function() {
                     console.log('Opening'); 
                     sock.send('hello');
