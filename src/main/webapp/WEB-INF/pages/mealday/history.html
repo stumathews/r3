@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/2.3.2/css/bootstrap.min.css}" href="bootstrap.min.css"  media="screen" />      
     <link rel="stylesheet" href="../../themes/bootstrap/css/bootstrap-responsive.css" th:href ="@{/webjars/bootstrap/2.3.2/css/bootstrap-responsive.css}"/>
+    <link rel="stylesheet" href="../../themes/jquery-ui.css" th:href ="@{/webjars/jquery-ui/1.11.4/jquery-ui.min.css}"/>
 
       
       <style>
@@ -30,7 +31,12 @@
             <article>
             <p class="pull-right" th:text="|Date: ${#calendars.format(#dates.createToday(),'dd MMM yyyy')}|"></p>                   
             <p th:text="${allDayMeals.isEmpty()} == true ? 'No meals yet.' : ''">These are meals so far</p>        
-            <div th:if='${allDayMeals.isEmpty()} == false'>            
+            <div th:if='${allDayMeals.isEmpty()} == false'>
+                <label for="from">From</label>
+                <input type="text" id="from" name="from"/>
+                <label for="to">to</label>
+                <input type="text" id="to" name="to"/>
+                <input type="button" class="btn btn-link"  value="fetch"/>
                 <table class="table table-hover">
                 <thead>
                     <tr>
@@ -71,13 +77,27 @@
     </footer>
     </div><!--/.fluid-container-->
     <script src="@{/themes/jquery.js}" th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"/>
+    <script src="@{/themes/jquery.js}" th:src="@{/webjars/jquery-ui/1.11.4/jquery-ui.min.js}"/>
     <script th:src="@{/webjars/bootstrap/2.3.2/js/bootstrap.min.js}"/>
     <script th:inline="javascript">
     /*<![CDATA[*/
         $(document).ready(function(){
-                $("button").click(function(){
-                    $("p").hide();
-                });
+                 $( "#from" ).datepicker({
+                    defaultDate: "+1w",
+                    changeMonth: true,
+                    numberOfMonths: 3,
+                    onClose: function( selectedDate ) {
+                      $( "#to" ).datepicker( "option", "minDate", selectedDate );
+                    }
+                  });
+                  $( "#to" ).datepicker({
+                    defaultDate: "+1w",
+                    changeMonth: true,
+                    numberOfMonths: 3,
+                    onClose: function( selectedDate ) {
+                      $( "#from" ).datepicker( "option", "maxDate", selectedDate );
+                    }
+                  });
             });
     /*]]>*/
     </script>
