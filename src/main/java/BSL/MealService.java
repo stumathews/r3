@@ -75,9 +75,9 @@ public class MealService implements BSL.Interfaces.IMealService
              String mealFats = items[3];
              IMeal meal = new Meal();
                 meal.setTitle(mealname);
-                meal.setCarbs(Integer.parseInt(mealCarbs));
-                meal.setProteins(Integer.parseInt(mealProtiens));
-                meal.setFats(Integer.parseInt(mealFats));
+                meal.setCarbs(Float.parseFloat(mealCarbs));
+                meal.setProteins(Float.parseFloat(mealProtiens));
+                meal.setFats(Float.parseFloat(mealFats));
                 meals.add(meal);
                 mealRepository.add(meal);
              line = bufferedReader.readLine();
