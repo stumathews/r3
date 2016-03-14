@@ -1,5 +1,6 @@
-    package Config;
+package Config;
 
+import BSL.GenericWebSocketHandler;
 import java.util.Locale;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ import org.thymeleaf.templateresolver.TemplateResolver;
  * @author Stuart
  */
 @Configuration
-@Import(RootConfig.class)
+@Import(value = {RootConfig.class,WebSocketConfig.class})
 @EnableWebMvc
 @EnableWebMvcSecurity
 @EnableTransactionManagement
@@ -52,7 +53,8 @@ import org.thymeleaf.templateresolver.TemplateResolver;
                 DAL.SettingsRepository.class,
                 BSL.MealService.class,
                 BSL.MealDayService.class,
-                BSL.SettingsService.class
+                BSL.SettingsService.class,
+                GenericWebSocketHandler.class
 })
 public class WebConfig extends WebMvcConfigurerAdapter 
 {
@@ -69,7 +71,7 @@ public class WebConfig extends WebMvcConfigurerAdapter
   {
     configurer.enable();    
   } 
-  
+   
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
          LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
