@@ -23,55 +23,59 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+(function() {
+    'use strict';
 
-angular
-    .module('app')
-    .controller('macro_controller', macro_controller);
+    angular
+        .module('app')
+        .controller('macro_controller', macro_controller);
+    macro_controller.$inject = ['$window','$http'];
 
-function macro_controller($window, $http) 
-{       
-    var vm = this;
-    
-    // Pull thymleaf model data that was placed in window
-    // set the model real quick so this prevents flicker
-    vm.carbUnit = $window.carbUnit;
-    vm.proteinUnit = $window.proteinUnit;
-    vm.fatUnit = $window.fatUnit;
+    function macro_controller($window, $http) 
+    {       
+        var vm = this;
 
-    vm.fnGotUnitdefinitions = function(response) {        
-        vm.carbUnit = response.data.carbUnit;
-        vm.proteinUnit = response.data.proteinUnit;
-        vm.fatUnit = response.data.fatUnit;
+        // Pull thymleaf model data that was placed in window
+        // set the model real quick so this prevents flicker
+        vm.carbUnit = $window.carbUnit;
+        vm.proteinUnit = $window.proteinUnit;
+        vm.fatUnit = $window.fatUnit;
+
+        vm.fnGotUnitdefinitions = function(response) {        
+            vm.carbUnit = response.data.carbUnit;
+            vm.proteinUnit = response.data.proteinUnit;
+            vm.fatUnit = response.data.fatUnit;
+        }
+
+        // Now go get the data from the server and re-initialize the model bindings
+        $http({ method: 'GET',  url: '/mealplanner/settings/unitdefinitions_json' 
+        }).then(vm.fnGotUnitDefinitions, function errorCallback(response) { console.log('error'); });
+
+        vm.reset = function() {
+            vm.carbUnit = 15;
+            vm.proteinUnit = 7;
+            vm.fatUnit = 5;
+        };                
+
+        vm.sock = new SockJS('/mealplanner/generic');
+        vm.sock.onopen = function() {
+            console.log('Opening'); 
+            vm.sock.send('hello');
+        }
+        vm.sock.onmessage = function(e) {
+            console.log('Received message:', e.data);  
+            var now = new Date();
+            var outStr = now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
+            $("#updates").append(outStr + e.data + '<br/>');
+            setTimeout(function(){saySomethingBack()},2000);
+        }
+        vm.sock.onclose = function(){
+            console.log('Closing');
+        }
+
+        function saySomethingBack() {
+            console.log('Sending something back to the server');                    
+            vm.sock.send('Something back!');
+        }        
     }
-    
-    // Now go get the data from the server and re-initialize the model bindings
-    $http({ method: 'GET',  url: '/mealplanner/settings/unitdefinitions_json' 
-    }).then(vm.fnGotUnitDefinitions, function errorCallback(response) { console.log('error'); });
-
-    vm.reset = function() {
-        vm.carbUnit = 15;
-        vm.proteinUnit = 7;
-        vm.fatUnit = 5;
-    };                
-
-    vm.sock = new SockJS('/mealplanner/generic');
-    vm.sock.onopen = function() {
-        console.log('Opening'); 
-        vm.sock.send('hello');
-    }
-    vm.sock.onmessage = function(e) {
-        console.log('Received message:', e.data);  
-        var now = new Date();
-        var outStr = now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
-        $("#updates").append(outStr + e.data + '<br/>');
-        setTimeout(function(){saySomethingBack()},2000);
-    }
-    vm.sock.onclose = function(){
-        console.log('Closing');
-    }
-
-    function saySomethingBack() {
-        console.log('Sending something back to the server');                    
-        vm.sock.send('Something back!');
-    }        
-}
+})();
