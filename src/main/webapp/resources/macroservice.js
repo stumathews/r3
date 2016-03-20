@@ -23,9 +23,34 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+(function() {
+    'use strict';
 
-angular
-    .module('app')
-    .factory('someFactory', someFactory);
+    angular
+        .module('app')
+        .factory('macroservice', macroservice);
+    
+    macroservice.$inject = ['$http'];
 
-function someFactory() { }
+    function macroservice($http) { 
+                
+        var service = {
+            getUnits : getUnits,
+            carbs: carbUnit,
+            proteins : proteinUnit,
+            fats : fatUnit
+        };
+        return service;        
+        
+        function fnGotUnitdefinitions(response) {        
+            carbUnit = response.data.carbUnit;
+            proteinUnit = response.data.proteinUnit;
+            fatUnit = response.data.fatUnit;            
+        }
+        function getUnits(){
+            // Now go get the data from the server and re-initialize the model bindings
+            $http({ method: 'GET',  url: '/mealplanner/settings/unitdefinitions_json' 
+            }).then(fnGotUnitdefinitions, function errorCallback(response) { console.log('error'); });            
+        }   
+    }
+})();

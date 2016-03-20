@@ -29,28 +29,23 @@
     angular
         .module('app')
         .controller('macro_controller', macro_controller);
-    macro_controller.$inject = ['$window','$http'];
+    macro_controller.$inject = ['$window','$http', 'macroservice'];
 
-    function macro_controller($window, $http) 
+    function macro_controller($window, $http, macroservice) 
     {       
         var vm = this;
 
         // Pull thymleaf model data that was placed in window
         // set the model real quick so this prevents flicker
-        vm.carbUnit = $window.carbUnit;
-        vm.proteinUnit = $window.proteinUnit;
-        vm.fatUnit = $window.fatUnit;
+        //vm.carbUnit = $window.carbUnit;
+        //vm.proteinUnit = $window.proteinUnit;
+        //vm.fatUnit = $window.fatUnit;
 
-        vm.fnGotUnitdefinitions = function(response) {        
-            vm.carbUnit = response.data.carbUnit;
-            vm.proteinUnit = response.data.proteinUnit;
-            vm.fatUnit = response.data.fatUnit;
-        }
-
-        // Now go get the data from the server and re-initialize the model bindings
-        $http({ method: 'GET',  url: '/mealplanner/settings/unitdefinitions_json' 
-        }).then(vm.fnGotUnitDefinitions, function errorCallback(response) { console.log('error'); });
-
+        macroservice.getUnits();
+        vm.carbUnit = macroservice.carbs;
+        vm.proteinUnit = macroservice.proteins;
+        vm.fatUnit = macroservice.fats;
+        
         vm.reset = function() {
             vm.carbUnit = 15;
             vm.proteinUnit = 7;
