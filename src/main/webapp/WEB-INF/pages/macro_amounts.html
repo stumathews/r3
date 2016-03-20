@@ -11,7 +11,7 @@
       </style>
       <title th:text="#{settings}">The title will go here</title>
 </head>
-<body>
+<body ng-app="app" ng-init="" ng-controller="macro_controller as vm">
     <nav>
         <div th:replace="Common/TopMenu :: TopMenu"/>
     </nav>
@@ -20,10 +20,10 @@
         <nav>
             <div class="span3">
               <div th:replace="Common/NavMenu :: NavMenu"></div>              
-                <div id="updates"></div>
+              <div ng-controller="sockjs_controller as vm" id="updates"></div>
             </div>
-        </nav>
-        <div ng-app="myApp" ng-init="" class="span9" ng-controller="myCtrl">
+        </nav>       
+        <div class="span9">
             <header>
                 <h1>
                     Macro unit breakdown
@@ -41,17 +41,21 @@
                             </ul>
                         </div>
                         <label th:class="${#fields.hasErrors('carbUnit')}? 'error'" th:text="#{carbUnit}"  id="carbUnit">Carb Units</label>
-                        <input id="carbUnit" type="text" th:field="*{carbUnit}" ng-model="carbUnit" />
+                        <!-- Explicitly inject 'carbUnit' to the controller $scope -->
+                        <input id="carbUnit" type="text" th:field="*{carbUnit}" ng-model="vm.carbUnit" />
                         <br/>
                         <label th:class="${#fields.hasErrors('proteinUnit')}? 'error'" th:text="#{proteinUnit}">Protein Units</label>
-                        <input id="proteinUnit" type="text" th:field="*{proteinUnit}" ng-model="proteinUnit" />
+                        <!-- Explicitly inject 'proteinUnit' to the controller $scope -->
+                        <input id="proteinUnit" type="text" th:field="*{proteinUnit}" ng-model="vm.proteinUnit" />
                         <br/>
                         <label th:class="${#fields.hasErrors('fatUnit')}? 'error'" th:text="#{fatUnit}">Fats Units</label>
-                        <input id="fatUnit" type="text" th:field="*{fatUnit}" ng-model="fatUnit" />
+                        <!-- Explicitly inject 'proteinUnit' to the controller $scope -->
+                        <input id="fatUnit" type="text" th:field="*{fatUnit}" ng-model="vm.fatUnit" />
                         <br/>
                         <input class="btn btn-primary" type="submit" value="Save settings"/>                 
                     </form> 
-                    <button id="carbUnitlable" class="btn btn-primary" ng-click="reset()">Reset</button>
+                    <!-- call a function defined within the controller -->
+                    <button id="carbUnitlable" class="btn btn-primary" ng-click="vm.reset()">Reset</button>
 
             </article>
         </div><!-- span -->
@@ -64,60 +68,17 @@
     <script src="@{/themes/jquery.js}" th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"/>
     <script th:src="@{/webjars/bootstrap/2.3.2/js/bootstrap.min.js}"/>
     <script th:src="@{/webjars/sockjs-client/1.0.2/sockjs.min.js}"/>
+    <script th:src="@{/resources/app.module.js}"/>
+    <script th:src="@{/resources/macro.controller.js}"/>
+    <script th:src="@{/resources/sockjs.controller.js}"/>
+    
     <script th:inline="javascript">
     /*<![CDATA[*/
-    var app = angular.module('myApp', []);
-    app.controller('myCtrl', function($scope) 
-    {
-        // Ask, thymlaf to Pull out model objects and convert them into javascript objects.
-        $scope.carbUnit = [[${macro_amounts.getCarbUnit()}]];
-        $scope.proteinUnit = [[${macro_amounts.getProteinUnit()}]];
-        $scope.fatUnit = [[${macro_amounts.getFatUnit()}]];
-        $scope.reset = function() {
-            $scope.carbUnit = 15;
-            $scope.proteinUnit = 7;
-            $scope.fatUnit = 5;
-        };
-        
-        $scope.turnBlue = function() {
-            $scope.carbUnit = "You clicked me!";
-        };
-        
-        // Always check that this javascript will wotk with this page
-        // Ie does it have a valid DOM setup
-        if( document.getElementById)
-        {
-            var carbUnitLabel = document.getElementById('carbUnit');
-            // Decouble the script from the page by not assuming elments exist.
-            if(carbUnitLabel)
-            {
-               carbUnitlable.onClick = $scope.turnBlue;
-            }
-        }
-        
-        var sock = new SockJS('/mealplanner/generic');
-                sock.onopen = function() {
-                    console.log('Opening'); 
-                    sock.send('hello');
-                }
-                sock.onmessage = function(e) {
-                    console.log('Received message:', e.data);  
-                    var now = new Date();
-                    var outStr = now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
-                    $("#updates").append(outStr + e.data + '<br/>');
-                    setTimeout(function(){saySomethingBack()},2000);
-                }
-                sock.onclose = function(){
-                    console.log('Closing');
-                }
-                
-                function saySomethingBack() {
-                    console.log('Sending something back to the server');                    
-                    sock.send('Something back!');
-                }
-               
-        
-    });
+        // Not great - we dont want to share data between view and controller
+        // by way of both of them having to read from the window object.
+        window.carbUnit = [[${macro_amounts.getCarbUnit()}]];
+        window.proteinUnit = [[${macro_amounts.getProteinUnit()}]];
+        window.fatUnit = [[${macro_amounts.getFatUnit()}]];
     /*]]>*/
     </script>
 </body>

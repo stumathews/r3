@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * MacroUnitProfile Controllers manages settings pages
@@ -39,6 +40,14 @@ public class SettingsController
         model.addAttribute(MACRO_AMOUNTS, profile == null ? new MacroUnitProfile(1,15,7,5, "Default Macro Unit Profile"): profile);
         return MACRO_AMOUNTS;
     }
+    
+    @RequestMapping(value = "/unitdefinitions_json", method = RequestMethod.GET)
+    @ResponseBody MacroUnitProfile settingsJSON()
+    {   
+        MacroUnitProfile profile = settingsService.getSettings();                      
+        return profile == null ? new MacroUnitProfile(1,15,7,5, "Default Macro Unit Profile"): profile;
+    }
+    
     private static final String MACRO_AMOUNTS = "macro_amounts";
     private static final String DAILY_UNITS = "daily_units";
     
