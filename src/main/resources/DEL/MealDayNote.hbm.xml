@@ -4,7 +4,7 @@
   <class dynamic-insert="false" 
          dynamic-update="false" 
          mutable="true" 
-         name="DEL.MealDay" 
+         name="DEL.MealDayNote" 
          optimistic-lock="version" 
          polymorphism="implicit" 
          select-before-update="false">
@@ -12,8 +12,7 @@
         <id column="id" name="id" type="long" >
             <generator class="identity" />
         </id>
-        <property name="date" column="date" type="timestamp"/>        
-        <many-to-one name="meal" column="meal_id" class="DEL.Meal" not-null="true" />     
- 
+        <property name="note" column="note" type="string"/>         
+        <one-to-one name="mealDay" class="DEL.MealDay"/>       
   </class>
 </hibernate-mapping>

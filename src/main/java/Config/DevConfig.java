@@ -49,12 +49,13 @@ public class DevConfig {
    Properties properties = hibernateProperties();   
    
      
-   sessionFactory.setMappingResources( new String[] {
+   sessionFactory.setMappingResources(new String[] {
      "DEL/User.hbm.xml",
      "DEL/Meal.hbm.xml",
      "DEL/MealDay.hbm.xml",
      "DEL/MacroUnitProfile.hbm.xml",
-     "DEL/DailyAmounts.hbm.xml"
+     "DEL/DailyAmounts.hbm.xml",
+     "DEL/MealDayNote.hbm.xml"
      
    });
    sessionFactory.setHibernateProperties(properties);   
