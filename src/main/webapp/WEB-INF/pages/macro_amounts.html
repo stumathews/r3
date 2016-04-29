@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" Content="text/html" charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0"/> 
       <link rel="stylesheet" th:href="@{/webjars/bootstrap/2.3.2/css/bootstrap.min.css}" href="bootstrap.min.css"  media="screen" />
-      <script src="anjular.min.js" th:src="@{/webjars/angularjs/1.4.7/angular.min.js}"/>
+      <script src="anjular.min.js" th:src="@{/webjars/angularjs/1.4.7/angular.min.js}"/>      
       <style>
         body {
           padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -68,20 +68,10 @@
     <script src="@{/themes/jquery.js}" th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"/>
     <script th:src="@{/webjars/bootstrap/2.3.2/js/bootstrap.min.js}"/>
     <script th:src="@{/webjars/sockjs-client/1.0.2/sockjs.min.js}"/>
-    <script th:src="@{/resources/app.module.js}"/>
-    <script th:src="@{/resources/macro.controller.js}"/>
-    <script th:src="@{/resources/sockjs.controller.js}"/>
-    <script th:src="@{/resources/macroservice.js}"/>
-    
-    <script th:inline="javascript">
-    /*<![CDATA[*/
-        // Not great - we dont want to share data between view and controller
-        // by way of both of them having to read from the window object.
-        window.carbUnit = [[${macro_amounts.getCarbUnit()}]];
-        window.proteinUnit = [[${macro_amounts.getProteinUnit()}]];
-        window.fatUnit = [[${macro_amounts.getFatUnit()}]];
-    /*]]>*/
-    </script>
+    <script th:src="@{/resources/macros/app.module.js}"/>
+    <script th:src="@{/resources/macros/controllers/macro.controller.js}"/>
+    <script th:src="@{/resources/macros/controllers/sockjs.controller.js}"/>
+    <script th:src="@{/resources/macros/services/macroservice.js}"/>    
 </body>
 
 </html>
